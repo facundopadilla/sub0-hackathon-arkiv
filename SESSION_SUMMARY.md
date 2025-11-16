@@ -224,8 +224,6 @@ Complete development and integration of a **FastAPI backend** with **Arkiv block
 
 ### Start the Server
 ```bash
-cd /Users/facundo/Proyectos-VSC/Sub0_data
-source .venv/bin/activate
 python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 

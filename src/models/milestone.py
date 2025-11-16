@@ -9,8 +9,8 @@ from src.models.base_model import BaseTable
 class Milestone(BaseTable, table=True):
     """DB model for a project milestone."""
 
-    # foreign key to projects table (uses Project.id primary key)
-    project_id: int | None = Field(default=None, foreign_key="project.id", index=True)
+    # foreign key to projects table (uses project_id string)
+    project_id: str = Field(index=True, nullable=False)
 
     name: str
     description: Optional[str] = None
@@ -19,7 +19,7 @@ class Milestone(BaseTable, table=True):
 
 class MilestoneCreate(BaseModel):
     """Schema for creating a new milestone (excludes id and timestamps)."""
-    project_id: int
+    project_id: str
     name: str
     description: Optional[str] = None
     amount: float
@@ -27,7 +27,7 @@ class MilestoneCreate(BaseModel):
 
 class MilestoneUpdate(BaseModel):
     """Schema for updating a milestone (all fields optional)."""
-    project_id: Optional[int] = None
+    project_id: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     amount: Optional[float] = None
