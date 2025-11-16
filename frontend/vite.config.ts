@@ -9,7 +9,8 @@ export default defineConfig({
     allowedHosts: [
       'localhost',
       '127.0.0.1',
-      '6d5c0ab5497a.ngrok-free.app',
+      '*.ngrok-free.app',  // Acepta cualquier subdominio ngrok
+      '*.ngrok.io',        // Acepta dominios ngrok.io también
     ],
   },
 })
