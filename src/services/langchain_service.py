@@ -4,13 +4,12 @@ Provides easy-to-use interface for asking questions about projects stored in Ark
 """
 
 import json
+import os
 from typing import Optional
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from loguru import logger
-
-from src.settings.base import settings
 
 
 class LangChainService:
@@ -22,12 +21,18 @@ class LangChainService:
 
     def __init__(self):
         """Initialize LangChain service with Gemini"""
-        if not settings.GOOGLE_API_KEY:
-            raise ValueError("GOOGLE_API_KEY not found in environment variables")
+        # Get Google API Key from environment
+        google_api_key = os.getenv("GOOGLE_API_KEY")
+        
+        if not google_api_key:
+            raise ValueError(
+                "GOOGLE_API_KEY not found in environment variables. "
+                "Please set it in .env.local"
+            )
 
         self._llm = ChatGoogleGenerativeAI(
             model="gemini-2.0-flash",
-            google_api_key=settings.GOOGLE_API_KEY,
+            google_api_key=google_api_key,
             temperature=0.7,
         )
         logger.info("✅ LangChain service initialized with Gemini")
