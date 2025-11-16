@@ -18,7 +18,8 @@ class SponsoredProject(BaseTable, table=True):
     chain: str
     budget: float
     description: Optional[str] = None
-    _entity_key: Optional[str] = None
+    entity_key: Optional[str] = None
+    tx_hash: Optional[str] = None
 
 
 class SponsoredProjectCreate(BaseModel):
@@ -33,7 +34,8 @@ class SponsoredProjectCreate(BaseModel):
     chain: str
     budget: float
     description: Optional[str] = None
-    _entity_key: Optional[str] = None
+    entity_key: Optional[str] = None
+    tx_hash: Optional[str] = None
 
 
 class SponsoredProjectUpdate(BaseModel):
@@ -48,7 +50,8 @@ class SponsoredProjectUpdate(BaseModel):
     chain: Optional[str] = None
     budget: Optional[float] = None
     description: Optional[str] = None
-    _entity_key: Optional[str] = None
+    entity_key: Optional[str] = None
+    tx_hash: Optional[str] = None
 
 
 class SponsorRequest(BaseModel):
@@ -72,4 +75,5 @@ class SponsoredProjectOut(BaseModel):
     chain: str
     budget: float
     description: Optional[str] = None
-    _entity_key: Optional[str] = None
+    entity_key: Optional[str] = None
+    tx_hash: Optional[str] = None

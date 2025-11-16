@@ -236,7 +236,9 @@ async def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arki
     }
 
     # 1. Save to Arkiv blockchain
-    entity_key = ArkivService.save_sponsored_project(client, data)
+    arkiv_result = ArkivService.save_sponsored_project(client, data)
+    entity_key = arkiv_result["entity_key"]
+    tx_hash = arkiv_result.get("tx_hash")
 
     # 2. Save to database
     sponsored_data = {
@@ -249,12 +251,18 @@ async def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arki
         "chain": data["chain"],
         "budget": data["budget"],
         "description": data["description"],
-        "_entity_key": entity_key,
+        "entity_key": entity_key,
+        "tx_hash": tx_hash,
     }
     
     created_sponsored = await SponsoredProjectService.create(sponsored_data, session)
 
-    return {"entity_key": entity_key, "status": "stored", "id": created_sponsored.id}
+    return {
+        "entity_key": entity_key,
+        "tx_hash": tx_hash,
+        "status": "stored",
+        "id": created_sponsored.id
+    }
 
 
 @router.get("/arkiv-sponsored", response_model=dict)
