@@ -91,17 +91,27 @@ async def deploy_escrow(
         await db.commit()
         
         # Update the Arkiv entity with the smart contract address
+        arkiv_update_status = False
         if project.entity_key:
-            update_success = ArkivService.update_entity_with_contract(
-                client=arkiv_client,
-                entity_key=project.entity_key,
-                contract_address=contract_address
-            )
-            
-            if update_success:
-                print(f"✅ Arkiv entity updated with contract: {contract_address}")
-            else:
-                print(f"⚠️  Failed to update Arkiv entity, but contract deployed: {contract_address}")
+            try:
+                # Call update_entity_with_contract synchronously
+                update_success = ArkivService.update_entity_with_contract(
+                    client=arkiv_client,
+                    entity_key=project.entity_key,
+                    contract_address=contract_address
+                )
+                
+                if update_success:
+                    arkiv_update_status = True
+                    print(f"✅ Arkiv entity updated with contract: {contract_address}")
+                    print(f"   Entity Key: {project.entity_key}")
+                    print(f"   Smart Contract (Polkadot): {contract_address}")
+                else:
+                    print(f"⚠️  Failed to update Arkiv entity, but contract deployed: {contract_address}")
+            except Exception as arkiv_error:
+                print(f"❌ Exception updating Arkiv: {str(arkiv_error)}")
+                import traceback
+                traceback.print_exc()
         else:
             print(f"⚠️  No entity_key found, skipping Arkiv update")
         
@@ -110,9 +120,10 @@ async def deploy_escrow(
             "project_id": project_id,
             "contract_address": contract_address,
             "polkadot_smart_contract": contract_address,
+            "entity_key": project.entity_key,
             "milestones": milestone_count,
-            "arkiv_updated": bool(project.entity_key),
-            "message": f"Escrow contract {'re-launched' if is_relaunch else 'deployed'} successfully"
+            "arkiv_updated": arkiv_update_status,
+            "message": f"Escrow contract {'re-launched' if is_relaunch else 'deployed'} successfully. Arkiv {'synchronized' if arkiv_update_status else 'sync pending'}"
         }
         
     except HTTPException:

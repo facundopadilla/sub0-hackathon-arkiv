@@ -73,19 +73,27 @@ class ArkivService:
             True if update was successful, False otherwise
         """
         try:
+            logger.info("Starting Arkiv entity update - Entity Key: {}", entity_key)
+            
             # Retrieve the current entity data
             entity = client.arkiv.get_entity(entity_key)
             
             if not entity:
-                logger.error("Entity not found: {}", entity_key)
+                logger.error("Entity not found in Arkiv: {}", entity_key)
                 return False
+            
+            logger.info("Entity retrieved from Arkiv, proceeding with update...")
             
             # Decode current payload
             current_payload = entity.payload.decode("utf-8")
             data = json.loads(current_payload)
             
+            logger.info("Current entity data keys: {}", list(data.keys()))
+            
             # Add the smart contract address
             data["polkadot_smart_contract"] = contract_address
+            
+            logger.info("Added polkadot_smart_contract to payload: {}", contract_address)
             
             # Update the entity with new payload
             updated_payload = json.dumps(data).encode("utf-8")
@@ -103,23 +111,28 @@ class ArkivService:
                 }
             )
             
+            logger.info("Calling arkiv.update_entity with entity_key: {}", entity_key)
+            
             # Update the entity in Arkiv
-            client.arkiv.update_entity(
+            update_result = client.arkiv.update_entity(
                 entity_key=entity_key,
                 payload=updated_payload,
                 content_type="application/json",
                 attributes=attrs,
             )
             
+            logger.info("Arkiv update_entity returned: {}", update_result)
             logger.info(
-                "Entity updated in Arkiv - Entity Key: {}, Contract: {}",
+                "✅ Entity updated in Arkiv - Entity Key: {}, Contract: {}",
                 entity_key,
                 contract_address
             )
             return True
             
         except Exception as e:
-            logger.error("Failed to update entity in Arkiv: {}", str(e))
+            logger.error("❌ Failed to update entity in Arkiv: {} | Entity Key: {}", str(e), entity_key)
+            import traceback
+            logger.error("Traceback: {}", traceback.format_exc())
             return False
     
     @staticmethod
