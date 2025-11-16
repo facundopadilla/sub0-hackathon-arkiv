@@ -6,11 +6,6 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
-    allowedHosts: [
-      'localhost',
-      '127.0.0.1',
-      '*.ngrok-free.app',  // Acepta cualquier subdominio ngrok
-      '*.ngrok.io',        // Acepta dominios ngrok.io también
-    ],
+    allowedHosts: true,
   },
 })
