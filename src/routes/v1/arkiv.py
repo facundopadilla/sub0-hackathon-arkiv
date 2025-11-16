@@ -215,9 +215,9 @@ async def evaluate(project_id: int = Query(..., description="Project ID to evalu
 
 
 @router.post("/sponsor")
-def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arkiv_client)):
+async def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arkiv_client), session: AsyncSession = Depends(get_async_session)):
     """
-    Guarda el proyecto sponsoreado en Arkiv.
+    Guarda el proyecto sponsoreado en Arkiv blockchain Y en la base de datos.
     Se asume que ya se creó el smart contract y se pasa su address.
     """
     # payload.project is a dict, so access its keys directly
@@ -227,7 +227,7 @@ def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arkiv_clie
         "name": project.get("name", ""),
         "repo": project.get("repo", ""),
         "ai_score": payload.ai_score,
-        "status": payload.decision,
+        "status": "submitted",  # ← Status siempre es "submitted" cuando se envía
         "contract_address": payload.contract_address,
         "chain": "asset_hub",
         "budget": project.get("budget", 0.0),
@@ -235,9 +235,26 @@ def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arkiv_clie
         "milestones": project.get("milestones", []),
     }
 
+    # 1. Save to Arkiv blockchain
     entity_key = ArkivService.save_sponsored_project(client, data)
 
-    return {"entity_key": entity_key, "status": "stored"}
+    # 2. Save to database
+    sponsored_data = {
+        "project_id": data["project_id"],
+        "name": data["name"],
+        "repo": data["repo"],
+        "ai_score": data["ai_score"],
+        "status": data["status"],
+        "contract_address": data["contract_address"],
+        "chain": data["chain"],
+        "budget": data["budget"],
+        "description": data["description"],
+        "_entity_key": entity_key,
+    }
+    
+    created_sponsored = await SponsoredProjectService.create(sponsored_data, session)
+
+    return {"entity_key": entity_key, "status": "stored", "id": created_sponsored.id}
 
 
 @router.get("/arkiv-sponsored", response_model=dict)
