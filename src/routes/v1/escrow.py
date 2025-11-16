@@ -47,12 +47,9 @@ async def deploy_escrow(
                 detail=f"Project must be approved to create escrow. Current status: {project.status}"
             )
         
-        # Verify project doesn't already have a contract
-        if project.contract_address:
-            raise HTTPException(
-                status_code=400,
-                detail="Project already has an escrow contract"
-            )
+        # If project already has a contract, we can update it (re-launch)
+        # This allows relaunching if the previous one failed
+        is_relaunch = bool(project.contract_address)
         
         # TODO: In production, this would:
         # 1. Connect to Rococo Contracts testnet via substrate-interface
@@ -93,7 +90,7 @@ async def deploy_escrow(
             "project_id": project_id,
             "contract_address": contract_address,
             "milestones": len(milestone_percentages),
-            "message": "Escrow contract deployed successfully"
+            "message": f"Escrow contract {'re-launched' if is_relaunch else 'deployed'} successfully"
         }
         
     except HTTPException:
