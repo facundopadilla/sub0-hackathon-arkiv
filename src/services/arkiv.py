@@ -35,7 +35,16 @@ class ArkivService:
         # Capture both entity_key and hash/transaction hash
         if isinstance(result, tuple):
             entity_key = result[0]
-            tx_hash = result[1] if len(result) > 1 else None
+            tx_hash_obj = result[1] if len(result) > 1 else None
+            # Convert TransactionReceipt object to string
+            if tx_hash_obj is not None:
+                # If it's a TransactionReceipt object, extract the tx_hash field
+                if hasattr(tx_hash_obj, 'tx_hash'):
+                    tx_hash = tx_hash_obj.tx_hash
+                else:
+                    tx_hash = str(tx_hash_obj)
+            else:
+                tx_hash = None
         else:
             entity_key = result
             tx_hash = None
