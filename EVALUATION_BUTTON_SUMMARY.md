@@ -38,6 +38,7 @@ Estados del Botón:
 ## 🔧 Archivos Modificados
 
 ### 1️⃣ Config API (`frontend/src/config/api.ts`)
+
 ```diff
   export const arkivAPI = {
     sponsor: () => `${API_PREFIX}/sponsor`,
@@ -54,6 +55,7 @@ Estados del Botón:
 ```
 
 ### 2️⃣ Service (`frontend/src/services/projectService.ts`)
+
 ```diff
 + export interface EvaluationResult {
 +   ai_score: number;
@@ -63,7 +65,7 @@ Estados del Botón:
 
   export class ProjectService {
     // ... métodos existentes
-    
+
 +   static async evaluateProject(projectId: number): Promise<EvaluationResult> {
 +     return api.evaluateProject(projectId);
 +   }
@@ -73,6 +75,7 @@ Estados del Botón:
 ### 3️⃣ Componente (`frontend/src/components/FundingOracle/ProjectsListView.tsx`)
 
 **Imports:**
+
 ```diff
   import {
     Database,
@@ -88,6 +91,7 @@ Estados del Botón:
 ```
 
 **Estados:**
+
 ```diff
 - const [evaluatingId, setEvaluatingId] = useState<number | null>(null);
 - const [evaluationMessage, setEvaluationMessage] = useState<string | null>(null);
@@ -97,23 +101,34 @@ Estados del Botón:
 ```
 
 **Función:**
+
 ```typescript
-const handleEvaluateProject = async (projectId: number, projectName: string) => {
+const handleEvaluateProject = async (
+  projectId: number,
+  projectName: string
+) => {
   setEvaluatingId(projectId);
   try {
     const result = await ProjectService.evaluateProject(projectId);
-    
+
     // Actualizar UI con nuevo score
-    setProjects(projects.map(p => 
-      p.id === projectId 
-        ? { ...p, ai_score: result.ai_score, status: result.decision }
-        : p
-    ));
-    
+    setProjects(
+      projects.map((p) =>
+        p.id === projectId
+          ? { ...p, ai_score: result.ai_score, status: result.decision }
+          : p
+      )
+    );
+
     // Mostrar mensaje 5 segundos
-    const message = `✅ ${projectName}: ${(result.ai_score * 100).toFixed(0)}% (${result.decision})`;
-    setEvaluationMessages(prev => ({ ...prev, [projectId]: message }));
-    setTimeout(() => setEvaluationMessages(prev => ({ ...prev, [projectId]: "" })), 5000);
+    const message = `✅ ${projectName}: ${(result.ai_score * 100).toFixed(
+      0
+    )}% (${result.decision})`;
+    setEvaluationMessages((prev) => ({ ...prev, [projectId]: message }));
+    setTimeout(
+      () => setEvaluationMessages((prev) => ({ ...prev, [projectId]: "" })),
+      5000
+    );
   } catch (err) {
     // Error handling...
   }
@@ -121,6 +136,7 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 ```
 
 **Button JSX:**
+
 ```tsx
 <div className="pt-3 border-t border-white/10">
   <button
@@ -185,17 +201,20 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 ## ✨ Comportamiento
 
 ### Antes del Click
+
 - Botón: Púrpura, interactivo
 - Texto: "⚡ Evaluar con AI"
 - Hover: Se intensifica color
 
 ### Durante Evaluación
+
 - Botón: Gris, desactivado
 - Texto: "⏳ Evaluando..."
 - Spinner: Rotando
 - Disabled: No se puede hacer click
 
 ### Después de Evaluación
+
 - **Si éxito**: ✅ "Proyecto: 750% (approve)" - Se desvanece en 5s
 - **Si error**: ❌ "Error: [mensaje]" - Se desvanece en 5s
 - Score en tarjeta: Se actualiza en tiempo real
@@ -237,12 +256,12 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 
 ### Posibles Issues:
 
-| Problema | Solución |
-|----------|----------|
-| Botón no aparece | Limpiar caché (Ctrl+Shift+Del) |
-| Error "No se pudo evaluar" | Backend debe estar corriendo |
-| Score no cambia | Revisar consola F12 |
-| Message no desaparece | Esperar 5 segundos |
+| Problema                   | Solución                       |
+| -------------------------- | ------------------------------ |
+| Botón no aparece           | Limpiar caché (Ctrl+Shift+Del) |
+| Error "No se pudo evaluar" | Backend debe estar corriendo   |
+| Score no cambia            | Revisar consola F12            |
+| Message no desaparece      | Esperar 5 segundos             |
 
 ---
 
@@ -263,11 +282,11 @@ Response:
 
 ## 💾 Cambios en Resumen
 
-| Archivo | Líneas | Cambio |
-|---------|--------|--------|
-| `config/api.ts` | +2 | Endpoint evaluate |
-| `services/projectService.ts` | +5 | Interface + método |
-| `components/.../ProjectsListView.tsx` | +50 | Button + lógica |
+| Archivo                               | Líneas | Cambio             |
+| ------------------------------------- | ------ | ------------------ |
+| `config/api.ts`                       | +2     | Endpoint evaluate  |
+| `services/projectService.ts`          | +5     | Interface + método |
+| `components/.../ProjectsListView.tsx` | +50    | Button + lógica    |
 
 **Total**: 3 archivos modificados, 57 líneas agregadas ✅
 
@@ -276,6 +295,7 @@ Response:
 ## 🎉 Resultado Final
 
 Ahora los usuarios pueden:
+
 1. ✅ Ver proyectos desde blockchain
 2. ✅ Evaluarlos con AI con un click
 3. ✅ Ver el score actualizado en tiempo real

@@ -22,17 +22,20 @@ Fase 6: Pruebas end-to-end            ⏳ 0%  (pendiente)
 ## ✅ Completado Esta Sesión
 
 ### 1. **Smart Contract Compilado**
+
 - ✅ 380 líneas de código Rust
 - ✅ 0 errores de compilación
 - ✅ Backups creados
 - ✅ Commit: `b2fbc2c`
 
 ### 2. **Rococo Testnet Configurado**
+
 - ✅ RPC URL: `wss://rococo-contracts-rpc.polkadot.io`
 - ✅ Faucet info documentado
 - ✅ Setup script creado: `setup_rococo.sh`
 
 ### 3. **Backend Actualizado**
+
 - ✅ Paquetes SDK instalados:
   - `substrate-interface` 1.7.11 ✅
   - `scalecodec` 1.2.12 ✅
@@ -45,30 +48,33 @@ Fase 6: Pruebas end-to-end            ⏳ 0%  (pendiente)
 
 ## 📦 Archivos Clave Creados/Modificados
 
-| Archivo | Tipo | Estado |
-|---------|------|--------|
-| `smart-contract/funding-escrow/src/lib.rs` | Rust | ✅ Compilado |
-| `src/services/rococo_deployer.py` | Python | ✅ Integrado |
-| `src/routes/v1/escrow.py` | Python | ✅ Actualizado |
-| `SMART_CONTRACT_COMPILED.md` | Doc | ✅ Creado |
-| `WASM_DEPLOYMENT_GUIDE.md` | Doc | ✅ Creado |
-| `setup_rococo.sh` | Script | ✅ Creado |
+| Archivo                                    | Tipo   | Estado         |
+| ------------------------------------------ | ------ | -------------- |
+| `smart-contract/funding-escrow/src/lib.rs` | Rust   | ✅ Compilado   |
+| `src/services/rococo_deployer.py`          | Python | ✅ Integrado   |
+| `src/routes/v1/escrow.py`                  | Python | ✅ Actualizado |
+| `SMART_CONTRACT_COMPILED.md`               | Doc    | ✅ Creado      |
+| `WASM_DEPLOYMENT_GUIDE.md`                 | Doc    | ✅ Creado      |
+| `setup_rococo.sh`                          | Script | ✅ Creado      |
 
 ---
 
 ## ⏳ En Progreso
 
 ### Fase 2: cargo-contract Installation
+
 **Status:** 90% completo (instalando)  
 **ETA:** 5-10 minutos  
 **Comando:** `cargo +nightly install cargo-contract --force`
 
 Cuando termine, se ejecutará automáticamente:
+
 ```bash
 cargo +nightly contract build --release
 ```
 
 Generará:
+
 - `target/ink/funding_escrow.wasm` (bytecode compilado)
 - `target/ink/funding_escrow.contract` (metadata)
 - `target/ink/funding_escrow.opt.wasm` (optimizado)
@@ -78,6 +84,7 @@ Generará:
 ## 🔧 Stack Actual
 
 ### Backend (FastAPI) ✅
+
 ```python
 - 20 endpoints funcionando
 - RococoDeployer service integrado
@@ -86,6 +93,7 @@ Generará:
 ```
 
 ### Frontend (React) ✅
+
 ```typescript
 - 🚀 Botón "Lanzar Proyecto" funcional
 - Spinner y mensajes de feedback
@@ -93,6 +101,7 @@ Generará:
 ```
 
 ### Smart Contract (Rust/ink!) ✅
+
 ```rust
 - Compilado sin errores (380 líneas)
 - 7 mensajes públicos implementados
@@ -101,6 +110,7 @@ Generará:
 ```
 
 ### Rococo Testnet ✅
+
 ```
 - RPC URL configurado
 - Faucet identificado
@@ -113,11 +123,13 @@ Generará:
 ## 📝 Próximos Pasos Inmediatos
 
 ### Hoy (Fase 1-2)
+
 1. ✅ Esperar finalización de cargo-contract (en progreso)
 2. ✅ Ejecutar `cargo +nightly contract build --release`
 3. ✅ Verificar generación de WASM artifacts
 
 ### Mañana (Fase 5-6)
+
 1. Obtener ROC tokens del faucet Rococo
 2. Actualizar `rococo_deployer.py` con lógica real de deployment
 3. Pruebas end-to-end con Rococo
@@ -162,9 +174,9 @@ Generará:
 
 ## 📊 Commits Esta Sesión
 
-| Hash | Mensaje | Cambios |
-|------|---------|---------|
-| `b2fbc2c` | ✅ Smart contract compila | 4 files, 682 insertions |
+| Hash      | Mensaje                    | Cambios                 |
+| --------- | -------------------------- | ----------------------- |
+| `b2fbc2c` | ✅ Smart contract compila  | 4 files, 682 insertions |
 | `c8ba1ef` | 🚀 Rococo + SDK integrados | 6 files, 455 insertions |
 
 ---
@@ -172,18 +184,21 @@ Generará:
 ## 💡 Notas Técnicas
 
 ### Por qué WASM se demora
+
 - `cargo-contract` es herramienta especializada de Polkadot
 - Realiza optimizaciones específicas de bytecode
 - Genera metadata compatible con Rococo
 - No es un simple `wasm32-unknown-unknown` build
 
 ### Arquitectura del Smart Contract
+
 - 11 `Mapping<>` para almacenamiento
 - Todos los tipos son primitivos (compatible con ink!)
 - Events para auditoría de blockchain
 - Manejo de errores tipo `Result<(), EscrowError>`
 
 ### Backend Ready for Production
+
 - Conecta realmente a Rococo (cuando tenga WASM)
 - Usa substrate-interface oficial
 - Estructura para agregar keypair management
@@ -203,10 +218,11 @@ Generará:
 ## 📞 Soporte
 
 Si `cargo-contract` se demora más:
+
 - **Opción A:** Esperar (recomendado, completa)
 - **Opción B:** Usar Docker (alternativa)
 - **Opción C:** Pre-compiled WASM (más rápido pero no nuestro)
 
 ---
 
-*Status: En buen camino. Esperamos finalización de cargo-contract instalación en ~10 min*
+_Status: En buen camino. Esperamos finalización de cargo-contract instalación en ~10 min_

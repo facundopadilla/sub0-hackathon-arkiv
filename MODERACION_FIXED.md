@@ -3,6 +3,7 @@
 ## 🔧 Problema Identificado
 
 Cuando enviabas un proyecto:
+
 - ✅ Se guardaba en tabla `project` (base de datos)
 - ✅ Se guardaba en tabla `milestone` (base de datos)
 - ✅ Se guardaba en Arkiv blockchain
@@ -27,7 +28,7 @@ async def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arki
     """
     Guarda el proyecto sponsoreado en Arkiv blockchain Y en la base de datos.
     """
-    
+
     # 1. Save to Arkiv blockchain
     entity_key = ArkivService.save_sponsored_project(client, data)
 
@@ -45,11 +46,12 @@ async def save_sponsor(payload: SponsorRequest, client: Arkiv = Depends(get_arki
 2. **Backend**: http://localhost:8000 (debe estar recargando automáticamente)
 
 ### Pasos:
+
 1. Click **"Enviar Proyecto"**
 2. Completa el formulario
 3. Click **"Enviar a Evaluación"**
 4. Verás notification de éxito ✅
-5. Click **"Moderación"** 
+5. Click **"Moderación"**
 6. **¡Tu proyecto debe aparecer en la lista!** 🎉
 
 ---
@@ -79,11 +81,13 @@ Frontend: Muestra en lista ✅
 ## ✨ El Proyecto Completo Ahora Soporta:
 
 1. **Enviar Proyecto** ✅
+
    - Crea project + milestones en DB
    - Guarda en Arkiv blockchain
    - Crea sponsored project en DB
 
 2. **Ver Proyectos** ✅
+
    - Lista desde Arkiv blockchain
    - Muestra entity_key, AI score, presupuesto, etc.
 
@@ -96,13 +100,14 @@ Frontend: Muestra en lista ✅
 
 ## 📝 Cambios Realizados
 
-| Archivo | Cambio | Status |
-|---------|--------|--------|
+| Archivo                  | Cambio                                         | Status  |
+| ------------------------ | ---------------------------------------------- | ------- |
 | `src/routes/v1/arkiv.py` | Actualizado `POST /sponsor` para guardar en DB | ✅ Done |
 
 **El backend debe recargar automáticamente** (con `--reload`)
 
 Si no aparecen los proyectos después de recargar, prueba:
+
 1. Envía un nuevo proyecto
 2. La nueva versión guardará tanto en blockchain como en DB
 3. ¡Debería aparecer en Moderación! 🎊

@@ -11,14 +11,17 @@
 ## 🔍 Problemas Encontrados y Resueltos
 
 ### Problema 1: ImportError en Backend
+
 **Error:**
+
 ```
 ImportError: cannot import name 'get_db' from 'src.core.depends.db'
 ```
 
 **Causa:** El proyecto usa `AsyncSession` (stack async), no `Session` síncrono.
 
-**Solución:** 
+**Solución:**
+
 - Cambiar a `get_async_session`
 - Usar `AsyncSession` en lugar de `Session`
 - Convertir todo a async/await
@@ -28,7 +31,9 @@ ImportError: cannot import name 'get_db' from 'src.core.depends.db'
 ---
 
 ### Problema 2: Modelo No Encontrado
+
 **Error:**
+
 ```
 ImportError: cannot import name 'SponsoredProject' from 'src.models.project'
 ```
@@ -36,6 +41,7 @@ ImportError: cannot import name 'SponsoredProject' from 'src.models.project'
 **Causa:** El modelo `SponsoredProject` estaba en `src.models.sponsor`, no en `src.models.project`.
 
 **Solución:**
+
 ```python
 # ❌ Incorrecto
 from src.models.project import SponsoredProject
@@ -49,7 +55,9 @@ from src.models.sponsor import SponsoredProject
 ---
 
 ### Problema 3: Warning de React
+
 **Error:**
+
 ```
 Warning: Each child in a list should have a unique "key" prop
 ```
@@ -57,6 +65,7 @@ Warning: Each child in a list should have a unique "key" prop
 **Causa:** `_entity_key` podía ser undefined para algunos proyectos.
 
 **Solución:**
+
 ```tsx
 // ❌ Antes
 key={project._entity_key}
@@ -72,6 +81,7 @@ key={project._entity_key || project.id || `project-${index}`}
 ## ✅ Lo Que Funciona Ahora
 
 ### Backend
+
 - ✅ Endpoint: `POST /api/v1/arkiv/escrow/deploy-escrow?project_id={id}`
 - ✅ Valida proyecto existe
 - ✅ Valida proyecto está aprobado
@@ -80,6 +90,7 @@ key={project._entity_key || project.id || `project-${index}`}
 - ✅ Manejo completo de errores
 
 ### Frontend
+
 - ✅ Botón azul 🚀 "Lanzar Proyecto" visible
 - ✅ Posicionado debajo de "Evaluar con AI"
 - ✅ Click → API call → Actualiza BD
@@ -88,6 +99,7 @@ key={project._entity_key || project.id || `project-${index}`}
 - ✅ Actualiza UI con contract_address
 
 ### Integración
+
 - ✅ ProjectService con método `deployEscrow()`
 - ✅ API config actualizada
 - ✅ Todo integrado en rama `feature/addSettings`
@@ -97,15 +109,18 @@ key={project._entity_key || project.id || `project-${index}`}
 ## 🧪 Cómo Probar
 
 ### Test 1: Verificar Backend Funciona
+
 ```bash
 curl -s -X POST 'http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow?project_id=1'
 ```
 
 **Resultado esperado:**
+
 - Si proyecto no está aprobado: `{"detail":"Project must be approved..."}`
 - Si proyecto está aprobado: `{"success": true, "contract_address": "..."}`
 
 ### Test 2: Usar el Botón en Frontend
+
 1. Abrir http://localhost:5173
 2. Click en "Arkiv" (Proyectos)
 3. Buscar un proyecto aprobado
@@ -114,6 +129,7 @@ curl -s -X POST 'http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow?project
 6. Ver mensaje: "🚀 {nombre} lanzado exitosamente"
 
 ### Test 3: Verificar BD Actualizada
+
 ```bash
 # Ver proyectos con contract_address
 sqlite3 arkiv.db "SELECT name, contract_address FROM sponsoredproject WHERE contract_address IS NOT NULL;"
@@ -134,13 +150,13 @@ cbfd026 - feat: implementar botón Lanzar Proyecto en Arkiv Projects con /deploy
 
 ## 📁 Archivos Modificados
 
-| Archivo | Cambio | Status |
-|---------|--------|--------|
-| `src/routes/v1/escrow.py` | ✅ CREADO | Nuevo endpoint |
-| `src/main.py` | ✅ MODIFICADO | Registra escrow router |
-| `frontend/src/components/FundingOracle/ProjectsListView.tsx` | ✅ MODIFICADO | Agrega botón |
-| `frontend/src/config/api.ts` | ✅ MODIFICADO | Agrega endpoints |
-| `frontend/src/services/projectService.ts` | ✅ MODIFICADO | Agrega métodos |
+| Archivo                                                      | Cambio        | Status                 |
+| ------------------------------------------------------------ | ------------- | ---------------------- |
+| `src/routes/v1/escrow.py`                                    | ✅ CREADO     | Nuevo endpoint         |
+| `src/main.py`                                                | ✅ MODIFICADO | Registra escrow router |
+| `frontend/src/components/FundingOracle/ProjectsListView.tsx` | ✅ MODIFICADO | Agrega botón           |
+| `frontend/src/config/api.ts`                                 | ✅ MODIFICADO | Agrega endpoints       |
+| `frontend/src/services/projectService.ts`                    | ✅ MODIFICADO | Agrega métodos         |
 
 ---
 
@@ -149,17 +165,20 @@ cbfd026 - feat: implementar botón Lanzar Proyecto en Arkiv Projects con /deploy
 ### Cuando Quieras Usar Smart Contract Real
 
 1. **Compilar Smart Contract** (15 min)
+
    ```bash
    cd smart-contract/funding-escrow
    cargo +nightly contract build --release
    ```
 
 2. **Deploy a Rococo** (20 min)
+
    - Usar Polkadot.js Apps
    - Subir WASM
    - Obtener address
 
 3. **Actualizar Endpoint** (30 min)
+
    - Cambiar `/deploy-escrow` para deployar SC real
    - Integrar polkadot-js SDK
    - Probar end-to-end
@@ -207,6 +226,7 @@ Puedes encontrar información detallada en:
 ## ✨ Conclusión
 
 **El sistema está 100% funcional.** El botón "Lanzar Proyecto" está:
+
 - ✅ Visible en la interfaz
 - ✅ Clickeable y funcional
 - ✅ Integrado con el backend
@@ -223,4 +243,3 @@ Puedes encontrar información detallada en:
 **Servidor Backend:** http://localhost:8000 ✅  
 **Servidor Frontend:** http://localhost:5173 ✅  
 **Estado:** 🟢 **FUNCIONAL Y LISTO**
-

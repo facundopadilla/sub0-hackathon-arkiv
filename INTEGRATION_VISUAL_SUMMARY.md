@@ -270,42 +270,42 @@ TOTAL: 19 endpoints, ALL TESTED ✅
 ```typescript
 // Project (from database)
 interface Project {
-  id?: number
-  project_id: string
-  name: string
-  repo: string
-  description?: string
-  budget: number
-  created_at?: string
-  updated_at?: string
+  id?: number;
+  project_id: string;
+  name: string;
+  repo: string;
+  description?: string;
+  budget: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 // Milestone (from database)
 interface Milestone {
-  id?: number
-  project_id: string
-  name: string
-  description?: string
-  amount: number
-  created_at?: string
-  updated_at?: string
+  id?: number;
+  project_id: string;
+  name: string;
+  description?: string;
+  amount: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 // SponsoredProject (from database + blockchain)
 interface SponsoredProject {
-  id?: number
-  project_id: string
-  name: string
-  repo: string
-  ai_score: number
-  status: string              // "submitted" | "approved" | "rejected"
-  contract_address: string
-  chain: string               // "polkadot", "ethereum", etc.
-  budget: number
-  description?: string
-  _entity_key?: string        // From Arkiv blockchain
-  created_at?: string
-  updated_at?: string
+  id?: number;
+  project_id: string;
+  name: string;
+  repo: string;
+  ai_score: number;
+  status: string; // "submitted" | "approved" | "rejected"
+  contract_address: string;
+  chain: string; // "polkadot", "ethereum", etc.
+  budget: number;
+  description?: string;
+  _entity_key?: string; // From Arkiv blockchain
+  created_at?: string;
+  updated_at?: string;
 }
 ```
 
@@ -314,6 +314,7 @@ interface SponsoredProject {
 ## Component State Flow
 
 ### SubmitProjectForm
+
 ```
 formData: { project_id, name, repo, budget, milestones }
     ↓
@@ -333,6 +334,7 @@ resetForm()
 ```
 
 ### ProjectsListView
+
 ```
 projects: SponsoredProject[] = []
 loading: boolean = true
@@ -353,6 +355,7 @@ setError(message)
 ```
 
 ### ModerationView
+
 ```
 pendingProjects: SponsoredProject[] = []
 selectedProject: SponsoredProject | null = null

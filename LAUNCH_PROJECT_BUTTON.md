@@ -3,6 +3,7 @@
 ## Overview
 
 Agregar un botón "🚀 Lanzar Proyecto" en la pestaña **Arkiv Projects** que:
+
 1. Crea un smart contract escrow con los fondos del proyecto
 2. Instancia el contrato en Polkadot (Rococo testnet)
 3. Genera hitos automáticos (4 partes iguales)
@@ -72,20 +73,20 @@ const [launchMessage, setLaunchMessage] = useState<string | null>(null);
 const handleLaunchProject = async (projectId: number, projectName: string) => {
   setLaunchingProject(projectId);
   setLaunchMessage(null);
-  
+
   try {
     // 1. Confirmar que desea lanzar
     const confirmed = window.confirm(
       `¿Lanzar proyecto "${projectName}"?\n\nEsto creará un smart contract con los fondos del proyecto.`
     );
-    
+
     if (!confirmed) {
       setLaunchingProject(null);
       return;
     }
 
     // 2. Obtener datos del proyecto
-    const project = projects.find(p => p.id === projectId);
+    const project = projects.find((p) => p.id === projectId);
     if (!project) {
       throw new Error("Proyecto no encontrado");
     }
@@ -100,7 +101,7 @@ const handleLaunchProject = async (projectId: number, projectName: string) => {
 
     // 4. Llamar backend para deployar escrow
     setLaunchMessage("⏳ Deployando smart contract...");
-    
+
     const escrowResult = await ProjectService.deployEscrow(
       projectId,
       project.budget || 0,
@@ -115,18 +116,14 @@ const handleLaunchProject = async (projectId: number, projectName: string) => {
     // 6. Actualizar UI
     setLaunchMessage(
       `✅ ¡Proyecto lanzado exitosamente!\n\n` +
-      `Contract: ${escrowResult.contract_address}\n` +
-      `Chain: ${escrowResult.chain}`
+        `Contract: ${escrowResult.contract_address}\n` +
+        `Chain: ${escrowResult.chain}`
     );
 
     // 7. Refrescar proyectos
     await fetchProjects();
 
-    onNotification(
-      `✅ Proyecto "${projectName}" lanzado con éxito`,
-      "success"
-    );
-
+    onNotification(`✅ Proyecto "${projectName}" lanzado con éxito`, "success");
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : "Error desconocido";
     setLaunchMessage(`❌ Error: ${errorMsg}`);
@@ -142,58 +139,73 @@ const handleLaunchProject = async (projectId: number, projectName: string) => {
 En la lista de proyectos, agregar botón junto a los existentes:
 
 ```tsx
-{/* Botón Reevaluar */}
-{/* ... código existente ... */}
+{
+  /* Botón Reevaluar */
+}
+{
+  /* ... código existente ... */
+}
 
-{/* Botón Lanzar Proyecto (NEW) */}
-{!project.contract_address && (
-  <button
-    onClick={() => handleLaunchProject(project.id, project.name)}
-    disabled={evaluatingId === project.id || launchingProject === project.id}
-    className="flex items-center gap-2 px-3 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 transition"
-    title="Lanzar proyecto - crear smart contract de escrow"
-  >
-    {launchingProject === project.id ? (
-      <>
-        <Loader size={16} className="animate-spin" />
-        Lanzando...
-      </>
-    ) : (
-      <>
-        <Rocket size={16} />
-        Lanzar
-      </>
-    )}
-  </button>
-)}
+{
+  /* Botón Lanzar Proyecto (NEW) */
+}
+{
+  !project.contract_address && (
+    <button
+      onClick={() => handleLaunchProject(project.id, project.name)}
+      disabled={evaluatingId === project.id || launchingProject === project.id}
+      className="flex items-center gap-2 px-3 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 transition"
+      title="Lanzar proyecto - crear smart contract de escrow"
+    >
+      {launchingProject === project.id ? (
+        <>
+          <Loader size={16} className="animate-spin" />
+          Lanzando...
+        </>
+      ) : (
+        <>
+          <Rocket size={16} />
+          Lanzar
+        </>
+      )}
+    </button>
+  );
+}
 
-{/* Si ya tiene contract_address, mostrar diferente */}
-{project.contract_address && (
-  <button
-    disabled
-    className="flex items-center gap-2 px-3 py-1 text-sm bg-green-500 text-white rounded-lg opacity-75"
-  >
-    <CheckCircle size={16} />
-    Lanzado
-  </button>
-)}
+{
+  /* Si ya tiene contract_address, mostrar diferente */
+}
+{
+  project.contract_address && (
+    <button
+      disabled
+      className="flex items-center gap-2 px-3 py-1 text-sm bg-green-500 text-white rounded-lg opacity-75"
+    >
+      <CheckCircle size={16} />
+      Lanzado
+    </button>
+  );
+}
 ```
 
 ### Paso 4: Mostrar Mensaje de Lanzamiento
 
 ```tsx
-{launchMessage && (
-  <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-    <p className="text-sm text-blue-900 whitespace-pre-wrap">
-      {launchMessage}
-    </p>
-  </div>
-)}
+{
+  launchMessage && (
+    <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <p className="text-sm text-blue-900 whitespace-pre-wrap">
+        {launchMessage}
+      </p>
+    </div>
+  );
+}
 ```
 
 ### Paso 5: Agregar Icono Rocket
 
 En imports:
+
 ```typescript
 import { ..., Rocket, CheckCircle } from "lucide-react";
 ```
@@ -244,13 +256,13 @@ async def deploy_escrow(
 ) -> DeployEscrowResponse:
     """
     Deployar smart contract escrow para un proyecto.
-    
+
     Crea un escrow inteligente con:
     - Fondos divididos en hitos
     - Liberación progresiva según avance
     - Posibilidad de cancelación
     """
-    
+
     try:
         # 1. Obtener proyecto de BD
         stmt = select(SponsoredProject).where(
@@ -258,17 +270,17 @@ async def deploy_escrow(
         )
         result = await session.execute(stmt)
         project = result.scalars().first()
-        
+
         if not project:
             raise HTTPException(status_code=404, detail="Project not found")
-        
+
         # 2. Validar que el proyecto está aprobado
         if project.status != "approved":
             raise HTTPException(
-                status_code=400, 
+                status_code=400,
                 detail=f"Project must be approved, current status: {project.status}"
             )
-        
+
         # 3. Validar que los porcentajes suman 100
         total_percentage = sum(m.percentage for m in request.milestones)
         if total_percentage != 100:
@@ -276,18 +288,18 @@ async def deploy_escrow(
                 status_code=400,
                 detail=f"Milestone percentages must sum to 100, got {total_percentage}"
             )
-        
+
         # 4. Validar que ya no tiene contract
         if project.contract_address:
             raise HTTPException(
                 status_code=400,
                 detail="Project already has a contract address"
             )
-        
+
         # 5. Preparar datos para smart contract
         milestone_descriptions = [m.description.encode('utf-8') for m in request.milestones]
         milestone_percentages = [m.percentage for m in request.milestones]
-        
+
         # 6. Llamar al smart contract (via RPC)
         contract_address = await deploy_contract_to_chain(
             project_id=str(project.project_id),
@@ -296,16 +308,16 @@ async def deploy_escrow(
             milestone_percentages=milestone_percentages,
             milestone_descriptions=milestone_descriptions,
         )
-        
+
         # 7. Guardar contract_address en BD
         project.contract_address = contract_address
         project.chain = "rococo"  # O el chain que uses
         session.add(project)
         await session.commit()
-        
+
         # 8. Actualizar Arkiv (TODO)
         # await update_arkiv_with_contract(...)
-        
+
         # 9. Retornar respuesta
         return DeployEscrowResponse(
             success=True,
@@ -323,7 +335,7 @@ async def deploy_escrow(
                 for i, m in enumerate(request.milestones)
             ]
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -339,23 +351,23 @@ async def deploy_contract_to_chain(
 ) -> str:
     """
     Llamar al nodo Polkadot para deployar el smart contract.
-    
+
     IMPORTANTE: Requiere:
     1. Nodo Rococo corriendo o RPC disponible
     2. Cuenta con fondos (para pagar gas)
     3. Binario del contrato compilado (funding_escrow.wasm)
     """
-    
+
     # TODO: Implementar conexión con Polkadot RPC via subxt
     # Por ahora retornamos una dirección simulada para testing
-    
+
     contract_address = "0x" + "abcd1234" * 8
-    
+
     # Simular que se creó
     print(f"✅ Smart Contract deployado para {project_name}")
     print(f"   Presupuesto: ${total_budget}")
     print(f"   Contract Address: {contract_address}")
-    
+
     return contract_address
 ```
 
@@ -394,12 +406,12 @@ static async deployEscrow(
       }),
     }
   );
-  
+
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.detail || "Deployment failed");
   }
-  
+
   return response.json();
 }
 ```
@@ -409,6 +421,7 @@ static async deployEscrow(
 ## 🧪 Testing del Flujo
 
 ### Test 1: Deploy Local
+
 ```bash
 # Verificar que el endpoint responde
 curl -X POST http://localhost:8000/api/v1/deploy-escrow \
@@ -426,6 +439,7 @@ curl -X POST http://localhost:8000/api/v1/deploy-escrow \
 ```
 
 ### Test 2: Frontend Click
+
 1. Ir a Arkiv Projects
 2. Ver botón "🚀 Lanzar" en proyecto aprobado
 3. Click en botón
@@ -434,10 +448,12 @@ curl -X POST http://localhost:8000/api/v1/deploy-escrow \
 6. Ver "✅ Lanzado" cuando se completa
 
 ### Test 3: BD
+
 Verificar que `sponsoredproject.contract_address` está guardado:
+
 ```sql
-SELECT id, name, status, contract_address 
-FROM sponsoredproject 
+SELECT id, name, status, contract_address
+FROM sponsoredproject
 WHERE id = 1;
 ```
 
@@ -445,34 +461,38 @@ WHERE id = 1;
 
 ## 📊 Estado de Implementación
 
-| Componente | Estado | Notas |
-|-----------|--------|-------|
-| SC Compilado | ⏳ Por hacer | Ejecutar: `cargo +nightly contract build --release` |
-| Endpoint /deploy-escrow | ⏳ Por hacer | Crear src/routes/v1/escrow.py |
-| Frontend Button | ⏳ Por hacer | Agregar handleLaunchProject en ProjectsListView |
-| BD Schema | ✅ OK | contract_address ya existe en sponsoredproject |
-| Testing | ⏳ Por hacer | Tests unitarios del SC |
+| Componente              | Estado       | Notas                                               |
+| ----------------------- | ------------ | --------------------------------------------------- |
+| SC Compilado            | ⏳ Por hacer | Ejecutar: `cargo +nightly contract build --release` |
+| Endpoint /deploy-escrow | ⏳ Por hacer | Crear src/routes/v1/escrow.py                       |
+| Frontend Button         | ⏳ Por hacer | Agregar handleLaunchProject en ProjectsListView     |
+| BD Schema               | ✅ OK        | contract_address ya existe en sponsoredproject      |
+| Testing                 | ⏳ Por hacer | Tests unitarios del SC                              |
 
 ---
 
 ## 🎯 Próximos Pasos
 
 1. **Compilar SC**
+
    ```bash
    cd smart-contract/funding-escrow
    cargo +nightly contract build --release
    ```
 
 2. **Testear SC**
+
    ```bash
    cargo +nightly contract test
    ```
 
 3. **Implementar Endpoint**
+
    - Crear `src/routes/v1/escrow.py`
    - Agregar en `src/main.py`
 
 4. **Implementar Frontend**
+
    - Agregar en `ProjectsListView.tsx`
    - Agregar método en `projectService.ts`
 
@@ -486,6 +506,7 @@ WHERE id = 1;
 **Status:** Listos para empezar 🚀
 
 Próximo comando:
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release

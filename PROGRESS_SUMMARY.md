@@ -11,16 +11,19 @@
 ## ✅ **Completado Esta Sesión**
 
 ### Smart Contract
+
 - ✅ Compilado sin errores (380 líneas Rust)
 - ✅ Backup creado
 - ✅ Commit: `b2fbc2c`
 
 ### Rococo Testnet
+
 - ✅ Configurado y documentado
 - ✅ RPC URL: `wss://rococo-contracts-rpc.polkadot.io`
 - ✅ Faucet info: https://faucet.polkadot.io
 
 ### Backend (FastAPI)
+
 - ✅ RococoDeployer service creado
 - ✅ Paquetes SDK instalados:
   - `substrate-interface` 1.7.11 ✅
@@ -30,6 +33,7 @@
 - ✅ Commit: `c8ba1ef`
 
 ### Frontend (React)
+
 - ✅ 🚀 Botón "Lanzar Proyecto" funcional
 - ✅ UI con spinner y mensajes
 - ✅ Integración con backend
@@ -39,6 +43,7 @@
 ## ⏳ **En Progreso**
 
 ### Fase 2: Instalar cargo-contract
+
 ```
 Status: ████████░░░░░░░░░░ 90% instalando
 ```
@@ -51,12 +56,14 @@ Status: ████████░░░░░░░░░░ 90% instalando
 ## 🚀 **Próximo Paso Inmediato**
 
 Cuando `cargo-contract` termine (automaticamente):
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release
 ```
 
 Genera:
+
 - ✨ `target/ink/funding_escrow.wasm`
 - ✨ `target/ink/funding_escrow.contract`
 - ✨ `target/ink/funding_escrow.opt.wasm`
@@ -65,14 +72,14 @@ Genera:
 
 ## 📊 Fases del Proyecto
 
-| Fase | Objetivo | Status |
-|------|----------|--------|
-| 1 | Generar WASM artifacts | ⏳ En espera de cargo-contract |
-| 2 | Instalar cargo-contract | ⏳ 90% (instalando) |
-| 3 | Configurar Rococo | ✅ Completada |
-| 4 | Integrar SDK Polkadot | ✅ Completada |
-| 5 | Deploy real en endpoint | ⏳ Estructura lista |
-| 6 | Pruebas end-to-end | ⏳ Pendiente |
+| Fase | Objetivo                | Status                         |
+| ---- | ----------------------- | ------------------------------ |
+| 1    | Generar WASM artifacts  | ⏳ En espera de cargo-contract |
+| 2    | Instalar cargo-contract | ⏳ 90% (instalando)            |
+| 3    | Configurar Rococo       | ✅ Completada                  |
+| 4    | Integrar SDK Polkadot   | ✅ Completada                  |
+| 5    | Deploy real en endpoint | ⏳ Estructura lista            |
+| 6    | Pruebas end-to-end      | ⏳ Pendiente                   |
 
 ---
 
@@ -150,11 +157,10 @@ b2fbc2c ✅ Smart contract compila exitosamente
 ✅ React + TypeScript (Frontend)  
 ✅ PostgreSQL (Database)  
 ✅ Polkadot/Substrate (Blockchain)  
-✅ Python + Substrate SDK (Deployment)  
+✅ Python + Substrate SDK (Deployment)
 
 ---
 
 **Status:** 🟡 EN BUEN CAMINO  
 **Bloqueantes:** Ninguno (cargo-contract instalando)  
 **Próximo:** Verificar cuando WASM artifacts estén listos
-

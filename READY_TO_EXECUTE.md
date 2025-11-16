@@ -18,6 +18,7 @@ Testing:                     ⏳ 0% (listo para empezar)
 ## 📋 Lo Que Se Tiene
 
 ### Smart Contract (COMPLETO)
+
 ```
 ✅ 600+ líneas de código
 ✅ 7 métodos públicos implementados
@@ -30,6 +31,7 @@ Testing:                     ⏳ 0% (listo para empezar)
 **Ubicación:** `smart-contract/funding-escrow/src/lib.rs`
 
 ### Documentación (COMPLETA)
+
 ```
 ✅ COMPILE_AND_TEST.md          - Compilación y testing paso a paso
 ✅ LAUNCH_PROJECT_BUTTON.md      - Implementación del botón
@@ -42,6 +44,7 @@ Testing:                     ⏳ 0% (listo para empezar)
 ```
 
 ### Frontend Actual (70% LISTO)
+
 ```
 ✅ SubmitProjectForm - Crear proyectos
 ✅ ModerationView - Revisar todos los proyectos
@@ -51,6 +54,7 @@ Testing:                     ⏳ 0% (listo para empezar)
 ```
 
 ### Backend Actual (75% LISTO)
+
 ```
 ✅ POST /projects - Crear proyecto
 ✅ GET /sponsored - Listar proyectos
@@ -66,40 +70,50 @@ Testing:                     ⏳ 0% (listo para empezar)
 ## 🚀 Próximas 5 Fases (3 Horas)
 
 ### FASE 1: Compilar SC (10 min)
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release
 ```
+
 ✅ Status: Listo
 
 ### FASE 2: Testear SC (5 min)
+
 ```bash
 cargo +nightly contract test
 ```
+
 ✅ Status: Listo
 
 ### FASE 3: Deploy Rococo (20 min)
+
 ```
 GUI: Polkadot.js Apps
 o
 Script: scripts/deploy_contract.py (próxima tarea)
 ```
+
 ✅ Status: Listo
 
 ### FASE 4: Backend Escrow Endpoint (45 min)
+
 ```
 Crear: src/routes/v1/escrow.py (código completo en LAUNCH_PROJECT_BUTTON.md)
 Agregar router en: src/main.py
 ```
+
 ✅ Status: Código disponible en LAUNCH_PROJECT_BUTTON.md
 
 ### FASE 5: Frontend Lanzar Proyecto (60 min)
+
 ```
 Agregar a: ProjectsListView.tsx
 - handleLaunchProject() función
 - Botón "🚀 Lanzar"
 - Estado "Lanzado"
 ```
+
 ✅ Status: Código disponible en LAUNCH_PROJECT_BUTTON.md
 
 ---
@@ -200,13 +214,16 @@ Agregar a: ProjectsListView.tsx
 ## 📝 Archivos Listos para Usar
 
 ### Smart Contract (COMPILADO Y LISTO)
+
 - `smart-contract/funding-escrow/src/lib.rs` - ✅ 600+ líneas, listo
 
 ### Backend (CÓDIGO DISPONIBLE)
+
 - `src/routes/v1/escrow.py` - ⏳ Ver LAUNCH_PROJECT_BUTTON.md (Paso 1)
 - Agregar en `src/main.py` - ⏳ Ver LAUNCH_PROJECT_BUTTON.md (Paso 2)
 
 ### Frontend (CÓDIGO DISPONIBLE)
+
 - Agregar en `ProjectsListView.tsx` - ⏳ Ver LAUNCH_PROJECT_BUTTON.md (Paso 3-5)
 - Agregar en `projectService.ts` - ⏳ Ver LAUNCH_PROJECT_BUTTON.md (Paso 3)
 
@@ -222,6 +239,7 @@ cargo +nightly contract build --release
 ⏱️ Tiempo: ~2-3 minutos (primera compilación)
 
 **Después de esto:**
+
 1. Verificar que se generaron 3 archivos en `target/ink/`
 2. Ejecutar tests: `cargo +nightly contract test`
 3. Consultar documentación de siguiente fase
@@ -230,13 +248,13 @@ cargo +nightly contract build --release
 
 ## 📚 Documentación por Fase
 
-| Fase | Documento | Link |
-|------|-----------|------|
-| 1-2 | Compilación y Testing | [COMPILE_AND_TEST.md](smart-contract/COMPILE_AND_TEST.md) |
-| 3 | Deploy Rococo | [COMPILE_AND_TEST.md](smart-contract/COMPILE_AND_TEST.md) → Paso 4 |
-| 4 | Backend Endpoint | [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Backend |
-| 5 | Frontend Botón | [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Frontend |
-| Plan Completo | Ejecución | [EXECUTION_PLAN.md](EXECUTION_PLAN.md) |
+| Fase          | Documento             | Link                                                               |
+| ------------- | --------------------- | ------------------------------------------------------------------ |
+| 1-2           | Compilación y Testing | [COMPILE_AND_TEST.md](smart-contract/COMPILE_AND_TEST.md)          |
+| 3             | Deploy Rococo         | [COMPILE_AND_TEST.md](smart-contract/COMPILE_AND_TEST.md) → Paso 4 |
+| 4             | Backend Endpoint      | [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Backend     |
+| 5             | Frontend Botón        | [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Frontend    |
+| Plan Completo | Ejecución             | [EXECUTION_PLAN.md](EXECUTION_PLAN.md)                             |
 
 ---
 
@@ -282,6 +300,7 @@ Testing E2E:
 ## 💡 Puntos Clave
 
 ### Smart Contract
+
 - ✅ 100% implementado
 - ✅ Listo para compilar
 - ✅ Funcionalidad completa:
@@ -291,18 +310,21 @@ Testing E2E:
   - Registrar avance en Arkiv
 
 ### Botón "Lanzar Proyecto"
+
 - ✅ Aparece en "Proyectos en Arkiv"
 - ✅ Solo para proyectos sin contract_address
 - ✅ Despliega smart contract automáticamente
 - ✅ Genera 4 hitos de 25% cada uno
 
 ### Flujo Seguro
+
 - ✅ Valida que proyecto esté aprobado
 - ✅ Valida que los porcentajes sumen 100
 - ✅ Maneja errores gracefully
 - ✅ Registro inmutable en Arkiv
 
 ### Testing
+
 - ✅ Tests unitarios del SC listos
 - ✅ Deploy a testnet listo
 - ✅ E2E testing listo
@@ -312,6 +334,7 @@ Testing E2E:
 ## 🎬 Después de Completar Todo
 
 1. **Testear completamente en Rococo**
+
    - Crear proyecto
    - Aprobar en moderación
    - Click "Lanzar"
@@ -320,6 +343,7 @@ Testing E2E:
    - Liberar fondos
 
 2. **Optimizar si es necesario**
+
    - Gas optimization
    - UX mejoras
    - Error handling
@@ -334,11 +358,13 @@ Testing E2E:
 ## 📞 Contacto y Ayuda
 
 **Para dudas técnicas:**
+
 - Compilación: Ver [COMPILE_AND_TEST.md](smart-contract/COMPILE_AND_TEST.md)
 - Implementación: Ver [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md)
 - Ejecución: Ver [EXECUTION_PLAN.md](EXECUTION_PLAN.md)
 
 **Documentación General:**
+
 - Índice completo: [DOCUMENTATION_INDEX_COMPLETE.md](DOCUMENTATION_INDEX_COMPLETE.md)
 - Arquitectura: [SMART_CONTRACT_ARCHITECTURE.md](SMART_CONTRACT_ARCHITECTURE.md)
 

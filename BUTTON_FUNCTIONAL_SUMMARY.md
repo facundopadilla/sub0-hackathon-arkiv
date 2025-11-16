@@ -13,11 +13,13 @@ El botón "🚀 Lanzar Proyecto" está **completamente implementado y funcionand
 **Archivo:** `src/routes/v1/escrow.py`
 
 **Endpoint:**
+
 ```
 POST /api/v1/arkiv/escrow/deploy-escrow?project_id={id}
 ```
 
 **Funcionalidad:**
+
 - ✅ Valida que el proyecto existe
 - ✅ Valida que el proyecto está aprobado (`status="approved"`)
 - ✅ Valida que no tiene contrato ya desplegado
@@ -27,6 +29,7 @@ POST /api/v1/arkiv/escrow/deploy-escrow?project_id={id}
 - ✅ Manejo completo de errores
 
 **Respuestas:**
+
 - ✅ 200: `{ success: true, contract_address: "..." }`
 - ✅ 404: `{ detail: "Project not found" }`
 - ✅ 400: `{ detail: "Project must be approved..." }`
@@ -37,6 +40,7 @@ POST /api/v1/arkiv/escrow/deploy-escrow?project_id={id}
 **Archivo:** `frontend/src/components/FundingOracle/ProjectsListView.tsx`
 
 **Características:**
+
 - ✅ Botón azul con ícono 🚀 Rocket
 - ✅ Se muestra debajo del botón "Evaluar con AI"
 - ✅ Estado "Lanzando..." con spinner mientras espera
@@ -53,8 +57,9 @@ POST /api/v1/arkiv/escrow/deploy-escrow?project_id={id}
 ```typescript
 arkivAPI = {
   deployEscrow: () => `${API_PREFIX}/escrow/deploy-escrow`,
-  getEscrowInfo: (projectId: number) => `${API_PREFIX}/escrow/escrow-info/${projectId}`,
-}
+  getEscrowInfo: (projectId: number) =>
+    `${API_PREFIX}/escrow/escrow-info/${projectId}`,
+};
 ```
 
 ### Servicio de Proyectos ✅
@@ -70,17 +75,18 @@ static async getEscrowInfo(projectId: number): Promise<any>
 
 ## 🔧 Fixes Aplicados
 
-| Error | Causa | Solución | Commit |
-|-------|-------|----------|--------|
-| `ImportError: cannot import name 'get_db'` | Proyecto usa AsyncSession, no Session síncrono | Cambiar a `get_async_session` + `AsyncSession` | `5004cb5` |
-| `ImportError: cannot import name 'SponsoredProject' from 'src.models.project'` | Modelo está en `src.models.sponsor` | Cambiar import a `from src.models.sponsor import SponsoredProject` | `b590602` |
-| React warning: "Each child in a list should have a unique key" | `_entity_key` puede ser undefined | Agregar fallback: `key={project._entity_key \|\| project.id \|\| 'project-${index}'}` | `5004cb5` |
+| Error                                                                          | Causa                                          | Solución                                                                              | Commit    |
+| ------------------------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------- | --------- |
+| `ImportError: cannot import name 'get_db'`                                     | Proyecto usa AsyncSession, no Session síncrono | Cambiar a `get_async_session` + `AsyncSession`                                        | `5004cb5` |
+| `ImportError: cannot import name 'SponsoredProject' from 'src.models.project'` | Modelo está en `src.models.sponsor`            | Cambiar import a `from src.models.sponsor import SponsoredProject`                    | `b590602` |
+| React warning: "Each child in a list should have a unique key"                 | `_entity_key` puede ser undefined              | Agregar fallback: `key={project._entity_key \|\| project.id \|\| 'project-${index}'}` | `5004cb5` |
 
 ---
 
 ## 🧪 Verificación de Funcionalidad
 
 ### Test 1: Backend Responde ✅
+
 ```bash
 $ curl -s http://localhost:8000/healthcheck | jq .
 {
@@ -89,6 +95,7 @@ $ curl -s http://localhost:8000/healthcheck | jq .
 ```
 
 ### Test 2: Endpoint Existe ✅
+
 ```bash
 $ curl -s -X POST 'http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow?project_id=1'
 {"detail":"Project must be approved to create escrow. Current status: rejected"}
@@ -97,11 +104,13 @@ $ curl -s -X POST 'http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow?proje
 ✅ El endpoint responde correctamente (el error es esperado, proyecto no está aprobado)
 
 ### Test 3: Frontend Carga ✅
+
 - ✅ http://localhost:5173 carga sin errores
 - ✅ Tab "Arkiv" muestra interfaz correctamente
 - ✅ No hay errores en la consola de JavaScript
 
 ### Test 4: Botón Visible ✅
+
 - ✅ Botón "🚀 Lanzar Proyecto" aparece en cada tarjeta de proyecto
 - ✅ Botón azul (color: blue-500)
 - ✅ Posicionado debajo del botón "Evaluar con AI"
@@ -112,6 +121,7 @@ $ curl -s -X POST 'http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow?proje
 ## 📋 Flujo Completo de Uso
 
 ### Paso 1: Navegar a Proyectos de Arkiv
+
 ```
 Usuario → Click en "Arkiv" en navbar
 → Se cargan proyectos aprobados
@@ -121,6 +131,7 @@ Usuario → Click en "Arkiv" en navbar
 ```
 
 ### Paso 2: Lanzar un Proyecto
+
 ```
 Usuario → Click en "🚀 Lanzar Proyecto"
 → Sistema:
@@ -136,6 +147,7 @@ Usuario → Click en "🚀 Lanzar Proyecto"
 ```
 
 ### Paso 3: Verificar Despliegue
+
 ```
 Usuario → Ve contract address en "Arkiv Entity" section
 → Puede usar para auditar en blockchain (cuando sea real)
@@ -152,6 +164,7 @@ cbfd026 - feat: implementar botón Lanzar Proyecto en Arkiv Projects con /deploy
 ```
 
 **Total de cambios:**
+
 - ✅ 3 commits
 - ✅ 5 archivos modificados/creados
 - ✅ ~100 líneas de código
@@ -161,34 +174,37 @@ cbfd026 - feat: implementar botón Lanzar Proyecto en Arkiv Projects con /deploy
 
 ## 📊 Matriz de Funcionalidad
 
-| Función | Status | Notas |
-|---------|--------|-------|
-| Endpoint `/deploy-escrow` | ✅ Funcional | Retorna contract_address simulado |
-| Endpoint `/escrow-info/{id}` | ✅ Funcional | Retorna info del contrato |
-| Botón en ProjectsListView | ✅ Visible | Azul, 🚀 Rocket icon |
-| Click Lanzar → API Call | ✅ Funcional | Usa handleLaunchProject |
-| Validaciones Backend | ✅ Completas | 4 validaciones |
-| Manejo de Errores | ✅ Completo | Mensajes claros en UI |
-| Actualización de BD | ✅ Funcional | Guarda contract_address |
-| Actualización de UI | ✅ Funcional | Muestra nuevas direcciones |
-| Feedback Visual | ✅ Completo | Spinner + Mensajes |
+| Función                      | Status       | Notas                             |
+| ---------------------------- | ------------ | --------------------------------- |
+| Endpoint `/deploy-escrow`    | ✅ Funcional | Retorna contract_address simulado |
+| Endpoint `/escrow-info/{id}` | ✅ Funcional | Retorna info del contrato         |
+| Botón en ProjectsListView    | ✅ Visible   | Azul, 🚀 Rocket icon              |
+| Click Lanzar → API Call      | ✅ Funcional | Usa handleLaunchProject           |
+| Validaciones Backend         | ✅ Completas | 4 validaciones                    |
+| Manejo de Errores            | ✅ Completo  | Mensajes claros en UI             |
+| Actualización de BD          | ✅ Funcional | Guarda contract_address           |
+| Actualización de UI          | ✅ Funcional | Muestra nuevas direcciones        |
+| Feedback Visual              | ✅ Completo  | Spinner + Mensajes                |
 
 ---
 
 ## 🚀 Próximos Pasos (Cuando sea Necesario)
 
 ### Fase 1: Compilar Smart Contract
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release
 ```
 
 ### Fase 2: Deploy a Rococo Testnet
+
 - Usar Polkadot.js Apps
 - Obtener contract code hash
 - Obtener contract address
 
 ### Fase 3: Integrar Deploy Real
+
 - Actualizar endpoint `/deploy-escrow` para:
   1. Conectarse a Rococo via polkadot-js
   2. Subir WASM del contrato
@@ -196,6 +212,7 @@ cargo +nightly contract build --release
   4. Retornar address real del blockchain
 
 ### Fase 4: Operaciones en Contrato
+
 - `release_milestone()` cuando se completa milestone
 - `cancel_escrow()` si falla
 - Eventos: `EscrowCreated`, `FundsReleased`, `EscrowCancelled`
@@ -214,6 +231,7 @@ cargo +nightly contract build --release
 ## ✅ Resumen Final
 
 **El sistema está 100% funcional para:**
+
 - ✅ Ver proyectos aprobados en Arkiv
 - ✅ Hacer click en "🚀 Lanzar Proyecto"
 - ✅ Recibir confirmación de despliegue
@@ -221,6 +239,7 @@ cargo +nightly contract build --release
 - ✅ Ver address en interfaz
 
 **Listo para:**
+
 - ✅ Testing manual
 - ✅ Integración con smart contract real
 - ✅ Deploy a producción (cuando Smart Contract esté compilado)
@@ -236,8 +255,7 @@ cargo +nightly contract build --release
 ✅ BD se actualiza con contract_address  
 ✅ UI se actualiza después de lanzar  
 ✅ Mensajes de feedback aparecen  
-✅ Todo integrado en la rama `feature/addSettings`  
+✅ Todo integrado en la rama `feature/addSettings`
 
 **Status: 🟢 PRODUCTION READY (para simulación)**  
 **Status: 🟡 READY FOR REAL DEPLOYMENT (cuando SC esté compilado)**
-

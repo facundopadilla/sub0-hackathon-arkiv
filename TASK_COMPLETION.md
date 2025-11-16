@@ -15,9 +15,11 @@
 ## ✨ What Was Delivered
 
 ### 1️⃣ ProjectsListView Component ✅
+
 **File**: `frontend/src/components/FundingOracle/ProjectsListView.tsx`
 
 **Changes Made**:
+
 - ✅ Replaced import from `API_BASE` to `ProjectService` + `SponsoredProject`
 - ✅ Removed redundant type definitions (now imported from service)
 - ✅ Added error state handling
@@ -30,9 +32,11 @@
 ---
 
 ### 2️⃣ ModerationView Component ✅
+
 **File**: `frontend/src/components/FundingOracle/ModerationView.tsx`
 
 **Changes Made**:
+
 - ✅ Replaced import from `API_BASE` to `ProjectService` + `SponsoredProject`
 - ✅ Removed all mock data (3 hardcoded projects)
 - ✅ Updated types: `PendingProject` → `SponsoredProject`
@@ -49,11 +53,11 @@
 
 ### All Three Components Now Integrated ✅
 
-| Component | Mock Data | Real API | Status |
-|-----------|-----------|----------|--------|
-| SubmitProjectForm | ❌ Removed | ✅ Real | 🟢 Complete |
-| ProjectsListView | ❌ Removed | ✅ Real | 🟢 Complete |
-| ModerationView | ❌ Removed | ✅ Real | 🟢 Complete |
+| Component         | Mock Data  | Real API | Status      |
+| ----------------- | ---------- | -------- | ----------- |
+| SubmitProjectForm | ❌ Removed | ✅ Real  | 🟢 Complete |
+| ProjectsListView  | ❌ Removed | ✅ Real  | 🟢 Complete |
+| ModerationView    | ❌ Removed | ✅ Real  | 🟢 Complete |
 
 ---
 
@@ -73,20 +77,25 @@ Created 6 comprehensive guides:
 ## 🔧 Infrastructure Already in Place
 
 ### API Configuration Layer ✅
+
 **File**: `frontend/src/config/api.ts` (97 lines)
+
 - Centralized endpoint definitions
 - 17 convenience methods
 - Type-safe API calls
 - Error handling built-in
 
 ### TypeScript Service Layer ✅
+
 **File**: `frontend/src/services/projectService.ts` (206 lines)
+
 - 17 static methods for CRUD operations
 - Full type safety with interfaces
 - Error handling
 - Atomic operations
 
 ### Backend ✅
+
 - 19 working endpoints
 - PostgreSQL database
 - Arkiv blockchain integration
@@ -97,6 +106,7 @@ Created 6 comprehensive guides:
 ## 🚀 How to Test
 
 ### Start Backend
+
 ```bash
 cd /Users/facundo/Proyectos-VSC/Sub0_data
 source .venv/bin/activate
@@ -104,12 +114,14 @@ python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ### Start Frontend
+
 ```bash
 cd frontend
 npm run dev
 ```
 
 ### Test Workflow
+
 1. **Submit Project** → SubmitProjectForm works with real API
 2. **View Projects** → ProjectsListView shows Arkiv data
 3. **Review Projects** → ModerationView shows pending & updates status
@@ -119,16 +131,19 @@ npm run dev
 ## 📊 Code Changes Summary
 
 ### SubmitProjectForm
+
 - Status: ✅ Already done (earlier in session)
 - Calls: `ProjectService.submitProject()`
 - Result: Creates project + milestones + saves to Arkiv
 
 ### ProjectsListView
+
 - Lines changed: ~20
 - Calls: `ProjectService.getFromArkiv()`
 - Result: Displays projects from Arkiv blockchain
 
 ### ModerationView
+
 - Lines changed: ~60
 - Calls: `ProjectService.getSponsoredByStatus("submitted")` + `updateSponsored()`
 - Result: Shows pending projects, allows approve/reject
@@ -162,6 +177,7 @@ npm run dev
 ## 📝 Files in This Session
 
 ### Created
+
 - ✅ `QUICK_START.md`
 - ✅ `FRONTEND_INTEGRATION.md`
 - ✅ `COMPONENT_INTEGRATION_SUMMARY.md`
@@ -170,10 +186,12 @@ npm run dev
 - ✅ `DOCUMENTATION_INDEX.md`
 
 ### Modified
+
 - ✅ `ProjectsListView.tsx`
 - ✅ `ModerationView.tsx`
 
 ### Backend (Previous Session)
+
 - ✅ All 19 endpoints ready
 - ✅ Database configured
 - ✅ Arkiv integration working
@@ -214,6 +232,7 @@ Your Web3 funding system is now fully operational:
 ## 📞 Quick Help
 
 **Start Everything**:
+
 ```bash
 # Terminal 1
 python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
@@ -223,10 +242,12 @@ cd frontend && npm run dev
 ```
 
 **Where to Learn**:
+
 - QUICK_START.md - 3 minute read
 - DOCUMENTATION_INDEX.md - Navigation guide
 
 **Test the System**:
+
 1. Open http://localhost:5173
 2. Submit a project
 3. View it in ProjectsListView

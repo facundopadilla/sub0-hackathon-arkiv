@@ -5,6 +5,7 @@
 ### 🎯 Lo que logramos hoy
 
 #### 1️⃣ Moderación - Problema Resuelto ✅
+
 ```
 ANTES: Moderación solo mostraba proyectos "submitted"
        ❌ Proyectos rechazados no aparecían
@@ -15,6 +16,7 @@ AHORA: Moderación muestra TODOS los proyectos
 ```
 
 #### 2️⃣ Smart Contract Funding Escrow - Completado ✅
+
 ```
 IMPLEMENTADO:
 ✅ Sistema de escrow inteligente (600+ líneas de código)
@@ -33,6 +35,7 @@ IMPLEMENTADO:
 ## 📊 Estado del Proyecto
 
 ### Sistema Completo
+
 ```
 ┌─────────────────────────────────────────┐
 │   Sub0 Funding System v1.0              │
@@ -68,16 +71,16 @@ IMPLEMENTADO:
 
 ## 📈 Números de la Sesión
 
-| Métrica | Cantidad |
-|---------|----------|
-| Commits realizados | 3 |
-| Archivos creados | 8 |
-| Líneas de código (SC) | 600+ |
-| Métodos del SC | 7 |
-| Eventos | 4 |
-| Documentación (archivos) | 5 |
-| Documentación (páginas) | 20+ |
-| Horas de trabajo | ~2 |
+| Métrica                  | Cantidad |
+| ------------------------ | -------- |
+| Commits realizados       | 3        |
+| Archivos creados         | 8        |
+| Líneas de código (SC)    | 600+     |
+| Métodos del SC           | 7        |
+| Eventos                  | 4        |
+| Documentación (archivos) | 5        |
+| Documentación (páginas)  | 20+      |
+| Horas de trabajo         | ~2       |
 
 ---
 
@@ -187,6 +190,7 @@ Sub0_data/
 ## 🎓 Documentación Entregada
 
 1. **FUNDING_ESCROW.md** (5 páginas)
+
    - Overview del contrato
    - Métodos y parámetros
    - Eventos y errores
@@ -194,6 +198,7 @@ Sub0_data/
    - Seguridad
 
 2. **SETUP.md** (4 páginas)
+
    - Requisitos
    - Instalación de Rust/ink!
    - Compilación paso a paso
@@ -201,6 +206,7 @@ Sub0_data/
    - Troubleshooting
 
 3. **SMART_CONTRACT_ARCHITECTURE.md** (15+ páginas)
+
    - Diagrama de flujo
    - Integración con Arkiv
    - Esquema de BD
@@ -208,6 +214,7 @@ Sub0_data/
    - Seguridad
 
 4. **SMART_CONTRACT_COMPLETE.md** (5 páginas)
+
    - Resumen ejecutivo
    - Ejemplos prácticos
    - Estado actual
@@ -225,6 +232,7 @@ Sub0_data/
 ## 💼 Caso de Uso: De Principio a Fin
 
 ### Día 1: Project Owner
+
 ```
 1. Completa formulario
    ├─ Nombre: "BuildApp"
@@ -239,6 +247,7 @@ Sub0_data/
 ```
 
 ### Día 2: Moderador
+
 ```
 1. Ve proyecto en Moderación
    ├─ Lee descripción
@@ -252,12 +261,13 @@ Sub0_data/
    ├─ Smart Contract recibe $10,000
    ├─ Crea 4 hitos de $2,500 cada uno
    └─ Proyecto status: "approved"
-   
+
 3. Project Owner notificado
    └─ Proyecto visible en "Arkiv Projects"
 ```
 
 ### Día 5: Project Owner - Hito 1
+
 ```
 1. Completa Fase 1 (Prototipo)
    ├─ Push a GitHub
@@ -274,6 +284,7 @@ Sub0_data/
 ```
 
 ### Día 6: Moderador/Admin
+
 ```
 1. Ve proyecto en Arkiv Projects
    ├─ Lee notas del progreso
@@ -292,6 +303,7 @@ Sub0_data/
 ```
 
 ### Día 7-30: Ciclo Repite
+
 ```
 Hito 2 → Registra progreso → Admin verifica → Libera $2,500
 Hito 3 → Registra progreso → Admin verifica → Libera $2,500
@@ -301,6 +313,7 @@ Total: $10,000 transferidos ✅
 ```
 
 ### Escenario Alternativo: Sin Progreso
+
 ```
 Día 20: Sin actividad
 ├─ Admin ve que no hay progreso
@@ -350,6 +363,7 @@ Blockchain (Arkiv)
 ## 🎯 Lo Que Sigue
 
 ### Corto Plazo (1-2 días)
+
 1. Compilar smart contract
    ```bash
    cargo +nightly contract build --release
@@ -357,12 +371,14 @@ Blockchain (Arkiv)
 2. Deploy a Rococo testnet
 
 ### Mediano Plazo (3-5 días)
+
 1. Implementar `/deploy-escrow` endpoint
 2. Integrar eventos del SC
 3. Actualizar UI del frontend
 4. Testing end-to-end
 
 ### Largo Plazo (1-2 semanas)
+
 1. Auditoría de seguridad
 2. Optimización de gas
 3. Deploy a mainnet
@@ -373,17 +389,20 @@ Blockchain (Arkiv)
 ## 📞 Soporte
 
 ### Documentación
+
 - 🔹 Técnica: `FUNDING_ESCROW.md`
 - 🔹 Setup: `SETUP.md`
 - 🔹 Arquitectura: `SMART_CONTRACT_ARCHITECTURE.md`
 - 🔹 Next Steps: `SMART_CONTRACT_NEXT_STEPS.md`
 
 ### Códigos de Ejemplo
+
 - 🔹 SC Integration: `smart-contract/funding-escrow/examples/integration_flow.rs`
 - 🔹 Backend: En `SMART_CONTRACT_NEXT_STEPS.md`
 - 🔹 Frontend: En `SMART_CONTRACT_NEXT_STEPS.md`
 
 ### Links Útiles
+
 - 🔗 [ink! Docs](https://docs.rs/ink/latest/ink/)
 - 🔗 [Polkadot RPC](https://polkadot.js.org/)
 - 🔗 [Rococo Testnet](https://rococo.network/)
@@ -443,7 +462,7 @@ ls -la target/ink/
 
 ---
 
-## 🎉 ¡Felicidades! 
+## 🎉 ¡Felicidades!
 
 El sistema de financiamiento con liberación progresiva está completamente diseñado y documentado. Solo falta la implementación técnica (compilación, endpoints, integración).
 

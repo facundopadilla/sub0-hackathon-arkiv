@@ -6,9 +6,11 @@
 ## 📦 ¿Qué se creó?
 
 ### 1. Smart Contract (Polkadot ink!)
+
 Ubicación: `/smart-contract/funding-escrow/`
 
 **Características:**
+
 - ✅ `create_escrow()` - Crear escrow con fondos divididos en hitos
 - ✅ `release_milestone()` - Liberar fondos cuando el hito está completo
 - ✅ `cancel_escrow()` - Cancelar y devolver fondos al admin si no hay progreso
@@ -18,12 +20,14 @@ Ubicación: `/smart-contract/funding-escrow/`
 - ✅ `get_project_metadata()` - Consultar metadatos del proyecto
 
 **Eventos:**
+
 - `EscrowCreated` - Cuando se crea un nuevo escrow
 - `FundsReleased` - Cuando se libera un hito
 - `EscrowCancelled` - Cuando se cancela el escrow
 - `ProgressRecorded` - Cuando se registra progreso (integración Arkiv)
 
 **Manejo de Errores:**
+
 - Validación de porcentajes (deben sumar 100%)
 - Prevención de liberaciones duplicadas
 - Validación de autorización (solo admin/owner)
@@ -53,6 +57,7 @@ SMART_CONTRACT_ARCHITECTURE.md           # Documentación de arquitectura comple
 ## 🔄 Flujo Completo del Sistema
 
 ### Antes (sin smart contract):
+
 ```
 1. Proyecto enviado
 2. Moderador aprueba
@@ -61,6 +66,7 @@ SMART_CONTRACT_ARCHITECTURE.md           # Documentación de arquitectura comple
 ```
 
 ### Ahora (con smart contract):
+
 ```
 1. Proyecto enviado
 2. Moderador aprueba
@@ -81,6 +87,7 @@ SMART_CONTRACT_ARCHITECTURE.md           # Documentación de arquitectura comple
 ### Escenario: Proyecto solicita $10,000
 
 1. **Creación del Escrow**
+
    ```
    create_escrow(
      project_owner: alice,
@@ -95,16 +102,20 @@ SMART_CONTRACT_ARCHITECTURE.md           # Documentación de arquitectura comple
    ```
 
 2. **Project Owner Completa Hito 1**
+
    ```
    record_progress(0, "Prototipo completado - GitHub: https://...")
    ```
+
    - Emite: `ProgressRecorded`
    - Backend escucha → Actualiza Arkiv
 
 3. **Admin Verifica y Libera**
+
    ```
    release_milestone(0)
    ```
+
    - Smart Contract transfiere $2,500 a `alice`
    - Emite: `FundsReleased`
 
@@ -144,6 +155,7 @@ SMART_CONTRACT_ARCHITECTURE.md           # Documentación de arquitectura comple
 El smart contract emite eventos que Arkiv registra:
 
 **Antes:**
+
 ```json
 {
   "project_id": "proj_123",
@@ -152,6 +164,7 @@ El smart contract emite eventos que Arkiv registra:
 ```
 
 **Después (con SC):**
+
 ```json
 {
   "project_id": "proj_123",
@@ -182,16 +195,19 @@ El smart contract emite eventos que Arkiv registra:
 ## 🚀 Próximos Pasos (3 Tareas Pendientes)
 
 ### 1. Compilar el Smart Contract
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release
 ```
 
 **Archivos que se generarán:**
+
 - `target/ink/funding_escrow.wasm` - Bytecode
 - `target/ink/funding_escrow.json` - Metadata (ABI)
 
 ### 2. Implementar Endpoints Backend
+
 3 nuevos endpoints en FastAPI:
 
 ```python
@@ -220,6 +236,7 @@ POST /record-progress
 ```
 
 ### 3. Actualizar Flujo de Aprobación en Frontend
+
 ```
 Moderador aprueba proyecto
   ↓
@@ -236,25 +253,25 @@ Frontend muestra "Escrow creado con éxito"
 
 ## 📚 Documentación
 
-| Documento | Propósito |
-|-----------|-----------|
-| `FUNDING_ESCROW.md` | Documentación técnica del contrato |
-| `SETUP.md` | Guía de instalación y compilación |
+| Documento                        | Propósito                              |
+| -------------------------------- | -------------------------------------- |
+| `FUNDING_ESCROW.md`              | Documentación técnica del contrato     |
+| `SETUP.md`                       | Guía de instalación y compilación      |
 | `SMART_CONTRACT_ARCHITECTURE.md` | Documentación de arquitectura completa |
-| `integration_flow.rs` | Ejemplo de integración |
+| `integration_flow.rs`            | Ejemplo de integración                 |
 
 ---
 
 ## 🎯 Estado Actual
 
-| Componente | Estado | Notas |
-|-----------|--------|-------|
-| Smart Contract | ✅ Implementado | 600+ líneas, listo para compilar |
-| Documentación | ✅ Completa | 3 archivos de docs |
-| Estructura Proyecto | ✅ Lista | Cargo.toml, src/lib.rs, ejemplos |
-| Backend Integration | ⏳ Por hacer | Endpoints /deploy-escrow, etc |
-| Frontend Integration | ⏳ Por hacer | UI para hitos y liberación |
-| Arkiv Integration | ⏳ Por hacer | Listener de eventos |
+| Componente           | Estado          | Notas                            |
+| -------------------- | --------------- | -------------------------------- |
+| Smart Contract       | ✅ Implementado | 600+ líneas, listo para compilar |
+| Documentación        | ✅ Completa     | 3 archivos de docs               |
+| Estructura Proyecto  | ✅ Lista        | Cargo.toml, src/lib.rs, ejemplos |
+| Backend Integration  | ⏳ Por hacer    | Endpoints /deploy-escrow, etc    |
+| Frontend Integration | ⏳ Por hacer    | UI para hitos y liberación       |
+| Arkiv Integration    | ⏳ Por hacer    | Listener de eventos              |
 
 ---
 
@@ -271,14 +288,17 @@ Frontend muestra "Escrow creado con éxito"
 ## ✨ Características Destacadas
 
 1. **Liberación Progresiva**
+
    - Fondos divididos en hitos
    - Se libera solo cuando se demuestra progreso
 
 2. **Control de Cancelación**
+
    - Admin puede cancelar si no hay avance
    - Devuelve fondos no liberados
 
 3. **Integración Arkiv**
+
    - Eventos registrados en blockchain
    - Registro inmutable de progreso
 
@@ -292,17 +312,20 @@ Frontend muestra "Escrow creado con éxito"
 ## 🎬 Para Continuar
 
 1. **Test Local**
+
    ```bash
    cd smart-contract/funding-escrow
    cargo +nightly contract test
    ```
 
 2. **Compilar**
+
    ```bash
    cargo +nightly contract build --release
    ```
 
 3. **Deployar a Rococo Testnet**
+
    - Ver `SETUP.md` para instrucciones
 
 4. **Integrar en Backend**

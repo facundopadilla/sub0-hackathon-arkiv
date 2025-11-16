@@ -39,25 +39,31 @@ Agregué un botón **"Reevaluar con AI"** en la vista de **Moderación de Proyec
 ### **Archivo**: `frontend/src/components/FundingOracle/ModerationView.tsx`
 
 **1. Imports Actualizados:**
+
 ```diff
 - import { FileText, Coins, CheckCircle, Link as LinkIcon } from "lucide-react";
 + import { FileText, Coins, CheckCircle, Link as LinkIcon, Zap, Loader } from "lucide-react";
 ```
 
 **2. Estados Agregados:**
+
 ```typescript
 const [evaluatingId, setEvaluatingId] = useState<number | null>(null);
 const [evaluationMessage, setEvaluationMessage] = useState<string | null>(null);
 ```
 
 **3. Nueva Función:**
+
 ```typescript
-const handleReEvaluateProject = async (projectId: number, projectName: string) => {
+const handleReEvaluateProject = async (
+  projectId: number,
+  projectName: string
+) => {
   setEvaluatingId(projectId);
   setEvaluationMessage(null);
   try {
     const result = await ProjectService.evaluateProject(projectId);
-    
+
     // Actualizar proyecto seleccionado
     if (selectedProject && selectedProject.id === projectId) {
       setSelectedProject({
@@ -68,19 +74,24 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
     }
 
     // Actualizar lista
-    setPendingProjects(pendingProjects.map(p => 
-      p.id === projectId 
-        ? { ...p, ai_score: result.ai_score, status: result.decision }
-        : p
-    ));
-    
+    setPendingProjects(
+      pendingProjects.map((p) =>
+        p.id === projectId
+          ? { ...p, ai_score: result.ai_score, status: result.decision }
+          : p
+      )
+    );
+
     // Mostrar mensaje
-    const message = `✅ ${projectName} reevaluado: ${(result.ai_score * 100).toFixed(0)}% (${result.decision})`;
+    const message = `✅ ${projectName} reevaluado: ${(
+      result.ai_score * 100
+    ).toFixed(0)}% (${result.decision})`;
     setEvaluationMessage(message);
     onNotification(message, "success");
     setTimeout(() => setEvaluationMessage(null), 5000);
   } catch (err) {
-    const errorMsg = err instanceof Error ? err.message : "Error reevaluando proyecto";
+    const errorMsg =
+      err instanceof Error ? err.message : "Error reevaluando proyecto";
     setEvaluationMessage(`❌ Error: ${errorMsg}`);
     onNotification(`Error: ${errorMsg}`, "error");
     setTimeout(() => setEvaluationMessage(null), 5000);
@@ -91,15 +102,15 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
 ```
 
 **4. Botón en JSX:**
+
 ```tsx
-{/* Re-evaluate Button */}
+{
+  /* Re-evaluate Button */
+}
 <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
   <button
     onClick={() =>
-      handleReEvaluateProject(
-        selectedProject.id || 0,
-        selectedProject.name
-      )
+      handleReEvaluateProject(selectedProject.id || 0, selectedProject.name)
     }
     disabled={evaluatingId === selectedProject.id}
     className={`w-full px-4 py-2 rounded text-sm font-semibold flex items-center justify-center space-x-2 transition-all ${
@@ -125,7 +136,7 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
       {evaluationMessage}
     </p>
   )}
-</div>
+</div>;
 ```
 
 ---
@@ -160,12 +171,12 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
 
 ## 🎨 Estados del Botón
 
-| Estado | Visual | Comportamiento |
-|--------|--------|----------------|
-| Normal | Purple, interactivo | Click → Reevalúa |
+| Estado    | Visual                  | Comportamiento      |
+| --------- | ----------------------- | ------------------- |
+| Normal    | Purple, interactivo     | Click → Reevalúa    |
 | Evaluando | Gris, disabled, spinner | Espera respuesta AI |
-| Error | Rojo, mensaje error | Se desvanece en 5s |
-| Éxito | Verde, mensaje OK | Se desvanece en 5s |
+| Error     | Rojo, mensaje error     | Se desvanece en 5s  |
+| Éxito     | Verde, mensaje OK       | Se desvanece en 5s  |
 
 ---
 
@@ -185,6 +196,7 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
 ## 📝 Posicionamiento en UI
 
 **Antes:**
+
 ```
 ┌──────────────────────────────┐
 │ 📋 Información: AI Score     │
@@ -194,6 +206,7 @@ const handleReEvaluateProject = async (projectId: number, projectName: string) =
 ```
 
 **Después:**
+
 ```
 ┌──────────────────────────────┐
 │ 📋 Información: AI Score     │
@@ -239,12 +252,12 @@ Response:
 
 ## 📊 Changelog
 
-| Archivo | Líneas | Cambio |
-|---------|--------|--------|
-| `ModerationView.tsx` | +2 | Imports (Zap, Loader) |
-| `ModerationView.tsx` | +2 | Estados (evaluatingId, evaluationMessage) |
-| `ModerationView.tsx` | +30 | Función handleReEvaluateProject |
-| `ModerationView.tsx` | +25 | Button JSX + mensaje |
+| Archivo              | Líneas | Cambio                                    |
+| -------------------- | ------ | ----------------------------------------- |
+| `ModerationView.tsx` | +2     | Imports (Zap, Loader)                     |
+| `ModerationView.tsx` | +2     | Estados (evaluatingId, evaluationMessage) |
+| `ModerationView.tsx` | +30    | Función handleReEvaluateProject           |
+| `ModerationView.tsx` | +25    | Button JSX + mensaje                      |
 
 **Total**: 59 líneas agregadas ✅
 
@@ -253,6 +266,7 @@ Response:
 ## 🎉 Resultado
 
 Ahora los moderadores pueden:
+
 1. ✅ Ver proyectos pendientes
 2. ✅ Seleccionar un proyecto para revisar
 3. ✅ **Reevaluar con AI antes de decidir**

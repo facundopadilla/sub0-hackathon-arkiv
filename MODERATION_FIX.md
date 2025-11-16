@@ -45,6 +45,7 @@ async def save_sponsor(payload: SponsorRequest, ...):
 ## 📊 Flujo Correcto Ahora
 
 ### **Paso 1: Usuario Envía Proyecto**
+
 ```
 Frontend: Llama submitProject()
 Backend: POST /sponsor
@@ -54,6 +55,7 @@ Frontend: Notificación de éxito
 ```
 
 ### **Paso 2: Moderador Revisa**
+
 ```
 Frontend: Ve pestaña "Moderación"
 Backend: GET /sponsored?status_filter=submitted
@@ -62,6 +64,7 @@ Frontend: Muestra lista de pendientes ✅
 ```
 
 ### **Paso 3: Moderador Reevalúa (Opcional)**
+
 ```
 Frontend: Click "⚡ Reevaluar con AI"
 Backend: POST /evaluate?project_id=1
@@ -72,6 +75,7 @@ Frontend: Score se actualiza ✅
 ```
 
 ### **Paso 4: Moderador Aprueba/Rechaza**
+
 ```
 Frontend: Click "✅ Aprobar" o "❌ Rechazar"
 Backend: PUT /sponsored/1 { status: "approved" o "rejected" }
@@ -79,6 +83,7 @@ DB: SponsoredProject { status: "approved", ... }
 ```
 
 ### **Paso 5: Proyectos Aprobados en Arkiv**
+
 ```
 Frontend: Ve pestaña "Proyectos en Arkiv"
 Backend: GET /sponsored?status_filter=approved
@@ -119,27 +124,30 @@ Frontend: Muestra proyectos en producción ✅
 
 ## 📊 Visibilidad por Pestaña
 
-| Pestaña | Estados Mostrados | Función |
-|---------|------------------|---------|
-| **Moderación** | submitted | Revisar pendientes |
-| **Proyectos Arkiv** | approved | Ver en producción |
+| Pestaña             | Estados Mostrados | Función            |
+| ------------------- | ----------------- | ------------------ |
+| **Moderación**      | submitted         | Revisar pendientes |
+| **Proyectos Arkiv** | approved          | Ver en producción  |
 
 ---
 
 ## 🧪 Testing
 
 ### Test 1: Enviar Proyecto
+
 1. Ve a "Enviar Proyecto"
 2. Completa el formulario
 3. Click "Enviar a Evaluación"
 4. **Resultado**: Notificación de éxito ✅
 
 ### Test 2: Ver en Moderación
+
 1. Ve a "Moderación"
 2. **Resultado**: Debería ver el proyecto recién enviado ✅
 3. Status debe ser "submitted"
 
 ### Test 3: Moderar Proyecto
+
 1. Selecciona proyecto en Moderación
 2. Lee detalles
 3. Click "✅ Aprobar Proyecto"
@@ -147,6 +155,7 @@ Frontend: Muestra proyectos en producción ✅
 5. **Resultado**: Proyecto aparece en "Proyectos en Arkiv" ✅
 
 ### Test 4: Verificar en Arkiv
+
 1. Ve a "Proyectos en Arkiv"
 2. **Resultado**: Ver proyecto aprobado ✅
 
@@ -158,7 +167,7 @@ Frontend: Muestra proyectos en producción ✅
 ✅ fix: Moderación mostraba 0 proyectos - Backend
 
 src/routes/v1/arkiv.py:
-- Cambiar "status": payload.decision 
+- Cambiar "status": payload.decision
   a "status": "submitted"
 - Ahora todos los proyectos nuevos se guardan como "submitted"
 - Moderadores pueden ver y revisar en pestaña "Moderación"

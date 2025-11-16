@@ -5,11 +5,13 @@
 Se agregó funcionalidad completa para **reevaluar proyectos con AI** en dos vistas diferentes:
 
 ### 1️⃣ **Proyectos en Arkiv** (Vista de Lectura)
+
 - ✅ Botón "⚡ Evaluar con AI" en cada tarjeta de proyecto
 - ✅ Evalúa proyectos blockchain
 - ✅ Actualiza score en tiempo real
 
 ### 2️⃣ **Moderación de Proyectos** (Vista de Moderación) ← **NUEVA**
+
 - ✅ Botón "⚡ Reevaluar con AI" en panel de detalles
 - ✅ Reevalúa proyectos pendientes antes de decidir
 - ✅ Actualiza score y status en la lista
@@ -21,12 +23,12 @@ Se agregó funcionalidad completa para **reevaluar proyectos con AI** en dos vis
 
 ### **Frontend**
 
-| Archivo | Cambios | Estado |
-|---------|---------|--------|
-| `frontend/src/config/api.ts` | +2 líneas | ✅ Done |
-| `frontend/src/services/projectService.ts` | +5 líneas | ✅ Done |
+| Archivo                                            | Cambios    | Estado  |
+| -------------------------------------------------- | ---------- | ------- |
+| `frontend/src/config/api.ts`                       | +2 líneas  | ✅ Done |
+| `frontend/src/services/projectService.ts`          | +5 líneas  | ✅ Done |
 | `frontend/src/components/.../ProjectsListView.tsx` | +50 líneas | ✅ Done |
-| `frontend/src/components/.../ModerationView.tsx` | +59 líneas | ✅ Done |
+| `frontend/src/components/.../ModerationView.tsx`   | +59 líneas | ✅ Done |
 
 **Total Frontend**: 116 líneas agregadas
 
@@ -35,6 +37,7 @@ Se agregó funcionalidad completa para **reevaluar proyectos con AI** en dos vis
 ## 🚀 Cómo Funciona
 
 ### **En Proyectos en Arkiv:**
+
 ```
 Usuario → Click "⚡ Evaluar con AI"
     ↓
@@ -48,6 +51,7 @@ Mensaje de éxito desaparece en 5s
 ```
 
 ### **En Moderación:**
+
 ```
 Moderador → Selecciona proyecto
     ↓
@@ -94,23 +98,27 @@ AHORA:
 ## ✅ Funcionalidades
 
 ### **Botones Reevaluar**
+
 - ✅ Visible en ambas vistas
 - ✅ Estado "Evaluando..." durante proceso
 - ✅ Spinner animado
 - ✅ Desactivado durante evaluación
 
 ### **Actualización de Datos**
+
 - ✅ Score se actualiza en tiempo real
 - ✅ Status cambia (approve/reject/borderline)
 - ✅ Cambios en lista Y en panel de detalles
 
 ### **Feedback Visual**
+
 - ✅ Mensajes de éxito (verde)
 - ✅ Mensajes de error (rojo)
 - ✅ Auto-dismiss en 5 segundos
 - ✅ Integración con notificaciones
 
 ### **Experiencia de Usuario**
+
 - ✅ Sin errores de compilación
 - ✅ Responsive design
 - ✅ Hover effects
@@ -121,11 +129,13 @@ AHORA:
 ## 🔗 API Usado
 
 **Endpoint:**
+
 ```bash
 POST /api/v1/arkiv/evaluate?project_id=1
 ```
 
 **Response:**
+
 ```json
 {
   "ai_score": 0.75,
@@ -139,6 +149,7 @@ POST /api/v1/arkiv/evaluate?project_id=1
 ## 🧪 Testing Quick Guide
 
 ### **Test 1: Proyectos en Arkiv**
+
 1. Abre http://localhost:5173
 2. Ve a "Proyectos en Arkiv"
 3. Busca un proyecto
@@ -146,6 +157,7 @@ POST /api/v1/arkiv/evaluate?project_id=1
 5. Verifica score se actualiza
 
 ### **Test 2: Moderación**
+
 1. Abre http://localhost:5173
 2. Ve a "Moderación"
 3. Selecciona un proyecto
@@ -157,15 +169,15 @@ POST /api/v1/arkiv/evaluate?project_id=1
 
 ## 📊 Estadísticas
 
-| Métrica | Valor |
-|---------|-------|
-| Archivos modificados | 4 |
-| Líneas agregadas | 116 |
-| Componentes con botón | 2 |
-| Nuevas funciones | 3 |
-| Nuevas interfaces | 1 |
-| Endpoints usados | 1 |
-| Errores compilación | 0 |
+| Métrica               | Valor |
+| --------------------- | ----- |
+| Archivos modificados  | 4     |
+| Líneas agregadas      | 116   |
+| Componentes con botón | 2     |
+| Nuevas funciones      | 3     |
+| Nuevas interfaces     | 1     |
+| Endpoints usados      | 1     |
+| Errores compilación   | 0     |
 
 ---
 
@@ -229,6 +241,7 @@ POST /api/v1/arkiv/evaluate?project_id=1
 ## 🚀 Ready to Deploy
 
 El sistema está **100% funcional** y listo para:
+
 - ✅ Usuarios enviando proyectos
 - ✅ Sistema evaluando con AI
 - ✅ Moderadores reevaluando

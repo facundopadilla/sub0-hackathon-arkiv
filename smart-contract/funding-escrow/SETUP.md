@@ -9,23 +9,27 @@
 ## Instalación de Herramientas
 
 ### 1. Instalar Rust (si no lo tienes)
+
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 ```
 
 ### 2. Agregar toolchain nightly
+
 ```bash
 rustup toolchain install nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
 ```
 
 ### 3. Instalar cargo-contract
+
 ```bash
 cargo +nightly install cargo-contract --locked
 ```
 
 Verificar instalación:
+
 ```bash
 cargo contract --version
 ```
@@ -41,6 +45,7 @@ cargo +nightly contract build --release
 ```
 
 Esto genera:
+
 - `target/ink/funding_escrow.wasm` - Contrato compilado
 - `target/ink/funding_escrow.json` - Metadata del contrato
 
@@ -123,21 +128,25 @@ funding-escrow/
 ## Troubleshooting
 
 ### Error: `nightly toolchain not found`
+
 ```bash
 rustup toolchain install nightly
 ```
 
 ### Error: `wasm32-unknown-unknown target not found`
+
 ```bash
 rustup target add wasm32-unknown-unknown --toolchain nightly
 ```
 
 ### Error: `cargo contract not found`
+
 ```bash
 cargo +nightly install cargo-contract --locked
 ```
 
 ### Error al compilar: `cannot find attribute macro ink`
+
 Asegurate de tener las dependencias correctas en Cargo.toml
 
 ## Documentación Adicional

@@ -3,6 +3,7 @@
 ## 🎉 Funcionalidades Implementadas
 
 ### **1. Enviar Proyecto** ✅
+
 - Usuario completa formulario
 - Se crea proyecto + hitos
 - Se evalúa con AI (Google GenAI)
@@ -10,12 +11,14 @@
 - Aparece en Moderación
 
 ### **2. Moderación** ✅
+
 - Moderador ve proyectos "submitted"
 - Puede reevaluar con AI
 - Ver detalles completos
 - Aprobar o Rechazar
 
 ### **3. Proyectos en Arkiv** ✅
+
 - Solo muestra "approved"
 - Evaluación con AI en tiempo real
 - Scores se actualizan y persisten
@@ -68,6 +71,7 @@
 ## 🎯 Vistas y Sus Contenidos
 
 ### **Vista: Enviar Proyecto**
+
 ```
 [Formulario]
 ├─ Nombre del Proyecto
@@ -82,6 +86,7 @@
 ```
 
 ### **Vista: Moderación**
+
 ```
 [Lista de Proyectos Pendientes]
 ├─ Filtra: status=submitted
@@ -98,6 +103,7 @@
 ```
 
 ### **Vista: Proyectos en Arkiv**
+
 ```
 [Tarjetas de Proyectos]
 ├─ Filtra: status=approved
@@ -117,7 +123,7 @@
 ```
 submitted ─────────> MODERACIÓN
    │                    ↙      ↘
-   │              REEVALUAR    
+   │              REEVALUAR
    │                  ↓
    │              approved  ← Aprobar
    │              status=
@@ -143,22 +149,23 @@ submitted ─────────> MODERACIÓN
 
 ### **Frontend → Backend**
 
-| Acción | Endpoint | Método |
-|--------|----------|--------|
-| Enviar proyecto | `/projects` | POST |
-| Crear milestones | `/milestones` | POST |
-| Evaluar AI | `/evaluate?project_id=X` | POST |
-| Guardar en Arkiv | `/sponsor` | POST |
-| Ver moderación | `/sponsored?status_filter=submitted` | GET |
-| Ver Arkiv | `/sponsored?status_filter=approved` | GET |
-| Aprobar/Rechazar | `/sponsored/{id}` | PUT |
-| Reevaluar | `/evaluate?project_id=X` | POST |
+| Acción           | Endpoint                             | Método |
+| ---------------- | ------------------------------------ | ------ |
+| Enviar proyecto  | `/projects`                          | POST   |
+| Crear milestones | `/milestones`                        | POST   |
+| Evaluar AI       | `/evaluate?project_id=X`             | POST   |
+| Guardar en Arkiv | `/sponsor`                           | POST   |
+| Ver moderación   | `/sponsored?status_filter=submitted` | GET    |
+| Ver Arkiv        | `/sponsored?status_filter=approved`  | GET    |
+| Aprobar/Rechazar | `/sponsored/{id}`                    | PUT    |
+| Reevaluar        | `/evaluate?project_id=X`             | POST   |
 
 ---
 
 ## 💾 Base de Datos - Tablas Principales
 
 ### **SponsoredProject**
+
 ```sql
 id: INTEGER PK
 project_id: VARCHAR (FK→Project)
@@ -175,6 +182,7 @@ updated_at: TIMESTAMP
 ```
 
 ### **Project**
+
 ```sql
 id: INTEGER PK
 project_id: VARCHAR (unique)
@@ -186,6 +194,7 @@ created_at: TIMESTAMP
 ```
 
 ### **Milestone**
+
 ```sql
 id: INTEGER PK
 project_id: VARCHAR (FK→Project)
@@ -209,7 +218,7 @@ Completa: nombre, desc, repo, presupuesto, hitos
   ↓
 Click: "Enviar a Evaluación"
   ↓
-Sistema: 
+Sistema:
   • POST /projects
   • POST /milestones (2x)
   • POST /evaluate

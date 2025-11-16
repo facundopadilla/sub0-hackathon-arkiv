@@ -41,6 +41,7 @@ FundingEscrowContract {
 ### 3. **Funcionalidades Implementadas**
 
 #### Mensajes (Functions)
+
 - `create_escrow()` - Crear nuevo escrow para un proyecto
 - `add_milestone()` - Añadir hito a un escrow
 - `release_milestone()` - Liberar fondos para un hito
@@ -50,11 +51,13 @@ FundingEscrowContract {
 - `get_project_count()` - Obtener cantidad de proyectos
 
 #### Eventos
+
 - `EscrowCreated` - Se crea un nuevo escrow
 - `FundsReleased` - Se liberan fondos
 - `EscrowCancelled` - Se cancela un escrow
 
 #### Manejo de Errores
+
 ```rust
 pub enum EscrowError {
     InsufficientFunds,
@@ -91,16 +94,19 @@ pub enum EscrowError {
 ## 🔧 Stack Técnico Actual
 
 ### Backend (FastAPI)
+
 - ✅ 20 endpoints operacionales
 - ✅ Endpoint `/api/v1/arkiv/escrow/deploy-escrow` integrado
 - ✅ Base de datos PostgreSQL con campo `contract_address`
 
 ### Frontend (React)
+
 - ✅ Botón 🚀 "Lanzar Proyecto" en ProjectsListView
 - ✅ Integración con ProjectService.deployEscrow()
 - ✅ UI feedback con spinner y mensajes
 
 ### Smart Contract (Rust/ink!)
+
 - ✅ Código compilado exitosamente
 - ✅ 380+ líneas de código Rust
 - ⏳ Pendiente: Deployment a Rococo testnet
@@ -110,22 +116,26 @@ pub enum EscrowError {
 ## 🚀 Próximos Pasos
 
 ### Phase 1: Compilación ✅ COMPLETADO
+
 - ✅ Compilar smart contract
 - ✅ Resolver errores de StorageLayout
 - ✅ Optimizar estructura para ink storage
 
 ### Phase 2: Deployment Local (PRÓXIMO)
+
 - ⏳ Configurar cargo-contract para generar artifacts
 - ⏳ Generar WASM binario optimizado
 - ⏳ Generar metadata JSON
 
 ### Phase 3: Rococo Testnet (DESPUÉS)
+
 - ⏳ Registrar en Rococo faucet
 - ⏳ Obtener ROC tokens
 - ⏳ Desplegar contrato a Rococo
 - ⏳ Capturar dirección del contrato
 
 ### Phase 4: Integración Endpoint (FINAL)
+
 - ⏳ Actualizar `/deploy-escrow` con polkadot-js SDK
 - ⏳ Conectar blockchain real
 - ⏳ Pruebas end-to-end
@@ -134,28 +144,31 @@ pub enum EscrowError {
 
 ## 💾 Archivos Clave
 
-| Archivo | Estado | Descripción |
-|---------|--------|-------------|
-| `smart-contract/funding-escrow/src/lib.rs` | ✅ Compilado | Código principal del contrato |
-| `smart-contract/funding-escrow/src/lib.rs.backup` | 📦 Backup | Versión anterior para referencia |
-| `src/routes/v1/escrow.py` | ✅ Integrado | Endpoint backend |
-| `frontend/src/components/FundingOracle/ProjectsListView.tsx` | ✅ Integrado | Interfaz frontend |
+| Archivo                                                      | Estado       | Descripción                      |
+| ------------------------------------------------------------ | ------------ | -------------------------------- |
+| `smart-contract/funding-escrow/src/lib.rs`                   | ✅ Compilado | Código principal del contrato    |
+| `smart-contract/funding-escrow/src/lib.rs.backup`            | 📦 Backup    | Versión anterior para referencia |
+| `src/routes/v1/escrow.py`                                    | ✅ Integrado | Endpoint backend                 |
+| `frontend/src/components/FundingOracle/ProjectsListView.tsx` | ✅ Integrado | Interfaz frontend                |
 
 ---
 
 ## 📝 Cambios Realizados
 
 ### Smart Contract
+
 - Rediseñó estructura de almacenamiento
 - Cambió de structs complejos a Mappings con tipos primitivos
 - Optimizó para compatibilidad con `ink::storage`
 - Mantuvo todas las funcionalidades del diseño original
 
 ### Backend
+
 - Endpoint ya existía desde commit anterior
 - Sigue operativo y listo para conectarse al contrato real
 
 ### Frontend
+
 - Botón implementado y funcional
 - Llamadas al API correctas
 - UI/UX completa con feedback visual
@@ -172,4 +185,4 @@ Se ha logrado **compilar exitosamente el smart contract** después de resolver l
 
 ---
 
-*Última actualización: 2025-11-16 06:31*
+_Última actualización: 2025-11-16 06:31_

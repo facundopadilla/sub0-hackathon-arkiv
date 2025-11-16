@@ -3,10 +3,12 @@
 ## ❌ Problemas Solucionados
 
 ### 1. Mostraba TODOS los proyectos
+
 - Antes: Mostraba proyectos con cualquier estado (submitted, rejected, etc.)
 - Ahora: ✅ Solo muestra proyectos con status='approved'
 
 ### 2. Scores no se actualizaban en la BD
+
 - Antes: Al reevaluar, solo cambiaba en la UI (memoria)
 - Ahora: ✅ Se guarda en la BD cuando reevalúas
 
@@ -47,13 +49,14 @@
 -       const data = await ProjectService.getFromArkiv();
 +       // Fetch only approved projects from database
 +       const data = await ProjectService.getSponsoredByStatus("approved");
-        
+
         // Asegurar que data es un array
         if (Array.isArray(data)) {
           setProjects(data);
 ```
 
-**Por qué**: 
+**Por qué**:
+
 - `getFromArkiv()` trae el endpoint informativo que retorna dict
 - `getSponsoredByStatus("approved")` trae solo proyectos aprobados del endpoint correcto
 
@@ -63,17 +66,18 @@
   const handleEvaluateProject = async (projectId: number, projectName: string) => {
     try {
       const result = await ProjectService.evaluateProject(projectId);
-      
+
 +     // Actualizar en la BD el nuevo score y status
 +     await ProjectService.updateSponsored(projectId, {
 +       ai_score: result.ai_score,
 +       status: result.decision,
 +     });
-      
+
       // Actualizar el proyecto en la UI
 ```
 
-**Por qué**: 
+**Por qué**:
+
 - Si solo actualizas la UI, los cambios se pierden al recargar
 - Guardar en BD asegura persistencia de datos
 
@@ -82,6 +86,7 @@
 ## 📊 Flujo Antes vs Después
 
 ### ❌ ANTES
+
 ```
 Frontend: getSponsoredByStatus('approved')
 Backend: GET /arkiv/sponsored (sin filtro)
@@ -97,6 +102,7 @@ Resultado: Score volvió al original 😞
 ```
 
 ### ✅ AHORA
+
 ```
 Frontend: getSponsoredByStatus('approved')
 Backend: GET /arkiv/sponsored?status_filter=approved
@@ -119,30 +125,33 @@ Resultado: Score persiste 🎉
 
 ## 📋 Ahora Proyectos en Arkiv Muestra:
 
-| Criterio | Antes | Ahora |
-|----------|-------|-------|
-| Estado mostrado | Todos | Solo approved |
-| Score actualiza | UI solo | UI + BD |
-| Persiste al recargar | ❌ No | ✅ Sí |
-| Reevaluación | Temporal | Permanente |
+| Criterio             | Antes    | Ahora         |
+| -------------------- | -------- | ------------- |
+| Estado mostrado      | Todos    | Solo approved |
+| Score actualiza      | UI solo  | UI + BD       |
+| Persiste al recargar | ❌ No    | ✅ Sí         |
+| Reevaluación         | Temporal | Permanente    |
 
 ---
 
 ## 🎯 Endpoints Usados
 
 ### Para Cargar Proyectos
+
 ```bash
 GET /api/v1/arkiv/sponsored?status_filter=approved
 Response: [{ id, name, ai_score, status='approved', ... }]
 ```
 
 ### Para Reevaluar
+
 ```bash
 POST /api/v1/arkiv/evaluate?project_id=1
 Response: { ai_score: 0.85, decision: "approve", rationale: "..." }
 ```
 
 ### Para Guardar Score
+
 ```bash
 PUT /api/v1/arkiv/sponsored/1
 Body: { ai_score: 0.85, status: "approve" }
@@ -156,6 +165,7 @@ Response: { id, ai_score: 0.85, status: "approve", ... }
 1. **Abre Frontend**: http://localhost:5173
 2. **Ve a**: "Proyectos en Arkiv"
 3. **Verifica**:
+
    - ✅ Solo muestra proyectos aprobados
    - ✅ No hay proyectos "submitted" o "rejected"
    - ✅ Los scores se ven correctos
@@ -170,12 +180,12 @@ Response: { id, ai_score: 0.85, status: "approve", ... }
 
 ## 📝 Changelog
 
-| Cambio | Beneficio |
-|--------|----------|
-| Usar endpoint con filtro | Solo proyectos correctos |
-| Guardar en BD después de evaluar | Datos persistentes |
-| Usar getSponsoredByStatus() | Usa endpoint correcto |
-| updateSponsored() en eval | Sincroniza BD |
+| Cambio                           | Beneficio                |
+| -------------------------------- | ------------------------ |
+| Usar endpoint con filtro         | Solo proyectos correctos |
+| Guardar en BD después de evaluar | Datos persistentes       |
+| Usar getSponsoredByStatus()      | Usa endpoint correcto    |
+| updateSponsored() en eval        | Sincroniza BD            |
 
 ---
 

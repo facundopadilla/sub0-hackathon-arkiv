@@ -3,6 +3,7 @@
 ## 🚀 Start Everything in 2 Steps
 
 ### Step 1: Start Backend
+
 ```bash
 cd /Users/facundo/Proyectos-VSC/Sub0_data
 source .venv/bin/activate
@@ -10,17 +11,20 @@ python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 **You should see:**
+
 ```
 INFO:     Uvicorn running on http://127.0.0.1:8000
 ```
 
 ### Step 2: Start Frontend
+
 ```bash
 cd frontend
 npm run dev
 ```
 
 **You should see:**
+
 ```
 VITE v5.4.21  ready in ... ms
 
@@ -32,6 +36,7 @@ VITE v5.4.21  ready in ... ms
 ## 🎯 Test the Integration
 
 ### 1. Submit a Project (SubmitProjectForm)
+
 1. Open `http://localhost:5173` in browser
 2. Click **"Enviar Proyecto"**
 3. Fill in the form:
@@ -44,11 +49,13 @@ VITE v5.4.21  ready in ... ms
 5. **Expected**: Success notification with Arkiv entity key
 
 ### 2. View Projects (ProjectsListView)
+
 1. Click **"Proyectos en Arkiv"** tab
 2. **Expected**: Your submitted project appears in the list
 3. Verify: AI score (75%), budget ($10,000), chain, repo link
 
 ### 3. Review Pending (ModerationView)
+
 1. Click **"Moderación"** tab
 2. **Expected**: Your project appears in the pending list
 3. Click on the project to see details
@@ -60,6 +67,7 @@ VITE v5.4.21  ready in ... ms
 ## 📱 API Endpoints Used
 
 ### Projects
+
 ```
 POST   /api/v1/arkiv/projects           → Create project
 GET    /api/v1/arkiv/projects           → List all projects
@@ -69,6 +77,7 @@ DELETE /api/v1/arkiv/projects/{id}      → Delete project
 ```
 
 ### Milestones
+
 ```
 POST   /api/v1/arkiv/milestones         → Create milestone
 GET    /api/v1/arkiv/milestones         → List all milestones
@@ -78,6 +87,7 @@ DELETE /api/v1/arkiv/milestones/{id}    → Delete milestone
 ```
 
 ### Sponsored Projects (Database)
+
 ```
 POST   /api/v1/arkiv/sponsored          → Create sponsored project
 GET    /api/v1/arkiv/sponsored          → List all
@@ -87,6 +97,7 @@ DELETE /api/v1/arkiv/sponsored/{id}     → Delete
 ```
 
 ### Arkiv Blockchain
+
 ```
 POST   /api/v1/arkiv/sponsor            → Save to Arkiv blockchain
 GET    /api/v1/arkiv/arkiv-sponsored    → Get from Arkiv blockchain
@@ -97,6 +108,7 @@ GET    /api/v1/arkiv/arkiv-sponsored    → Get from Arkiv blockchain
 ## 📂 Key Files
 
 ### Frontend Structure
+
 ```
 frontend/
 ├── src/
@@ -113,6 +125,7 @@ frontend/
 ```
 
 ### Backend Structure
+
 ```
 src/
 ├── main.py                 ← FastAPI app
@@ -131,11 +144,13 @@ src/
 ## 🧪 Using ProjectService (in Components)
 
 ### Import
+
 ```typescript
 import { ProjectService } from "../../services/projectService";
 ```
 
 ### Create Project
+
 ```typescript
 const project = await ProjectService.createProject({
   project_id: "my-proj",
@@ -146,21 +161,25 @@ const project = await ProjectService.createProject({
 ```
 
 ### Get Projects
+
 ```typescript
 const projects = await ProjectService.getProjects();
 ```
 
 ### Get Pending for Moderation
+
 ```typescript
 const pending = await ProjectService.getSponsoredByStatus("submitted");
 ```
 
 ### Approve a Project
+
 ```typescript
 await ProjectService.updateSponsored(id, { status: "approved" });
 ```
 
 ### Save to Arkiv Blockchain
+
 ```typescript
 const result = await ProjectService.saveToArkiv({
   project: projectData,
@@ -172,12 +191,13 @@ const result = await ProjectService.saveToArkiv({
 ```
 
 ### Submit Complete Project
+
 ```typescript
 const result = await ProjectService.submitProject(
-  projectData,    // Project object
+  projectData, // Project object
   milestonesData, // Array of milestones
-  7.5,            // AI Score
-  "submitted"     // Decision
+  7.5, // AI Score
+  "submitted" // Decision
 );
 ```
 
@@ -186,15 +206,18 @@ const result = await ProjectService.submitProject(
 ## 🔍 Debugging
 
 ### Check Backend Health
+
 ```bash
 curl http://localhost:8000/healthcheck
 ```
 
 ### View API Documentation
+
 - **Swagger UI**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
 ### Check Frontend Console
+
 ```
 Open DevTools: Cmd + Option + I
 Go to Console tab
@@ -202,6 +225,7 @@ Submit project to see API calls
 ```
 
 ### Check Backend Logs
+
 ```
 Look at terminal running: python -m uvicorn ...
 All requests will be logged there
@@ -212,12 +236,15 @@ All requests will be logged there
 ## ❌ Troubleshooting
 
 ### Frontend shows "Cannot GET /"
+
 **Problem**: Frontend dev server not started  
 **Solution**: Run `npm run dev` in frontend folder
 
 ### "Failed to fetch from backend"
+
 **Problem**: Backend not running  
-**Solution**: 
+**Solution**:
+
 ```bash
 cd /Users/facundo/Proyectos-VSC/Sub0_data
 source .venv/bin/activate
@@ -225,14 +252,17 @@ python -m uvicorn src.main:app --reload
 ```
 
 ### CORS Error in Console
+
 **Problem**: Frontend trying to reach wrong URL  
 **Solution**: Check `API_BASE` in `frontend/src/config/api.ts` matches backend URL
 
 ### No projects showing in list
+
 **Problem**: Database is empty  
 **Solution**: Submit a project first via the form
 
 ### Linting errors in IDE
+
 **Problem**: Tailwind CSS class suggestions  
 **Solution**: Ignore - these are just suggestions, not errors
 
@@ -241,6 +271,7 @@ python -m uvicorn src.main:app --reload
 ## 📊 Data Flow Example
 
 ### Submitting a Project
+
 ```
 User fills form
   ↓ (Click Submit)
@@ -268,14 +299,17 @@ Clear form
 ### When you submit a project:
 
 1. **Project Record** (Database)
+
    - project_id, name, repo, budget, etc.
    - Stored in PostgreSQL
 
 2. **Milestone Records** (Database)
+
    - Each milestone linked to project
    - Stored in PostgreSQL
 
 3. **Sponsored Project Record** (Database)
+
    - Links project to blockchain
    - Stores AI score, status, chain info
    - Stored in PostgreSQL
@@ -286,6 +320,7 @@ Clear form
    - Stored on Arkiv blockchain (Polkadot)
 
 ### Result:
+
 - **Database**: 3 tables with project data
 - **Blockchain**: Immutable record in Arkiv
 - **UI**: All components show real data from backend
@@ -295,6 +330,7 @@ Clear form
 ## 🎉 You're All Set!
 
 Your full-stack Web3 funding system is now:
+
 - ✅ Connected (Frontend ↔ Backend)
 - ✅ Functional (All CRUD operations work)
 - ✅ Integrated (Database + Blockchain synced)

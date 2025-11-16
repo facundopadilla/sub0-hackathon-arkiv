@@ -3,17 +3,22 @@
 ## 🎉 What Was Done
 
 ### Problem
+
 Database column `milestone.project_id` was **INTEGER** but model was updated to **VARCHAR (STRING)**, causing type mismatch error:
+
 ```
 column "project_id" is of type integer but expression is of type character varying
 ```
 
 ### Solution
+
 Ran `reset_db.py` script to:
+
 1. **Drop** all existing tables (project, milestone, sponsoredproject)
 2. **Recreate** them with the correct schema
 
 ### Result
+
 ✅ All tables recreated with correct column types:
 
 ```sql
@@ -33,10 +38,10 @@ CREATE TABLE milestone (
 
 ## 📊 Tables Recreated
 
-| Table | Columns | Status |
-|-------|---------|--------|
-| **project** | id, created_at, updated_at, project_id (VARCHAR), name, repo, description, budget | ✅ Created |
-| **milestone** | id, created_at, updated_at, project_id (VARCHAR), name, description, amount | ✅ Created |
+| Table                | Columns                                                                                                                      | Status     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **project**          | id, created_at, updated_at, project_id (VARCHAR), name, repo, description, budget                                            | ✅ Created |
+| **milestone**        | id, created_at, updated_at, project_id (VARCHAR), name, description, amount                                                  | ✅ Created |
 | **sponsoredproject** | id, created_at, updated_at, project_id (VARCHAR), name, repo, ai_score, status, contract_address, chain, budget, description | ✅ Created |
 
 ---
@@ -54,6 +59,7 @@ CREATE TABLE milestone (
 ## 🚀 Test It Now
 
 ### In Browser (http://localhost:5173):
+
 1. Click **"Enviar Proyecto"**
 2. Fill the form:
    - Project ID: `test-project-001` (string ✅)
@@ -64,6 +70,7 @@ CREATE TABLE milestone (
 3. Click **"Enviar a Evaluación"**
 
 ### Expected Result
+
 ✅ **Success!** Project submitted and stored in database
 
 ✅ **Project saved** to PostgreSQL with VARCHAR project_id
@@ -78,12 +85,12 @@ CREATE TABLE milestone (
 
 ## 📝 All Backend Fixes Summary
 
-| Fix | File | Status |
-|-----|------|--------|
-| CORS middleware | `src/main.py` | ✅ Applied |
-| Milestone schema | `src/schemas/milestone.py` | ✅ Updated |
-| Milestone model | `src/models/milestone.py` | ✅ Updated (INT → VARCHAR) |
-| Database schema | `reset_db.py` (new script) | ✅ Executed |
+| Fix              | File                       | Status                     |
+| ---------------- | -------------------------- | -------------------------- |
+| CORS middleware  | `src/main.py`              | ✅ Applied                 |
+| Milestone schema | `src/schemas/milestone.py` | ✅ Updated                 |
+| Milestone model  | `src/models/milestone.py`  | ✅ Updated (INT → VARCHAR) |
+| Database schema  | `reset_db.py` (new script) | ✅ Executed                |
 
 ---
 

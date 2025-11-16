@@ -15,6 +15,7 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 ## 📦 What Was Built
 
 ### Phase 1: Backend (Earlier in session) ✅
+
 - 19 CRUD endpoints for Projects, Milestones, Sponsored Projects
 - PostgreSQL database with SQLModel async ORM
 - Arkiv blockchain integration
@@ -23,11 +24,11 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 - Full API documentation (Swagger)
 
 ### Phase 2: Frontend Infrastructure (Just Completed) ✅
+
 - **API Configuration Layer** (`frontend/src/config/api.ts`)
   - 97 lines of centralized endpoint definitions
   - Generic `apiCall()` helper with error handling
   - 17 convenience methods
-  
 - **TypeScript Service Layer** (`frontend/src/services/projectService.ts`)
   - 206 lines with 17 static methods
   - Full CRUD operations
@@ -37,6 +38,7 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 ### Phase 3: Component Integration (Just Completed) ✅
 
 #### SubmitProjectForm
+
 - ✅ Replaced mock submission with real API call
 - ✅ Calls `ProjectService.submitProject()`
 - ✅ Creates project → milestones → saves to Arkiv
@@ -44,6 +46,7 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 - ✅ Proper error handling and form reset
 
 #### ProjectsListView
+
 - ✅ Removed hardcoded mock projects
 - ✅ Calls `ProjectService.getFromArkiv()`
 - ✅ Displays projects from Arkiv blockchain
@@ -52,6 +55,7 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 - ✅ Responsive 3-column grid layout
 
 #### ModerationView
+
 - ✅ Replaced 3 hardcoded mock projects
 - ✅ Calls `ProjectService.getSponsoredByStatus("submitted")`
 - ✅ Displays pending projects for review
@@ -64,12 +68,14 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 ## 🔧 Technical Details
 
 ### Frontend Stack
+
 - **React** 18.3.1 with TypeScript
 - **Vite** 5.4.21 (dev server on :5173)
 - **Tailwind CSS** 4.1.17
 - **Lucide React** for icons
 
 ### Backend Stack
+
 - **FastAPI** (async)
 - **PostgreSQL** (Neon cloud)
 - **SQLModel** (async ORM)
@@ -77,6 +83,7 @@ Successfully integrated React/Vite frontend with FastAPI + Arkiv backend. All th
 - **Google GenAI** (gemini-2.5-flash)
 
 ### Data Flow
+
 ```
 React Component
     ↓
@@ -100,6 +107,7 @@ UI Update + Notification
 ## 📊 Files Created/Modified
 
 ### New Files Created
+
 1. ✅ `frontend/src/config/api.ts` - API configuration (97 lines)
 2. ✅ `frontend/src/services/projectService.ts` - Service layer (206 lines)
 3. ✅ `FRONTEND_INTEGRATION.md` - Integration guide
@@ -107,11 +115,13 @@ UI Update + Notification
 5. ✅ `QUICK_START.md` - Quick reference guide
 
 ### Files Modified
+
 1. ✅ `frontend/src/components/FundingOracle/SubmitProjectForm.tsx` - Real API integration
 2. ✅ `frontend/src/components/FundingOracle/ProjectsListView.tsx` - Real API integration
 3. ✅ `frontend/src/components/FundingOracle/ModerationView.tsx` - Real API integration
 
 ### No Backend Changes Required
+
 - ✅ Backend was already complete with all 19 endpoints
 - ✅ All endpoints are working correctly
 - ✅ Database properly configured
@@ -172,6 +182,7 @@ All components ready for end-to-end testing:
 ## 🚀 How to Run
 
 ### Terminal 1: Backend
+
 ```bash
 cd /Users/facundo/Proyectos-VSC/Sub0_data
 source .venv/bin/activate
@@ -179,6 +190,7 @@ python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ### Terminal 2: Frontend
+
 ```bash
 cd frontend
 npm run dev
@@ -207,25 +219,30 @@ npm run dev
 ### When user submits a project:
 
 1. **Component** (SubmitProjectForm)
+
    - Collects form data
    - Calls `ProjectService.submitProject()`
 
 2. **Service Layer** (ProjectService)
+
    - Validates data
    - Calls backend endpoints in sequence
    - Handles errors
 
 3. **API Config** (config/api.ts)
+
    - Routes requests to correct endpoints
    - Handles HTTP details
 
 4. **Backend** (FastAPI)
+
    - Creates project in database
    - Creates milestones in database
    - Saves to Arkiv blockchain
    - Returns entity key
 
 5. **Component** (SubmitProjectForm)
+
    - Receives response
    - Shows success notification with entity key
    - Resets form
@@ -241,12 +258,14 @@ npm run dev
 ## 📈 Metrics
 
 ### Code Created
+
 - **API Config**: 97 lines
 - **Service Layer**: 206 lines
 - **Component Updates**: ~100 lines total
 - **Documentation**: 3 comprehensive guides
 
 ### API Endpoints Used
+
 - **Projects**: 5 endpoints
 - **Milestones**: 6 endpoints (with filtering)
 - **Sponsored**: 6 endpoints (with filtering)
@@ -254,6 +273,7 @@ npm run dev
 - **Total**: 19 endpoints ✅ All working
 
 ### Components Updated
+
 - **SubmitProjectForm**: Real submission
 - **ProjectsListView**: Real data fetching
 - **ModerationView**: Real status updates
@@ -279,12 +299,14 @@ npm run dev
 ## 🎉 Final Status
 
 **Backend**: ✅ **PRODUCTION READY**
+
 - 19 endpoints tested and working
 - Database configured and populated
 - Arkiv blockchain integrated
 - Error handling implemented
 
 **Frontend**: ✅ **FULLY INTEGRATED**
+
 - All components connected to real API
 - Type-safe with TypeScript
 - Proper error handling
@@ -292,6 +314,7 @@ npm run dev
 - User notifications
 
 **Documentation**: ✅ **COMPLETE**
+
 - 6 markdown guides provided
 - Quick start instructions
 - API usage examples
@@ -304,12 +327,14 @@ npm run dev
 ## 🔗 Next Steps
 
 1. **Test End-to-End**
+
    - Submit project through UI
    - Verify in database
    - Check on blockchain
    - View in all components
 
 2. **Optional Enhancements**
+
    - Add real-time updates (WebSocket)
    - Implement user authentication
    - Add search/filtering
@@ -326,6 +351,7 @@ npm run dev
 ## 📞 Contact & Support
 
 All code is fully documented and commented. Refer to:
+
 - `QUICK_START.md` for immediate help
 - `FRONTEND_INTEGRATION.md` for detailed guide
 - `COMPONENT_INTEGRATION_SUMMARY.md` for architecture

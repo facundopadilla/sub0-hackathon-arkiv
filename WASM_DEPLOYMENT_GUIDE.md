@@ -23,6 +23,7 @@ La compilación a WASM con `wasm32-unknown-unknown` target falla por incompatibi
 ## 🎯 Siguiente Paso Recomendado
 
 ### Opción 1: Esperar cargo-contract (SIMPLE - RECOMENDADO)
+
 ```bash
 # En otra terminal, ejecutar:
 cargo +nightly install cargo-contract --force
@@ -33,7 +34,7 @@ cargo +nightly contract build --release
 
 # Genera automáticamente:
 # - target/ink/funding_escrow.wasm
-# - target/ink/funding_escrow.contract  
+# - target/ink/funding_escrow.contract
 # - target/ink/funding_escrow.opt.wasm
 ```
 
@@ -43,6 +44,7 @@ cargo +nightly contract build --release
 ---
 
 ### Opción 2: Usar Polkadot.py sin WASM local
+
 ```python
 # En escrow.py, usar un bytecode conocido o:
 # 1. Descargar WASM de repositorio público
@@ -55,6 +57,7 @@ cargo +nightly contract build --release
 ---
 
 ### Opción 3: Docker (MÁXIMO CONTROL)
+
 ```bash
 docker run --rm -v $PWD:/code paritytech/ink-dev \
   cargo +nightly contract build --release
@@ -67,13 +70,13 @@ docker run --rm -v $PWD:/code paritytech/ink-dev \
 
 ## 🔄 Estado Actual del Sistema
 
-| Layer | Status | Blocker |
-|-------|--------|---------|
-| SC Código | ✅ Compilado | ❌ Ninguno |
-| WASM Binary | ⏳ En espera | ⏳ cargo-contract |
-| Backend Endpoint | ✅ Listo | ❌ Ninguno |
-| Frontend Button | ✅ Funcional | ❌ Ninguno |
-| Rococo Access | ⏳ No iniciado | ❌ Ninguno |
+| Layer            | Status         | Blocker           |
+| ---------------- | -------------- | ----------------- |
+| SC Código        | ✅ Compilado   | ❌ Ninguno        |
+| WASM Binary      | ⏳ En espera   | ⏳ cargo-contract |
+| Backend Endpoint | ✅ Listo       | ❌ Ninguno        |
+| Frontend Button  | ✅ Funcional   | ❌ Ninguno        |
+| Rococo Access    | ⏳ No iniciado | ❌ Ninguno        |
 
 ---
 
@@ -89,10 +92,11 @@ docker run --rm -v $PWD:/code paritytech/ink-dev \
 ## 💡 Alternativa Más Rápida
 
 Si quieres probar el flujo completo HOY sin esperar WASM:
+
 1. Usar contrato pre-compilado de ejemplo en Rococo
 2. Probar endpoint con ese contrato
 3. Luego desplegar el nuestro cuando cargo-contract esté listo
 
 ---
 
-*Generado: 2025-11-16*
+_Generado: 2025-11-16_

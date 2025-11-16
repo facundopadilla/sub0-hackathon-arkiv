@@ -3,9 +3,11 @@
 ## 🔧 All Issues Fixed
 
 ### Fix 1: CORS Enabled ✅
+
 **File**: `src/main.py`
 
 Added CORS middleware so frontend can communicate with backend:
+
 ```python
 app.add_middleware(
     CORSMiddleware,
@@ -17,9 +19,11 @@ app.add_middleware(
 ```
 
 ### Fix 2: Milestone Schema Updated ✅
+
 **File**: `src/schemas/milestone.py`
 
 Added `project_id: str` to MilestoneBase:
+
 ```python
 class MilestoneBase(BaseModel):
     project_id: str          # ← ADDED
@@ -29,17 +33,20 @@ class MilestoneBase(BaseModel):
 ```
 
 ### Fix 3: Milestone Model Fixed ✅
+
 **File**: `src/models/milestone.py`
 
 Changed `project_id` from `int` to `str` to match Project model:
 
 **Before**:
+
 ```python
 class Milestone(BaseTable, table=True):
     project_id: int | None = Field(default=None, foreign_key="project.id", index=True)
 ```
 
 **After**:
+
 ```python
 class Milestone(BaseTable, table=True):
     project_id: str = Field(index=True, nullable=False)
@@ -66,8 +73,9 @@ python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ## ✨ After Restart
 
 All these errors will be fixed:
+
 - ❌ CORS errors → ✅ Gone
-- ❌ `422 Unprocessable Entity` → ✅ Gone  
+- ❌ `422 Unprocessable Entity` → ✅ Gone
 - ❌ `int_parsing` error → ✅ Gone
 
 ---
@@ -86,6 +94,7 @@ Once backend restarts, try submitting a project:
 ## 📊 System Status
 
 After restart:
+
 - ✅ Frontend: http://localhost:5173 (running)
 - ✅ Backend: http://localhost:8000 (restart needed)
 - ✅ Database: PostgreSQL (connected)

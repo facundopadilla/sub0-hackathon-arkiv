@@ -3,20 +3,24 @@
 ## 🎯 Objetivos Completados
 
 ### 1. ✅ Moderación - Mostrar Todos los Proyectos
+
 **Problema:** Moderación solo mostraba proyectos "submitted", no los rechazados
 **Solución:** Cambiar a `getSponsored()` para mostrar TODOS los proyectos
 **Archivos:** `frontend/src/components/FundingOracle/ModerationView.tsx`
 **Commit:** `24a396f`
 
 ### 2. ✅ Smart Contract Funding Escrow Completo
+
 **Objetivo:** Crear sistema de liberación progresiva de fondos en Polkadot
-**Alcance:** 
+**Alcance:**
+
 - Contrato ink! con escrow inteligente
 - Sistema de hitos/milestones
 - Cancelación con devolución de fondos
 - Integración con Arkiv para registrar progreso
 
 **Archivos Creados:**
+
 - `smart-contract/funding-escrow/src/lib.rs` - Contrato (600+ líneas)
 - `smart-contract/FUNDING_ESCROW.md` - Documentación técnica
 - `smart-contract/funding-escrow/SETUP.md` - Guía de instalación
@@ -31,36 +35,40 @@
 ## 📊 Estado del Sistema
 
 ### Frontend
-| Componente | Estado | Notas |
-|-----------|--------|-------|
-| SubmitProjectForm | ✅ Funcional | Crear proyectos |
-| ModerationView | ✅ Actualizado | Muestra todos los proyectos |
-| ProjectsListView | ✅ Funcional | Muestra solo aprobados |
-| Evaluación AI | ✅ Persistente | Scores se guardan en BD |
+
+| Componente        | Estado         | Notas                       |
+| ----------------- | -------------- | --------------------------- |
+| SubmitProjectForm | ✅ Funcional   | Crear proyectos             |
+| ModerationView    | ✅ Actualizado | Muestra todos los proyectos |
+| ProjectsListView  | ✅ Funcional   | Muestra solo aprobados      |
+| Evaluación AI     | ✅ Persistente | Scores se guardan en BD     |
 
 ### Backend
-| Endpoint | Estado | Notas |
-|----------|--------|-------|
-| POST /projects | ✅ Funcional | Crear proyecto |
-| POST /sponsor | ✅ Funcional | Guardar en sponsoredproject |
-| POST /approve | ✅ Funcional | Aprobar y cambiar status |
-| POST /evaluate | ✅ Funcional | Evaluación con AI |
-| GET /sponsored | ✅ Funcional | Listar proyectos |
+
+| Endpoint       | Estado       | Notas                       |
+| -------------- | ------------ | --------------------------- |
+| POST /projects | ✅ Funcional | Crear proyecto              |
+| POST /sponsor  | ✅ Funcional | Guardar en sponsoredproject |
+| POST /approve  | ✅ Funcional | Aprobar y cambiar status    |
+| POST /evaluate | ✅ Funcional | Evaluación con AI           |
+| GET /sponsored | ✅ Funcional | Listar proyectos            |
 
 ### Base de Datos
-| Tabla | Estado | Notas |
-|-------|--------|-------|
-| project | ✅ OK | project_id VARCHAR |
-| sponsoredproject | ✅ OK | Incluye contract_address (para SC) |
-| milestone | ✅ OK | project_id VARCHAR |
+
+| Tabla            | Estado | Notas                              |
+| ---------------- | ------ | ---------------------------------- |
+| project          | ✅ OK  | project_id VARCHAR                 |
+| sponsoredproject | ✅ OK  | Incluye contract_address (para SC) |
+| milestone        | ✅ OK  | project_id VARCHAR                 |
 
 ### Smart Contract
-| Componente | Estado | Notas |
-|-----------|--------|-------|
-| Contrato ink! | ✅ Implementado | Listo para compilar |
-| Métodos | ✅ Completos | 7 métodos públicos |
-| Eventos | ✅ Completos | 4 eventos implementados |
-| Tests | ⏳ Por hacer | Estructura lista para tests |
+
+| Componente    | Estado          | Notas                       |
+| ------------- | --------------- | --------------------------- |
+| Contrato ink! | ✅ Implementado | Listo para compilar         |
+| Métodos       | ✅ Completos    | 7 métodos públicos          |
+| Eventos       | ✅ Completos    | 4 eventos implementados     |
+| Tests         | ⏳ Por hacer    | Estructura lista para tests |
 
 ---
 
@@ -107,6 +115,7 @@
 ## 🛠️ Cambios Realizados
 
 ### Frontend
+
 ```diff
 # ModerationView.tsx
 - getSponsoredByStatus("submitted")  // Solo submitted
@@ -114,6 +123,7 @@
 ```
 
 ### Smart Contract (600+ líneas nuevas)
+
 ```rust
 pub fn create_escrow() {}           // Crear escrow con hitos
 pub fn release_milestone() {}        // Liberar fondo del hito
@@ -129,24 +139,28 @@ pub fn get_project_metadata() {}     // Query: metadatos
 ## 📚 Documentación Entregada
 
 1. **FUNDING_ESCROW.md** - Documentación técnica del contrato
+
    - Métodos y parameters
    - Eventos
    - Manejo de errores
    - Seguridad
 
 2. **SETUP.md** - Guía de instalación y compilación
+
    - Requisitos
    - Instalación de Rust/ink!
    - Compilación
    - Deployment en testnet
 
 3. **SMART_CONTRACT_ARCHITECTURE.md** - Arquitectura completa del sistema
+
    - Diagrama de flujo
    - Integración con Arkiv
    - Esquema de BD
    - Endpoints nuevos
 
 4. **SMART_CONTRACT_COMPLETE.md** - Resumen de implementación
+
    - Qué se creó
    - Flujo completo
    - Ejemplos prácticos
@@ -159,6 +173,7 @@ pub fn get_project_metadata() {}     // Query: metadatos
 ## 🚀 Próximos Pasos
 
 ### Fase 1: Compilación (Fácil - 1 hora)
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release
@@ -166,6 +181,7 @@ cargo +nightly contract build --release
 ```
 
 ### Fase 2: Backend Integration (Medio - 2-3 horas)
+
 ```python
 # src/routes/v1/escrow.py - NUEVO archivo
 @router.post("/deploy-escrow")
@@ -186,6 +202,7 @@ async def record_progress(project_id, milestone_index, notes):
 ```
 
 ### Fase 3: Frontend Integration (Medio - 2 horas)
+
 ```typescript
 // Mostrar hitos cuando proyecto está aprobado
 // Botón para liberar fondos (solo admin)
@@ -193,6 +210,7 @@ async def record_progress(project_id, milestone_index, notes):
 ```
 
 ### Fase 4: Arkiv Integration (Difícil - 3-4 horas)
+
 ```python
 # Escuchar eventos del smart contract
 # Actualizar entidad en Arkiv en tiempo real
@@ -203,14 +221,14 @@ async def record_progress(project_id, milestone_index, notes):
 
 ## 📈 Métricas
 
-| Métrica | Valor |
-|---------|-------|
-| Líneas de código (SC) | 600+ |
-| Métodos implementados | 7 |
-| Eventos implementados | 4 |
-| Errores manejados | 11 |
-| Archivos documentación | 5 |
-| Commits realizados | 2 |
+| Métrica                | Valor |
+| ---------------------- | ----- |
+| Líneas de código (SC)  | 600+  |
+| Métodos implementados  | 7     |
+| Eventos implementados  | 4     |
+| Errores manejados      | 11    |
+| Archivos documentación | 5     |
+| Commits realizados     | 2     |
 
 ---
 
@@ -256,17 +274,20 @@ Sub0 Funding System
 ## 💡 Puntos Clave
 
 ### Moderación
+
 - ✅ Ahora muestra **TODOS** los proyectos (no solo submitted)
 - ✅ La IA solo da recomendación, **el moderador decide**
 - ✅ Proyectos rechazados pueden reevaluarse
 
 ### Smart Contract
+
 - ✅ Sistema de escrow con **liberación progresiva**
 - ✅ **Cancelación flexible** si no hay progreso
 - ✅ **Integración Arkiv** para registro inmutable
 - ✅ **Seguridad** mediante verificación de identidades
 
 ### Seguridad
+
 - ✅ Admin puede liberar fondos
 - ✅ Project owner puede registrar progreso
 - ✅ Smart Contract verifica identidades
@@ -277,6 +298,7 @@ Sub0 Funding System
 ## 📞 Contacto y Soporte
 
 Para consultas sobre la implementación:
+
 1. Revisar `SMART_CONTRACT_ARCHITECTURE.md` para visión general
 2. Revisar `FUNDING_ESCROW.md` para detalles técnicos
 3. Revisar `SETUP.md` para instrucciones de setup

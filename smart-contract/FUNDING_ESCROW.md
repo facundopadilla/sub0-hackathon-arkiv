@@ -7,6 +7,7 @@ Smart contract de **escrow con liberación progresiva de fondos** para proyectos
 ## Características Principales
 
 ### 1. **Creación de Escrow**
+
 ```rust
 create_escrow(
     project_owner: AccountId,
@@ -20,12 +21,14 @@ create_escrow(
 ```
 
 **Ejemplo**: Proyecto solicita $10,000 con 4 hitos:
+
 - Hito 1 (25%): $2,500 - Prototipo
 - Hito 2 (25%): $2,500 - Beta testing
 - Hito 3 (25%): $2,500 - Producción
 - Hito 4 (25%): $2,500 - Soporte
 
 ### 2. **Liberación de Fondos**
+
 ```rust
 release_milestone(milestone_index: u32) -> Result<(), EscrowError>
 ```
@@ -36,6 +39,7 @@ release_milestone(milestone_index: u32) -> Result<(), EscrowError>
 - Se emite evento `FundsReleased`
 
 ### 3. **Cancelación de Escrow**
+
 ```rust
 cancel_escrow() -> Result<(), EscrowError>
 ```
@@ -46,6 +50,7 @@ cancel_escrow() -> Result<(), EscrowError>
 - Los fondos ya liberados no se recuperan
 
 ### 4. **Registro de Progreso (Arkiv Integration)**
+
 ```rust
 record_progress(
     milestone_index: u32,
@@ -59,6 +64,7 @@ record_progress(
 - La información se serializa en la entidad de Arkiv
 
 ### 5. **Queries**
+
 ```rust
 get_escrow(project_owner) -> EscrowInfo
 get_milestone(project_owner, milestone_index) -> MilestoneInfo
@@ -70,6 +76,7 @@ get_project_metadata(project_owner) -> ProjectMetadataInfo
 ### Frontend (React) → Backend (FastAPI) → Smart Contract
 
 1. **Moderador aprueba proyecto en Moderación tab**
+
    ```
    POST /deploy-escrow
    {
@@ -85,23 +92,27 @@ get_project_metadata(project_owner) -> ProjectMetadataInfo
    ```
 
 2. **Backend (FastAPI)**
+
    - Recupera datos del proyecto de BD
    - Llama al contrato: `create_escrow(...)`
    - Guarda `contract_address` en `sponsoredproject.contract_address`
    - Retorna al frontend
 
 3. **Smart Contract**
+
    - Recibe fondos ($10,000)
    - Crea 4 hitos de $2,500 cada uno
    - Almacena metadatos del proyecto
    - Emite evento `EscrowCreated`
 
 4. **Project Owner (Beneficiario)**
+
    - Ve el proyecto aprobado en Arkiv tab
    - Puede ver hitos en el dashboard
    - Registra progreso: `record_progress(0, "Completamos prototipo")`
 
 5. **Admin (Moderador/Sponsor)**
+
    - Ve el progreso en Arkiv
    - Cuando ve que el hito está completo, ejecuta: `release_milestone(0)`
    - $2,500 se transfieren al `project_owner`
@@ -134,6 +145,7 @@ pub enum EscrowError {
 ## Eventos
 
 ### EscrowCreated
+
 ```rust
 pub struct EscrowCreated {
     #[ink(topic)]
@@ -144,6 +156,7 @@ pub struct EscrowCreated {
 ```
 
 ### FundsReleased
+
 ```rust
 pub struct FundsReleased {
     #[ink(topic)]
@@ -154,6 +167,7 @@ pub struct FundsReleased {
 ```
 
 ### EscrowCancelled
+
 ```rust
 pub struct EscrowCancelled {
     #[ink(topic)]
@@ -163,6 +177,7 @@ pub struct EscrowCancelled {
 ```
 
 ### ProgressRecorded (Arkiv Integration)
+
 ```rust
 pub struct ProgressRecorded {
     #[ink(topic)]
@@ -190,6 +205,7 @@ cargo +nightly contract build --release
 ## Deployment en Contracts Pallet
 
 El contrato puede deployarse en:
+
 - **Rococo Contracts** (testnet de Polkadot)
 - **Shibuya** (testnet de Astar, compatible con Polkadot)
 - **Acala** (parachain de Polkadot con DeFi)
@@ -197,6 +213,7 @@ El contrato puede deployarse en:
 ## Estructura de Datos
 
 ### FundingEscrow
+
 - `project_owner`: Cuenta que recibe los fondos
 - `admin`: Cuenta que puede liberar fondos o cancelar
 - `total_amount`: Dinero total del escrow
@@ -208,6 +225,7 @@ El contrato puede deployarse en:
 - `is_completed`: ¿Todos los hitos fueron liberados?
 
 ### Milestone
+
 - `release_percentage`: % del total
 - `amount`: Monto en unidades pequeñas
 - `is_released`: ¿Fue liberado?
@@ -215,6 +233,7 @@ El contrato puede deployarse en:
 - `description`: Descripción del hito
 
 ### ProjectMetadata
+
 - `project_id`: ID en Arkiv
 - `project_name`: Nombre
 - `description`: Descripción
@@ -227,6 +246,7 @@ El smart contract almacena los metadatos del proyecto y emite eventos cuando hay
 
 1. **Event `ProgressRecorded`** es escuchado por el backend
 2. Backend actualiza la entidad en Arkiv con:
+
    - Estado actual del hito
    - Notas de progreso
    - Timestamp

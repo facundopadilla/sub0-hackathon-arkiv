@@ -40,12 +40,14 @@ Agregué endpoint de evaluación:
 export const arkivAPI = {
   sponsor: () => `${API_PREFIX}/sponsor`,
   listFromChain: () => `${API_PREFIX}/arkiv-sponsored`,
-  evaluate: (projectId: number) => `${API_PREFIX}/evaluate?project_id=${projectId}`,  // ← NEW
+  evaluate: (projectId: number) =>
+    `${API_PREFIX}/evaluate?project_id=${projectId}`, // ← NEW
 };
 
 export const api = {
   // ... otros métodos
-  evaluateProject: (projectId: number) => apiCall<any>("POST", arkivAPI.evaluate(projectId)), // ← NEW
+  evaluateProject: (projectId: number) =>
+    apiCall<any>("POST", arkivAPI.evaluate(projectId)), // ← NEW
 };
 ```
 
@@ -63,8 +65,9 @@ export interface EvaluationResult {
 
 export class ProjectService {
   // ... otros métodos
-  
-  static async evaluateProject(projectId: number): Promise<EvaluationResult> { // ← NEW
+
+  static async evaluateProject(projectId: number): Promise<EvaluationResult> {
+    // ← NEW
     return api.evaluateProject(projectId);
   }
 }
@@ -75,27 +78,38 @@ export class ProjectService {
 Agregué:
 
 **a) Estados para manejo de evaluación:**
+
 ```typescript
 const [evaluatingId, setEvaluatingId] = useState<number | null>(null);
 const [evaluationMessage, setEvaluationMessage] = useState<string | null>(null);
 ```
 
 **b) Función de evaluación:**
+
 ```typescript
-const handleEvaluateProject = async (projectId: number, projectName: string) => {
+const handleEvaluateProject = async (
+  projectId: number,
+  projectName: string
+) => {
   setEvaluatingId(projectId);
   setEvaluationMessage(null);
   try {
     const result = await ProjectService.evaluateProject(projectId);
-    
+
     // Actualizar el proyecto con el nuevo AI score
-    setProjects(projects.map(p => 
-      p.id === projectId 
-        ? { ...p, ai_score: result.ai_score, status: result.decision }
-        : p
-    ));
-    
-    setEvaluationMessage(`✅ ${projectName} evaluado: ${(result.ai_score * 100).toFixed(0)}% (${result.decision})`);
+    setProjects(
+      projects.map((p) =>
+        p.id === projectId
+          ? { ...p, ai_score: result.ai_score, status: result.decision }
+          : p
+      )
+    );
+
+    setEvaluationMessage(
+      `✅ ${projectName} evaluado: ${(result.ai_score * 100).toFixed(0)}% (${
+        result.decision
+      })`
+    );
     setTimeout(() => setEvaluationMessage(null), 5000);
   } catch (err) {
     // manejo de error
@@ -104,6 +118,7 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 ```
 
 **c) Botón en JSX:**
+
 ```tsx
 <div className="pt-3 border-t border-white/10">
   <button
@@ -140,18 +155,21 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 ## 🎨 Visual
 
 ### Botón Normal (Inactivo)
+
 - Fondo: Purple semi-transparente
 - Texto: "⚡ Evaluar con AI"
 - Hover: Se intensifica el color
 - Border: Purple suave
 
 ### Botón Evaluando (Cargando)
+
 - Fondo: Gris
 - Texto: "⏳ Evaluando..."
 - Spinner animado
 - Disabled: No se puede hacer click
 
 ### Mensaje de Resultado
+
 - Aparece debajo del botón
 - Desaparece en 5 segundos automáticamente
 - Formato: ✅/❌ Nombre: Score (decision)
@@ -171,25 +189,25 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 
 ## ✅ Features
 
-| Feature | Status | 
-|---------|--------|
+| Feature                              | Status  |
+| ------------------------------------ | ------- |
 | Botón de evaluación en cada proyecto | ✅ Done |
-| Llamada a endpoint AI | ✅ Done |
-| Actualizar AI Score automáticamente | ✅ Done |
-| Actualizar estado (decision) | ✅ Done |
-| Loading indicator (spinner) | ✅ Done |
-| Mensaje de éxito/error | ✅ Done |
-| Disabled durante evaluación | ✅ Done |
-| Auto-close del mensaje | ✅ Done |
-| Hover effects | ✅ Done |
+| Llamada a endpoint AI                | ✅ Done |
+| Actualizar AI Score automáticamente  | ✅ Done |
+| Actualizar estado (decision)         | ✅ Done |
+| Loading indicator (spinner)          | ✅ Done |
+| Mensaje de éxito/error               | ✅ Done |
+| Disabled durante evaluación          | ✅ Done |
+| Auto-close del mensaje               | ✅ Done |
+| Hover effects                        | ✅ Done |
 
 ---
 
 ## 🔗 Endpoints Usados
 
-| Método | URL | Propósito |
-|--------|-----|----------|
-| POST | `/api/v1/arkiv/evaluate?project_id=X` | Evaluar proyecto con AI |
+| Método | URL                                   | Propósito               |
+| ------ | ------------------------------------- | ----------------------- |
+| POST   | `/api/v1/arkiv/evaluate?project_id=X` | Evaluar proyecto con AI |
 
 ---
 
@@ -228,15 +246,17 @@ Para probar la feature:
 ## 🐛 Troubleshooting
 
 **Error: "No se pudo evaluar el proyecto"**
+
 - Verifica que el backend esté corriendo
 - Revisa que el project_id exista en BD
 - Chequea los logs del backend
 
 **El score no cambia**
+
 - Verifica que la respuesta del backend sea correcta
 - Revisa la consola del navegador (F12)
 
 **Botón no aparece**
+
 - Limpiar caché del navegador (Ctrl+Shift+Del)
 - Recargar página (F5)
-

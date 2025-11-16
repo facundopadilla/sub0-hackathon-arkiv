@@ -1,10 +1,13 @@
 # Arkiv Hash Storage Fix - Complete Hash Capture
 
 ## Problem
+
 La entidad en Arkiv se estaba creando correctamente pero el hash completo no se guardaba en la base de datos. El método `create_entity()` de Arkiv SDK estaba devolviendo múltiples valores pero solo se capturaba el primer valor.
 
 ## Root Cause
+
 1. **Desempaquetamiento incorrecto**: En `ArkivService.save_sponsored_project()`, el código desempaquetaba solo dos valores:
+
    ```python
    entity_key, _ = client.arkiv.create_entity(...)  # El underscore descartaba info
    ```
@@ -14,6 +17,7 @@ La entidad en Arkiv se estaba creando correctamente pero el hash completo no se 
 ## Solution Implemented
 
 ### 1. **ArkivService Enhancement** (`src/services/arkiv.py`)
+
 ```python
 # Before: Descartaba el segundo valor
 entity_key, _ = client.arkiv.create_entity(...)
@@ -34,10 +38,12 @@ return {
 ```
 
 ### 2. **Model Updates** (`src/models/sponsor.py`)
+
 Agregó campos nuevos en todas las clases:
+
 - `SponsoredProject` (tabla DB)
 - `SponsoredProjectCreate` (schema)
-- `SponsoredProjectUpdate` (schema)  
+- `SponsoredProjectUpdate` (schema)
 - `SponsoredProjectOut` (respuesta API)
 
 ```python
@@ -47,6 +53,7 @@ tx_hash: Optional[str] = None       # Previously: _tx_hash
 ```
 
 ### 3. **Endpoint Update** (`src/routes/v1/arkiv.py`)
+
 ```python
 # Ahora captura y guarda ambos valores
 arkiv_result = ArkivService.save_sponsored_project(client, data)
@@ -62,6 +69,7 @@ sponsored_data = {
 ```
 
 ### 4. **Database Migration**
+
 ```sql
 -- Nueva estructura de la tabla sponsoredproject
 CREATE TABLE sponsoredproject (
@@ -84,20 +92,23 @@ CREATE TABLE sponsoredproject (
 ```
 
 ## Files Modified
+
 - ✅ `src/services/arkiv.py` - Captura ambos valores del SDK
 - ✅ `src/models/sponsor.py` - Agregó campos `entity_key`, `tx_hash`
 - ✅ `src/routes/v1/arkiv.py` - Guarda ambos valores en la BD
 - ✅ `reset_db.py` - Ejecutado para recrear tablas
 
 ## Changes Summary
-| Component | Before | After |
-|-----------|--------|-------|
+
+| Component    | Before             | After                          |
+| ------------ | ------------------ | ------------------------------ |
 | Return Value | `entity_key` (str) | `{entity_key, tx_hash}` (dict) |
-| DB Fields | `_entity_key` | `entity_key`, `tx_hash` |
-| API Response | No tx_hash | Incluye `tx_hash` |
-| Storage | Hash incompleto | Hash completo capturado |
+| DB Fields    | `_entity_key`      | `entity_key`, `tx_hash`        |
+| API Response | No tx_hash         | Incluye `tx_hash`              |
+| Storage      | Hash incompleto    | Hash completo capturado        |
 
 ## API Response Example
+
 ```json
 {
   "entity_key": "0x1234...abcd",
@@ -108,6 +119,7 @@ CREATE TABLE sponsoredproject (
 ```
 
 ## Database Query Example
+
 ```sql
 SELECT entity_key, tx_hash FROM sponsoredproject WHERE project_id = 'proj_001';
 -- entity_key    | tx_hash
@@ -115,18 +127,21 @@ SELECT entity_key, tx_hash FROM sponsoredproject WHERE project_id = 'proj_001';
 ```
 
 ## Impact
+
 ✅ **Complete blockchain data capture** - Todo el hash ahora se guarda  
 ✅ **Better auditability** - Ambos IDs disponibles para auditoría  
 ✅ **Reliable recovery** - Puedes recuperar cualquier contrato con ambos hashes  
-✅ **API transparency** - Cliente recibe toda la info de la transacción  
+✅ **API transparency** - Cliente recibe toda la info de la transacción
 
 ## Next Steps
+
 - ✅ Verificar que la BD tiene los nuevos campos
 - ⏳ Probar endpoint POST /sponsor con una transacción real
 - ⏳ Verificar que ambos valores se guardan correctamente
 - ⏳ Implementar query para recuperar por entity_key o tx_hash
 
 ## Commit
+
 ```
 4119f58 🔧 Fix Arkiv hash storage - capture complete tx_hash and entity_key
 ```

@@ -5,6 +5,7 @@
 Sistema Web3 de financiamiento de proyectos con **escrow inteligente** que libera fondos progresivamente según hitos completados.
 
 **Componentes:**
+
 1. **Frontend** (React/TypeScript) - Interfaz de usuario
 2. **Backend** (FastAPI/Python) - API REST
 3. **Smart Contract** (ink!/Polkadot) - Escrow de fondos
@@ -201,6 +202,7 @@ Project Owner
 ### Fase 4: Ciclo Completo o Cancelación
 
 **Escenario A: Todos los hitos completados**
+
 ```
 Hito 2, 3, 4 completados...
      │
@@ -218,6 +220,7 @@ Proyecto FINALIZADO ✅ (todos recibieron fondos)
 ```
 
 **Escenario B: Sin progreso → Cancelación**
+
 ```
 Admin (tiempo después, sin actividad)
      │
@@ -343,6 +346,7 @@ Actualiza en Arkiv:
 ## 🚀 Endpoints Backend Nuevos
 
 ### 1. Deploy Escrow
+
 ```
 POST /deploy-escrow
 Content-Type: application/json
@@ -387,6 +391,7 @@ Response:
 ```
 
 ### 2. Liberar Fondo de Hito
+
 ```
 POST /release-milestone
 Content-Type: application/json
@@ -407,6 +412,7 @@ Response:
 ```
 
 ### 3. Registrar Progreso
+
 ```
 POST /record-progress
 Content-Type: application/json
@@ -426,6 +432,7 @@ Response:
 ```
 
 ### 4. Obtener Estado de Escrow
+
 ```
 GET /escrow/123
 
@@ -475,22 +482,26 @@ Response:
 ## 📝 Próximos Pasos
 
 1. **Compilar Smart Contract**
+
    ```bash
    cd smart-contract/funding-escrow
    cargo +nightly contract build --release
    ```
 
 2. **Deployar a Rococo Testnet**
+
    - Usar Polkadot.js Apps
    - O crear script de deployment
 
 3. **Implementar Endpoints Backend**
+
    - `/deploy-escrow`
    - `/release-milestone`
    - `/record-progress`
    - `/escrow/{project_id}`
 
 4. **Integrar en Frontend**
+
    - Mostrar hitos en Arkiv Projects
    - Botón para liberar fondos (solo admin)
    - Mostrar estado del escrow

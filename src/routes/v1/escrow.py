@@ -6,8 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from src.core.depends.db import get_async_session
+from src.core.depends.arkiv import get_arkiv_client
 from src.models.sponsor import SponsoredProject
 from src.services.rococo_deployer import RococoDeployer
+from src.services.arkiv import ArkivService
+from arkiv import Arkiv
 
 router = APIRouter(prefix="/escrow", tags=["escrow"])
 
@@ -16,6 +19,7 @@ router = APIRouter(prefix="/escrow", tags=["escrow"])
 async def deploy_escrow(
     project_id: int,
     db: AsyncSession = Depends(get_async_session),
+    arkiv_client: Arkiv = Depends(get_arkiv_client),
 ):
     """
     Deploy an escrow smart contract for a project with progressive fund release
@@ -24,6 +28,7 @@ async def deploy_escrow(
     - Creates milestones based on project timeline
     - Initializes the escrow contract
     - Saves the contract address to the project
+    - Updates the Arkiv entity with the contract address
     
     Args:
         project_id: ID of the project to create escrow for
@@ -82,13 +87,31 @@ async def deploy_escrow(
         
         contract_address = deployment_result.get("contract_address")
         project.status = "approved"  # Keep as approved since contract is deployed
+        project.polkadot_smart_contract = contract_address  # Store the contract address
         await db.commit()
+        
+        # Update the Arkiv entity with the smart contract address
+        if project.entity_key:
+            update_success = ArkivService.update_entity_with_contract(
+                client=arkiv_client,
+                entity_key=project.entity_key,
+                contract_address=contract_address
+            )
+            
+            if update_success:
+                print(f"✅ Arkiv entity updated with contract: {contract_address}")
+            else:
+                print(f"⚠️  Failed to update Arkiv entity, but contract deployed: {contract_address}")
+        else:
+            print(f"⚠️  No entity_key found, skipping Arkiv update")
         
         return {
             "success": True,
             "project_id": project_id,
             "contract_address": contract_address,
+            "polkadot_smart_contract": contract_address,
             "milestones": milestone_count,
+            "arkiv_updated": bool(project.entity_key),
             "message": f"Escrow contract {'re-launched' if is_relaunch else 'deployed'} successfully"
         }
         

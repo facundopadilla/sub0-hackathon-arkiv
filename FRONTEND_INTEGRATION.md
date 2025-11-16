@@ -1,6 +1,7 @@
 # 🔌 Frontend + Backend Integration Guide
 
 ## Overview
+
 This guide shows how to connect your React/Vite frontend to the FastAPI backend with Arkiv blockchain integration.
 
 ---
@@ -17,17 +18,20 @@ npm install
 ### 2. Environment Configuration
 
 **Frontend** (`frontend/.env` or `frontend/src/config/api.ts`):
+
 ```typescript
 export const API_BASE = "http://localhost:8000";
 ```
 
 **Backend** (Already configured):
+
 - Backend runs on: `http://localhost:8000`
 - API Base: `/api/v1/arkiv`
 
 ### 3. Start Services
 
 **Terminal 1 - Backend**:
+
 ```bash
 cd /Users/facundo/Proyectos-VSC/Sub0_data
 source .venv/bin/activate
@@ -35,6 +39,7 @@ python -m uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 **Terminal 2 - Frontend**:
+
 ```bash
 cd frontend
 npm run dev
@@ -51,10 +56,12 @@ Frontend should open at: `http://localhost:5173`
 **Location**: `frontend/src/components/FundingOracle/SubmitProjectForm.tsx`
 
 **What it does**:
+
 - Collects project information (name, repo, budget, milestones)
 - Submits to backend via `ProjectService`
 
 **API Endpoints Used**:
+
 ```
 POST /api/v1/arkiv/projects       → Create project
 POST /api/v1/arkiv/milestones     → Create milestones
@@ -62,12 +69,13 @@ POST /api/v1/arkiv/sponsor        → Save to Arkiv blockchain
 ```
 
 **Example Flow**:
+
 ```javascript
 const result = await ProjectService.submitProject(
-  projectData,      // Project info
-  milestonesData,   // Milestone array
-  aiScore,          // AI evaluation score
-  decision          // "submitted" | "approved" | "rejected"
+  projectData, // Project info
+  milestonesData, // Milestone array
+  aiScore, // AI evaluation score
+  decision // "submitted" | "approved" | "rejected"
 );
 ```
 
@@ -78,10 +86,12 @@ const result = await ProjectService.submitProject(
 **Location**: `frontend/src/components/FundingOracle/ModerationView.tsx`
 
 **What it does**:
+
 - Lists pending projects from database
 - Allows moderators to approve/reject projects
 
 **Recommended Endpoints**:
+
 ```
 GET /api/v1/arkiv/sponsored?status=submitted   → Get pending
 PUT /api/v1/arkiv/sponsored/{id}               → Update status
@@ -94,9 +104,11 @@ PUT /api/v1/arkiv/sponsored/{id}               → Update status
 **Location**: `frontend/src/components/FundingOracle/ProjectsListView.tsx`
 
 **What it does**:
+
 - Displays all projects stored in Arkiv blockchain
 
 **Endpoints Used**:
+
 ```
 GET /api/v1/arkiv/arkiv-sponsored    → Get all projects from Arkiv
 ```
@@ -199,10 +211,10 @@ const projects = await ProjectService.getFromArkiv();
 ```typescript
 // Submits project + milestones + saves to Arkiv all at once
 const result = await ProjectService.submitProject(
-  projectData,      // Project object
-  milestonesData,   // Array of milestones
-  7.5,              // AI Score
-  "submitted"       // Decision
+  projectData, // Project object
+  milestonesData, // Array of milestones
+  7.5, // AI Score
+  "submitted" // Decision
 );
 
 // Returns: {
@@ -379,10 +391,13 @@ curl http://localhost:8000/api/v1/arkiv/arkiv-sponsored
 ### Common Issues
 
 **1. CORS Error**
+
 ```
 Access to XMLHttpRequest blocked by CORS policy
 ```
+
 **Solution**: Add CORS to backend in `src/main.py`:
+
 ```python
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -396,9 +411,11 @@ app.add_middleware(
 ```
 
 **2. 404 Not Found**
+
 ```
 POST http://localhost:8000/api/v1/arkiv/projects 404
 ```
+
 **Solution**: Check backend is running and API endpoints are correct
 
 **3. 500 Internal Server Error**

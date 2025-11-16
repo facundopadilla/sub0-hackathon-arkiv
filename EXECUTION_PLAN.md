@@ -25,6 +25,7 @@ Fase 5: Implementar Frontend  ✅ Ready (código disponible)
 **Objetivo:** Generar los archivos .wasm y .json
 
 **Comandos:**
+
 ```bash
 # 1. Navegar al directorio del SC
 cd /Users/facundo/Proyectos-VSC/Sub0_data/smart-contract/funding-escrow
@@ -51,6 +52,7 @@ ls -la target/ink/
 **Objetivo:** Verificar que el código no tiene errores
 
 **Comandos:**
+
 ```bash
 # Desde smart-contract/funding-escrow/
 cargo +nightly contract test
@@ -70,6 +72,7 @@ cargo +nightly contract test
 **Objetivo:** Subir el contrato a la red de prueba
 
 **Opción A: GUI (Recomendada para primer test)**
+
 ```
 1. Ir a: https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Frococo-contracts-rpc.polkadot.io
 2. Conectar wallet (crear una nueva o usar existente)
@@ -81,6 +84,7 @@ cargo +nightly contract test
 ```
 
 **Opción B: Script Python (Automatizado)**
+
 ```bash
 python3 scripts/deploy_contract.py
 ```
@@ -98,11 +102,13 @@ python3 scripts/deploy_contract.py
 **Archivos a crear/modificar:**
 
 1. **Crear:** `src/routes/v1/escrow.py`
+
    ```python
    # Ver LAUNCH_PROJECT_BUTTON.md para código completo
    ```
 
 2. **Modificar:** `src/main.py`
+
    ```python
    from src.routes.v1.escrow import router as escrow_router
    app.include_router(escrow_router, prefix="/api/v1", tags=["escrow"])
@@ -116,6 +122,7 @@ python3 scripts/deploy_contract.py
 **Documentación:** [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Backend Implementation
 
 **Comando para verificar:**
+
 ```bash
 # Con backend corriendo, probar endpoint
 curl -X POST http://localhost:8000/api/v1/deploy-escrow \
@@ -143,6 +150,7 @@ curl -X POST http://localhost:8000/api/v1/deploy-escrow \
 **Archivo:** `frontend/src/services/projectService.ts`
 
 **Código:**
+
 ```typescript
 static async deployEscrow(
   projectId: number,
@@ -164,12 +172,12 @@ static async deployEscrow(
       }),
     }
   );
-  
+
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.detail || "Deployment failed");
   }
-  
+
   return response.json();
 }
 ```
@@ -187,47 +195,67 @@ static async deployEscrow(
 **Cambios:**
 
 1. **Agregar imports:**
+
    ```typescript
    import { ..., Rocket, CheckCircle } from "lucide-react";
    ```
 
 2. **Agregar estados:**
+
    ```typescript
-   const [launchingProject, setLaunchingProject] = useState<number | null>(null);
+   const [launchingProject, setLaunchingProject] = useState<number | null>(
+     null
+   );
    const [launchMessage, setLaunchMessage] = useState<string | null>(null);
    ```
 
 3. **Agregar función:**
+
    ```typescript
-   const handleLaunchProject = async (projectId: number, projectName: string) => {
+   const handleLaunchProject = async (
+     projectId: number,
+     projectName: string
+   ) => {
      // Ver código completo en LAUNCH_PROJECT_BUTTON.md
    };
    ```
 
 4. **Agregar botón en el render:**
+
    ```tsx
-   {!project.contract_address && (
-     <button
-       onClick={() => handleLaunchProject(project.id, project.name)}
-       disabled={launchingProject === project.id}
-       className="flex items-center gap-2 px-3 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg"
-     >
-       {launchingProject === project.id ? (
-         <><Loader size={16} className="animate-spin" /> Lanzando...</>
-       ) : (
-         <><Rocket size={16} /> Lanzar</>
-       )}
-     </button>
-   )}
+   {
+     !project.contract_address && (
+       <button
+         onClick={() => handleLaunchProject(project.id, project.name)}
+         disabled={launchingProject === project.id}
+         className="flex items-center gap-2 px-3 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg"
+       >
+         {launchingProject === project.id ? (
+           <>
+             <Loader size={16} className="animate-spin" /> Lanzando...
+           </>
+         ) : (
+           <>
+             <Rocket size={16} /> Lanzar
+           </>
+         )}
+       </button>
+     );
+   }
    ```
 
 5. **Mostrar estado "Lanzado":**
    ```tsx
-   {project.contract_address && (
-     <button disabled className="flex items-center gap-2 px-3 py-1 text-sm bg-green-500 text-white rounded-lg">
-       <CheckCircle size={16} /> Lanzado
-     </button>
-   )}
+   {
+     project.contract_address && (
+       <button
+         disabled
+         className="flex items-center gap-2 px-3 py-1 text-sm bg-green-500 text-white rounded-lg"
+       >
+         <CheckCircle size={16} /> Lanzado
+       </button>
+     );
+   }
    ```
 
 **Documentación:** [LAUNCH_PROJECT_BUTTON.md](LAUNCH_PROJECT_BUTTON.md) → Frontend Implementation
@@ -239,6 +267,7 @@ static async deployEscrow(
 ## 🧪 Testing Completo
 
 ### Test 1: Verificar Compilación ✅
+
 ```bash
 cd smart-contract/funding-escrow
 ls -la target/ink/
@@ -246,12 +275,14 @@ ls -la target/ink/
 ```
 
 ### Test 2: Verificar Tests ✅
+
 ```bash
 cargo +nightly contract test
 # Resultado: ok
 ```
 
 ### Test 3: Backend Endpoint ✅
+
 ```bash
 # Terminal 1: Backend corriendo
 cd /Users/facundo/Proyectos-VSC/Sub0_data
@@ -276,6 +307,7 @@ curl -X POST http://localhost:8000/api/v1/deploy-escrow \
 ```
 
 ### Test 4: Frontend ✅
+
 ```bash
 # Terminal 3: Frontend corriendo
 cd /Users/facundo/Proyectos-VSC/Sub0_data/frontend
@@ -291,10 +323,11 @@ npm run dev
 ```
 
 ### Test 5: BD ✅
+
 ```bash
 # Verificar que contract_address se guardó
-SELECT id, name, status, contract_address 
-FROM sponsoredproject 
+SELECT id, name, status, contract_address
+FROM sponsoredproject
 WHERE id = 1;
 
 # Deberías ver:
@@ -307,35 +340,42 @@ WHERE id = 1;
 ## 📊 Checklist Completo
 
 ### Preparación
+
 - ✅ Smart contract implementado (600+ líneas)
 - ✅ Documentación completa
 - ✅ Requisitos verificados
 
 ### Compilación
+
 - ⏳ Ejecutar: `cargo +nightly contract build --release`
 - ⏳ Verificar: 3 archivos en `target/ink/`
 
 ### Testing
+
 - ⏳ Ejecutar: `cargo +nightly contract test`
 - ⏳ Resultado: todos los tests pasan
 
 ### Deployment Testnet
+
 - ⏳ Conseguir ROC (testnet tokens)
 - ⏳ Upload contrato a Rococo
 - ⏳ Obtener contract_address
 
 ### Backend
+
 - ⏳ Crear `src/routes/v1/escrow.py`
 - ⏳ Agregar router en `main.py`
 - ⏳ Verificar endpoint `/deploy-escrow`
 
 ### Frontend
+
 - ⏳ Agregar `deployEscrow()` en ProjectService
 - ⏳ Agregar `handleLaunchProject()` en ProjectsListView
 - ⏳ Agregar botón "🚀 Lanzar"
 - ⏳ Agregar estado "Lanzado"
 
 ### Testing E2E
+
 - ⏳ Test botón en UI
 - ⏳ Test endpoint backend
 - ⏳ Verificar BD
@@ -345,32 +385,35 @@ WHERE id = 1;
 
 ## 🕐 Tiempo Estimado
 
-| Fase | Actividad | Tiempo |
-|------|-----------|--------|
-| 1 | Compilar SC | 10 min |
-| 2 | Testing SC | 5 min |
-| 3 | Deploy Rococo | 20 min |
-| 4A | Backend endpoint | 45 min |
-| 4B | Frontend service | 30 min |
-| 5 | Frontend UI | 60 min |
-| Test | Testing completo | 30 min |
-| **Total** | **Todo** | **~3 horas** |
+| Fase      | Actividad        | Tiempo       |
+| --------- | ---------------- | ------------ |
+| 1         | Compilar SC      | 10 min       |
+| 2         | Testing SC       | 5 min        |
+| 3         | Deploy Rococo    | 20 min       |
+| 4A        | Backend endpoint | 45 min       |
+| 4B        | Frontend service | 30 min       |
+| 5         | Frontend UI      | 60 min       |
+| Test      | Testing completo | 30 min       |
+| **Total** | **Todo**         | **~3 horas** |
 
 ---
 
 ## 🚨 Cosas Importantes
 
 1. **Requisitos:**
+
    - ✅ Rust nightly instalado
    - ✅ cargo-contract instalado
    - ✅ Node.js 24.7.0 (ya configurado)
    - ✅ Python 3.12 (ya configurado)
 
 2. **Fondos:**
+
    - Necesitas ROC para testnet (gratis)
    - Faucet: https://rococo-faucet.vercel.app/
 
 3. **Pruebas:**
+
    - Test en Rococo primero (testnet)
    - NO uses mainnet sin estar 100% seguro
 
@@ -383,13 +426,13 @@ WHERE id = 1;
 
 ## 📚 Documentación de Referencia
 
-| Documento | Propósito |
-|-----------|-----------|
-| `COMPILE_AND_TEST.md` | Compilación y testing del SC |
-| `LAUNCH_PROJECT_BUTTON.md` | Botón y flujo completo |
-| `SMART_CONTRACT_ARCHITECTURE.md` | Arquitectura general |
-| `FUNDING_ESCROW.md` | Docs técnicas del SC |
-| `SETUP.md` | Setup de requisitos |
+| Documento                        | Propósito                    |
+| -------------------------------- | ---------------------------- |
+| `COMPILE_AND_TEST.md`            | Compilación y testing del SC |
+| `LAUNCH_PROJECT_BUTTON.md`       | Botón y flujo completo       |
+| `SMART_CONTRACT_ARCHITECTURE.md` | Arquitectura general         |
+| `FUNDING_ESCROW.md`              | Docs técnicas del SC         |
+| `SETUP.md`                       | Setup de requisitos          |
 
 ---
 

@@ -20,6 +20,7 @@ class SponsoredProject(BaseTable, table=True):
     description: Optional[str] = None
     entity_key: Optional[str] = None
     tx_hash: Optional[str] = None
+    polkadot_smart_contract: Optional[str] = None
 
 
 class SponsoredProjectCreate(BaseModel):
@@ -36,6 +37,7 @@ class SponsoredProjectCreate(BaseModel):
     description: Optional[str] = None
     entity_key: Optional[str] = None
     tx_hash: Optional[str] = None
+    polkadot_smart_contract: Optional[str] = None
 
 
 class SponsoredProjectUpdate(BaseModel):
@@ -52,6 +54,7 @@ class SponsoredProjectUpdate(BaseModel):
     description: Optional[str] = None
     entity_key: Optional[str] = None
     tx_hash: Optional[str] = None
+    polkadot_smart_contract: Optional[str] = None
 
 
 class SponsorRequest(BaseModel):
@@ -77,3 +80,4 @@ class SponsoredProjectOut(BaseModel):
     description: Optional[str] = None
     entity_key: Optional[str] = None
     tx_hash: Optional[str] = None
+    polkadot_smart_contract: Optional[str] = None

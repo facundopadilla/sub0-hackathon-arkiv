@@ -31,6 +31,7 @@ cargo +nightly contract build --release
 ```
 
 **Esperado:**
+
 ```
 Your contract artifacts are ready. You can find them in:
 target/ink/
@@ -40,6 +41,7 @@ target/ink/
 ```
 
 **Archivos generados:**
+
 - `funding_escrow.wasm` - Bytecode del contrato
 - `funding_escrow.json` - ABI/Metadata
 - `funding_escrow.opt.wasm` - Versión optimizada
@@ -116,35 +118,35 @@ from pathlib import Path
 
 async def deploy_contract():
     """Deploy funding escrow contract to Rococo Contracts."""
-    
+
     # Conectar a Rococo Contracts
     substrate = SubstrateInterface(
         url="wss://rococo-contracts-rpc.polkadot.io"
     )
-    
+
     # Cargar keypair (con fondos)
     keypair = Keypair.create_from_mnemonic(
         "your seed phrase here"
     )
-    
+
     # Cargar bytecode
     wasm_path = Path("smart-contract/funding-escrow/target/ink/funding_escrow.opt.wasm")
     with open(wasm_path, "rb") as f:
         wasm_code = f.read()
-    
+
     # Cargar metadata
     metadata_path = Path("smart-contract/funding-escrow/target/ink/funding_escrow.json")
     with open(metadata_path) as f:
         metadata = json.load(f)
-    
+
     print("🚀 Deployando contrato a Rococo Contracts...")
     print(f"   Desde: {keypair.ss58_address}")
     print(f"   Bytecode size: {len(wasm_code)} bytes")
     print(f"   Constructor: new()")
-    
+
     # TODO: Implementar deployment via subxt
     # Por ahora, usar Polkadot.js Apps manualmente
-    
+
     print("✅ Contrato deployed exitosamente")
     print(f"   Contract Address: 0x...")
 
@@ -153,6 +155,7 @@ if __name__ == "__main__":
 ```
 
 Ejecutar:
+
 ```bash
 python3 scripts/deploy_contract.py
 ```
@@ -171,16 +174,12 @@ python3 scripts/deploy_contract.py
   "description": "Testing",
   "arkiv_entity_url": "https://arkiv.example.com/proj_123",
   "milestone_percentages": [25, 25, 25, 25],
-  "milestone_descriptions": [
-    "Phase 1",
-    "Phase 2", 
-    "Phase 3",
-    "Phase 4"
-  ]
+  "milestone_descriptions": ["Phase 1", "Phase 2", "Phase 3", "Phase 4"]
 }
 ```
 
 **Esperado:**
+
 - ✅ Contrato recibe fondos (DOT)
 - ✅ Crea 4 hitos de 25% cada uno
 - ✅ Emite evento `EscrowCreated`
@@ -196,6 +195,7 @@ python3 scripts/deploy_contract.py
 ```
 
 **Esperado:**
+
 - ✅ Verifica que caller es project_owner
 - ✅ Emite evento `ProgressRecorded`
 
@@ -208,6 +208,7 @@ python3 scripts/deploy_contract.py
 ```
 
 **Esperado:**
+
 - ✅ Transfiere $2,500 al project_owner
 - ✅ Marca hito como liberado
 - ✅ Emite evento `FundsReleased`
@@ -219,6 +220,7 @@ python3 scripts/deploy_contract.py
 ```
 
 **Esperado:**
+
 - ✅ Solo admin puede llamar
 - ✅ Devuelve fondos restantes
 - ✅ Emite evento `EscrowCancelled`
@@ -266,6 +268,7 @@ Una vez verificado el smart contract, agregaremos:
 3. **Integración:** Al hacer click, se crea y ejecuta el smart contract
 
 El flujo será:
+
 ```
 Frontend: Click "Lanzar Proyecto"
     ↓
@@ -283,14 +286,17 @@ Frontend: Muestra contract_address y hitos
 ## ⚠️ Cosas Importantes
 
 1. **Gas/Fees:**
+
    - Deployment cuesta gas (~0.5-1.0 DOT en Rococo)
    - Cada transacción cuesta gas
 
 2. **Fondos Rococo:**
+
    - Necesitas ROC (testnet DOT)
    - Faucet: [rococo-faucet.vercel.app](https://rococo-faucet.vercel.app/)
 
 3. **Seguridad:**
+
    - NO uses mainnet hasta estar 100% seguro
    - Testea en Rococo primero
 
@@ -304,21 +310,25 @@ Frontend: Muestra contract_address y hitos
 ## 🆘 Troubleshooting
 
 ### Error: `cargo contract not found`
+
 ```bash
 cargo +nightly install cargo-contract --locked
 ```
 
 ### Error: Compilation failed
+
 - Verificar que tienes nightly instalado
 - Verificar dependencias en Cargo.toml
 - Revisar syntax del contrato
 
 ### Error: Contract upload fails
+
 - Verificar que tienes ROC en tu wallet
 - Verificar que el archivo .wasm es válido
 - Revisar que el metadata.json es correcto
 
 ### Error: Transaction rejected
+
 - Verificar que caller tiene fondos
 - Verificar que los parámetros son válidos
 - Revisar los logs de Rococo
@@ -328,6 +338,7 @@ cargo +nightly install cargo-contract --locked
 **Status:** Listos para compilar ✅
 
 Próximo comando:
+
 ```bash
 cd smart-contract/funding-escrow
 cargo +nightly contract build --release

@@ -3,8 +3,9 @@
 ## 🐛 Problema Reportado
 
 Usuario intentó hacer click en "🚀 Lanzar Proyecto" y recibió:
+
 ```json
-{"detail":"Project already has an escrow contract"}
+{ "detail": "Project already has an escrow contract" }
 ```
 
 **Causa:** El endpoint tenía validación que impedía relanzar un proyecto que ya tenía `contract_address` (del click anterior).
@@ -16,6 +17,7 @@ Usuario intentó hacer click en "🚀 Lanzar Proyecto" y recibió:
 ### Cambio en Backend: `src/routes/v1/escrow.py`
 
 **Antes (restrictivo):**
+
 ```python
 # Verify project doesn't already have a contract
 if project.contract_address:
@@ -26,6 +28,7 @@ if project.contract_address:
 ```
 
 **Ahora (permisivo):**
+
 ```python
 # If project already has a contract, we can update it (re-launch)
 # This allows relaunching if the previous one failed
@@ -43,12 +46,12 @@ is_relaunch = bool(project.contract_address)
 
 ## 📊 Comportamiento Ahora
 
-| Escenario | Antes | Ahora |
-|-----------|-------|-------|
-| 1er click | ✅ Funciona | ✅ Funciona |
-| 2do click | ❌ Error | ✅ Funciona (relanza) |
-| 3er click | ❌ Error | ✅ Funciona (relanza) |
-| Falla + retry | ❌ Error | ✅ Puede reintentar |
+| Escenario     | Antes       | Ahora                 |
+| ------------- | ----------- | --------------------- |
+| 1er click     | ✅ Funciona | ✅ Funciona           |
+| 2do click     | ❌ Error    | ✅ Funciona (relanza) |
+| 3er click     | ❌ Error    | ✅ Funciona (relanza) |
+| Falla + retry | ❌ Error    | ✅ Puede reintentar   |
 
 ---
 
@@ -62,7 +65,7 @@ Backend verifica:
     • ¿Es aprobado? ✓
     • ¿Tiene contract_address? → Relanza (actualiza)
     ↓
-Respuesta: 
+Respuesta:
 {
   "success": true,
   "message": "Escrow contract re-launched successfully"
@@ -84,7 +87,7 @@ b5dbe0f - fix: permitir relanzar proyectos que ya tienen contract_address
 ✅ Hacer click en "🚀 Lanzar Proyecto" múltiples veces  
 ✅ Reintentar si algo falla  
 ✅ Testing sin limpiar BD  
-✅ Verificar que el endpoint funciona correctamente  
+✅ Verificar que el endpoint funciona correctamente
 
 ---
 
@@ -93,4 +96,3 @@ b5dbe0f - fix: permitir relanzar proyectos que ya tienen contract_address
 Intenta de nuevo el botón en un proyecto **aprobado**. Debería funcionar sin problemas.
 
 **Si sigue sin funcionar, avísame y verificamos qué proyectos tienen status "approved".**
-

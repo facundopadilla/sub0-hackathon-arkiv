@@ -76,6 +76,7 @@ cargo +nightly contract build --release
 ⏱️ Tardará ~2-3 minutos
 
 Después verás 3 archivos generados:
+
 - `funding_escrow.wasm` ✅
 - `funding_escrow.json` ✅
 - `funding_escrow.opt.wasm` ✅
@@ -84,30 +85,34 @@ Después verás 3 archivos generados:
 
 ## 📋 Plan de Ejecución (3 horas total)
 
-| Fase | Tarea | Tiempo | Status |
-|------|-------|--------|--------|
-| 1 | Compilar SC | 10 min | ⏳ Siguiente |
-| 2 | Testear SC | 5 min | ⏳ Después de 1 |
-| 3 | Deploy Rococo | 20 min | ⏳ Después de 2 |
-| 4 | Backend escrow | 45 min | ⏳ Después de 3 |
-| 5 | Frontend botón | 60 min | ⏳ Después de 4 |
-| Test | E2E completo | 30 min | ⏳ Final |
+| Fase | Tarea          | Tiempo | Status          |
+| ---- | -------------- | ------ | --------------- |
+| 1    | Compilar SC    | 10 min | ⏳ Siguiente    |
+| 2    | Testear SC     | 5 min  | ⏳ Después de 1 |
+| 3    | Deploy Rococo  | 20 min | ⏳ Después de 2 |
+| 4    | Backend escrow | 45 min | ⏳ Después de 3 |
+| 5    | Frontend botón | 60 min | ⏳ Después de 4 |
+| Test | E2E completo   | 30 min | ⏳ Final        |
 
 ---
 
 ## 📖 Documentos Principales
 
 **PARA EMPEZAR:**
+
 1. `READY_TO_EXECUTE.md` ← Empieza aquí
 2. `EXECUTION_PLAN.md`
 
 **PARA COMPILAR:**
+
 1. `COMPILE_AND_TEST.md`
 
 **PARA IMPLEMENTAR:**
+
 1. `LAUNCH_PROJECT_BUTTON.md`
 
 **PARA ENTENDER:**
+
 1. `SMART_CONTRACT_ARCHITECTURE.md`
 
 ---
@@ -128,11 +133,13 @@ Después verás 3 archivos generados:
 ## 💡 Puntos Clave
 
 1. **El smart contract ya está HECHO**
+
    - Solo falta compilarlo
    - Luego deployarlo a Rococo
    - Luego integrarlo en backend
 
 2. **El botón "Lanzar" ya tiene CÓDIGO**
+
    - Solo falta copiar y pegar en ProjectsListView
    - Crear el endpoint /deploy-escrow
    - Testear E2E
@@ -173,7 +180,7 @@ Después verás 3 archivos generados:
 ✅ **Sin sorpresas** - Todo está planeado  
 ✅ **Fácil de implementar** - Paso a paso  
 ✅ **Seguro** - Validaciones en cada capa  
-✅ **Escalable** - Arquitectura sólida  
+✅ **Escalable** - Arquitectura sólida
 
 ---
 
@@ -206,6 +213,7 @@ Después verás 3 archivos generados:
 ---
 
 Hoy se logró:
+
 - ✅ Sistema completo diseñado
 - ✅ Smart contract implementado
 - ✅ Botón diseñado

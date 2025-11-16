@@ -7,12 +7,14 @@ Everything is compiled, integrated, and ready for Rococo testnet deployment.
 ## What Was Done
 
 ### ✅ Phase 1-4: Completed
+
 - Smart contract compiled to WASM (14.1 KB)
 - Backend integrated with real WASM loading
 - Frontend button fully operational
 - All infrastructure configured
 
 ### ⏳ Phase 5-6: Ready (needs ROC tokens)
+
 - Rococo deployment (ready to execute)
 - E2E testing (ready to validate)
 
@@ -34,6 +36,7 @@ Source Code:
 ## To Deploy to Rococo
 
 ### Step 1: Get ROC Tokens
+
 ```
 Visit: https://faucet.polkadot.io
 Request tokens for your account address
@@ -41,12 +44,14 @@ Wait for confirmation (~1-2 minutes)
 ```
 
 ### Step 2: Configure Keypair
+
 ```python
 # Store securely (environment variable or secure file)
 ROCOCO_KEYPAIR_URI = "your_secret_key_here"
 ```
 
 ### Step 3: Update RococoDeployer (Real Transactions)
+
 ```python
 # In src/services/rococo_deployer.py
 # Replace placeholder deploy_contract() with:
@@ -57,6 +62,7 @@ ROCOCO_KEYPAIR_URI = "your_secret_key_here"
 ```
 
 ### Step 4: Test Deployment
+
 ```bash
 # Click "Lanzar Proyecto" button in frontend
 # Or test endpoint directly:
@@ -66,6 +72,7 @@ curl -X POST http://localhost:8000/api/v1/arkiv/escrow/deploy-escrow \
 ```
 
 ### Step 5: Verify
+
 ```
 Look for contract address in response
 Check Rococo explorer: https://rococo.subscan.io
@@ -180,13 +187,13 @@ When Rococo deployment is complete, you should see:
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| WASM not found | Check path in RococoDeployer._get_wasm_path() |
-| Metadata error | Verify JSON at target/ink/funding_escrow.json |
-| Rococo connection | Check RPC URL and internet connection |
-| No ROC tokens | Get from https://faucet.polkadot.io |
-| Deployment fails | Check keypair permissions and gas settings |
+| Issue             | Solution                                       |
+| ----------------- | ---------------------------------------------- |
+| WASM not found    | Check path in RococoDeployer.\_get_wasm_path() |
+| Metadata error    | Verify JSON at target/ink/funding_escrow.json  |
+| Rococo connection | Check RPC URL and internet connection          |
+| No ROC tokens     | Get from https://faucet.polkadot.io            |
+| Deployment fails  | Check keypair permissions and gas settings     |
 
 ## Documentation
 
@@ -209,6 +216,7 @@ Start here to continue:
 ```
 
 ---
+
 **System**: Sub0_data (Escrow Smart Contract)  
 **Status**: 96% Complete - Production Ready for Rococo  
 **Last Updated**: 2024-11-16 07:40 UTC  

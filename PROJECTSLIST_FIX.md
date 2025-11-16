@@ -3,6 +3,7 @@
 ## ❌ Problema
 
 Error crítico en **Proyectos en Arkiv**:
+
 ```
 TypeError: projects.map is not a function
 ```
@@ -10,6 +11,7 @@ TypeError: projects.map is not a function
 ### Causa Raíz
 
 El endpoint `/arkiv-sponsored` retornaba un diccionario informativo en lugar de un array de proyectos:
+
 ```json
 {
   "message": "Arkiv integration active",
@@ -39,7 +41,8 @@ Cuando el frontend intentaba hacer `.map()` en un objeto, causaba crash.
 
 **Cambio**: `/arkiv-sponsored` → `/sponsored`
 
-**Por qué**: 
+**Por qué**:
+
 - `/sponsored` retorna `List[SponsoredProject]` ✅
 - `/arkiv-sponsored` retorna `dict` (información) ❌
 
@@ -54,7 +57,7 @@ useEffect(() => {
     setError(null);
     try {
       const data = await ProjectService.getFromArkiv();
-      
+
       // ✅ Validación: Asegurar que data es un array
       if (Array.isArray(data)) {
         setProjects(data);
@@ -65,13 +68,15 @@ useEffect(() => {
       }
     } catch (err) {
       console.error("Error al cargar proyectos desde Arkiv", err);
-      setError("No se pudieron cargar los proyectos. Por favor, intenta nuevamente.");
+      setError(
+        "No se pudieron cargar los proyectos. Por favor, intenta nuevamente."
+      );
       setProjects([]);
     } finally {
       setLoading(false);
     }
   };
-  
+
   fetchProjects();
 }, []);
 ```
@@ -79,18 +84,23 @@ useEffect(() => {
 ### **3. Agregar Validación en handleEvaluateProject**
 
 ```typescript
-const handleEvaluateProject = async (projectId: number, projectName: string) => {
+const handleEvaluateProject = async (
+  projectId: number,
+  projectName: string
+) => {
   setEvaluatingId(projectId);
   try {
     const result = await ProjectService.evaluateProject(projectId);
-    
+
     // ✅ Validación: Asegurar que projects es un array antes de .map()
     if (Array.isArray(projects)) {
-      setProjects(projects.map(p => 
-        p.id === projectId 
-          ? { ...p, ai_score: result.ai_score, status: result.decision }
-          : p
-      ));
+      setProjects(
+        projects.map((p) =>
+          p.id === projectId
+            ? { ...p, ai_score: result.ai_score, status: result.decision }
+            : p
+        )
+      );
     }
     // ... resto del código
   } catch (err) {
@@ -103,16 +113,17 @@ const handleEvaluateProject = async (projectId: number, projectName: string) => 
 
 ## 🔗 Endpoints Disponibles
 
-| Endpoint | Retorna | Uso |
-|----------|---------|-----|
-| `GET /arkiv/sponsored` | `List[SponsoredProject]` | ✅ Listar proyectos |
-| `GET /arkiv/arkiv-sponsored` | `dict` (info) | ℹ️ Info del sistema |
+| Endpoint                     | Retorna                  | Uso                 |
+| ---------------------------- | ------------------------ | ------------------- |
+| `GET /arkiv/sponsored`       | `List[SponsoredProject]` | ✅ Listar proyectos |
+| `GET /arkiv/arkiv-sponsored` | `dict` (info)            | ℹ️ Info del sistema |
 
 ---
 
 ## 📊 Antes vs Después
 
 ### ❌ ANTES
+
 ```
 Frontend: GET /arkiv-sponsored
 Backend: Retorna { message, save_endpoint, db_endpoint }
@@ -121,6 +132,7 @@ Result: TypeError! 💥 Página se congela
 ```
 
 ### ✅ DESPUÉS
+
 ```
 Frontend: GET /arkiv/sponsored
 Backend: Retorna [ { id, name, ai_score, ... }, ... ]
@@ -145,11 +157,11 @@ Result: Proyectos se cargan y muestran
 
 ## 📝 Cambios Técnicos
 
-| Archivo | Cambio | Líneas |
-|---------|--------|--------|
-| `config/api.ts` | Endpoint | -1 |
-| `ProjectsListView.tsx` | Validación fetch | +5 |
-| `ProjectsListView.tsx` | Validación eval | +3 |
+| Archivo                | Cambio           | Líneas |
+| ---------------------- | ---------------- | ------ |
+| `config/api.ts`        | Endpoint         | -1     |
+| `ProjectsListView.tsx` | Validación fetch | +5     |
+| `ProjectsListView.tsx` | Validación eval  | +3     |
 
 **Total**: 2 archivos, 7 líneas agregadas
 
@@ -158,6 +170,7 @@ Result: Proyectos se cargan y muestran
 ## 🎯 Defensa a Prueba de Fallos
 
 El código ahora es robusto:
+
 1. ✅ Valida que respuesta es array
 2. ✅ Muestra error si no es array
 3. ✅ Previene crashes con `.map()`

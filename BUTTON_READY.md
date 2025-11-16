@@ -41,23 +41,23 @@ curl http://localhost:8000/healthcheck
 
 ## 📋 Lo Que Se Implementó
 
-| Componente | Qué Hace | Ubicación |
-|-----------|----------|-----------|
+| Componente           | Qué Hace            | Ubicación                 |
+| -------------------- | ------------------- | ------------------------- |
 | **Endpoint Backend** | POST /deploy-escrow | `src/routes/v1/escrow.py` |
-| **Botón Frontend** | Click para lanzar | `ProjectsListView.tsx` |
-| **Validaciones** | Verifica proyecto | Backend (4 validaciones) |
-| **Persistencia** | Guarda en BD | PostgreSQL |
-| **Feedback** | Spinner + mensajes | React UI |
+| **Botón Frontend**   | Click para lanzar   | `ProjectsListView.tsx`    |
+| **Validaciones**     | Verifica proyecto   | Backend (4 validaciones)  |
+| **Persistencia**     | Guarda en BD        | PostgreSQL                |
+| **Feedback**         | Spinner + mensajes  | React UI                  |
 
 ---
 
 ## 🐛 Problemas Encontrados y Arreglados
 
-| Error | Solución | Cuando |
-|-------|----------|--------|
-| `ImportError: get_db` | Cambiar a `get_async_session` | Durante debugging |
+| Error                           | Solución                       | Cuando            |
+| ------------------------------- | ------------------------------ | ----------------- |
+| `ImportError: get_db`           | Cambiar a `get_async_session`  | Durante debugging |
 | `ImportError: SponsoredProject` | Usar `from src.models.sponsor` | Durante debugging |
-| React warning (keys) | Agregar fallback a key | Durante debugging |
+| React warning (keys)            | Agregar fallback a key         | Durante debugging |
 
 ---
 
@@ -115,14 +115,14 @@ cbfd026 - feat: implementar botón Lanzar Proyecto
 
 ## 📊 Estado Actual
 
-| Aspecto | Status | Notas |
-|---------|--------|-------|
-| Backend | ✅ Funcional | Endpoint operativo |
-| Frontend | ✅ Funcional | Botón visible |
-| Integración | ✅ Funcional | Todo conectado |
-| BD | ✅ Funcional | contract_address guardado |
-| UI/UX | ✅ Funcional | Mensajes y spinner |
-| Errores | ✅ Resueltos | 3 bugs encontrados y arreglados |
+| Aspecto     | Status       | Notas                           |
+| ----------- | ------------ | ------------------------------- |
+| Backend     | ✅ Funcional | Endpoint operativo              |
+| Frontend    | ✅ Funcional | Botón visible                   |
+| Integración | ✅ Funcional | Todo conectado                  |
+| BD          | ✅ Funcional | contract_address guardado       |
+| UI/UX       | ✅ Funcional | Mensajes y spinner              |
+| Errores     | ✅ Resueltos | 3 bugs encontrados y arreglados |
 
 ---
 
@@ -142,12 +142,14 @@ Si quieres detalles técnicos:
 Para usar el botón con Smart Contract real:
 
 1. Compilar Smart Contract
+
    ```bash
    cd smart-contract/funding-escrow
    cargo +nightly contract build --release
    ```
 
 2. Deploy a Rococo Testnet
+
    - Usar Polkadot.js Apps
    - Subir WASM
    - Obtener contract address
@@ -175,6 +177,7 @@ Ver documentación: `COMPILE_AND_TEST.md` y `EXECUTION_PLAN.md`
 **El botón "🚀 Lanzar Proyecto" está COMPLETO y FUNCIONANDO.**
 
 Puedes:
+
 - ✅ Ver el botón en la interfaz
 - ✅ Hacer click en el botón
 - ✅ Ver que se lanza correctamente
@@ -183,4 +186,3 @@ Puedes:
 
 **Rama:** `feature/addSettings`  
 **Status:** 🟢 **LISTO PARA USAR**
-

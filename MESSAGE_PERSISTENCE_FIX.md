@@ -39,6 +39,7 @@ Ahora el mensaje **persiste hasta que el usuario selecciona otro proyecto**:
 ### **Archivo**: `frontend/src/components/FundingOracle/ModerationView.tsx`
 
 **1. Remover auto-dismiss del mensaje:**
+
 ```diff
 - const message = `✅ ${projectName} reevaluado...`;
 - setEvaluationMessage(message);
@@ -49,6 +50,7 @@ Ahora el mensaje **persiste hasta que el usuario selecciona otro proyecto**:
 ```
 
 **2. Limpiar mensaje al cambiar de proyecto:**
+
 ```diff
   {pendingProjects.map((project) => (
     <button
@@ -66,12 +68,12 @@ Ahora el mensaje **persiste hasta que el usuario selecciona otro proyecto**:
 
 ## 📊 Comportamiento
 
-| Acción | Antes | Ahora |
-|--------|-------|-------|
-| Reevalúa proyecto | ✅ Msg | ✅ Msg |
-| Espera 5 segundos | ❌ Desaparece | ✅ Persiste |
-| Selecciona otro | - | ❌ Se limpia |
-| Lee información | ❌ A veces no alcanza | ✅ Tiempo ilimitado |
+| Acción            | Antes                 | Ahora               |
+| ----------------- | --------------------- | ------------------- |
+| Reevalúa proyecto | ✅ Msg                | ✅ Msg              |
+| Espera 5 segundos | ❌ Desaparece         | ✅ Persiste         |
+| Selecciona otro   | -                     | ❌ Se limpia        |
+| Lee información   | ❌ A veces no alcanza | ✅ Tiempo ilimitado |
 
 ---
 
@@ -111,6 +113,7 @@ Ahora el mensaje **persiste hasta que el usuario selecciona otro proyecto**:
 ## 🎉 Resultado
 
 Ahora el moderador puede:
+
 - ✅ Reevaluar proyecto
 - ✅ Ver el nuevo score
 - ✅ Leer el mensaje calmadamente

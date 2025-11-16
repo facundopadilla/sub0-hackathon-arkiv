@@ -1,16 +1,19 @@
 # Arkiv Integration Documentation
 
 ## Overview
+
 This project integrates **Arkiv** blockchain storage with a FastAPI backend for managing projects, milestones, and sponsored projects with AI evaluation.
 
 ## Architecture
 
 ### Database Layer
+
 - **PostgreSQL** (Neon cloud) via asyncpg driver
 - **SQLModel** ORM with async/await support
 - Tables: `project`, `milestone`, `sponsoredproject`
 
 ### Blockchain Layer
+
 - **Arkiv SDK** for decentralized entity storage
 - Stores sponsored projects as on-chain entities
 - Uses RPC endpoint: `https://mendoza.hoodi.arkiv.network/rpc`
@@ -18,6 +21,7 @@ This project integrates **Arkiv** blockchain storage with a FastAPI backend for 
 ### API Endpoints
 
 #### Projects CRUD
+
 ```
 GET    /api/v1/arkiv/projects          - List all projects
 GET    /api/v1/arkiv/projects/{id}     - Get project by ID
@@ -27,6 +31,7 @@ DELETE /api/v1/arkiv/projects/{id}     - Delete project
 ```
 
 #### Milestones CRUD
+
 ```
 GET    /api/v1/arkiv/milestones        - List all milestones
 GET    /api/v1/arkiv/milestones/by-project/{project_id}
@@ -36,6 +41,7 @@ DELETE /api/v1/arkiv/milestones/{id}   - Delete milestone
 ```
 
 #### Sponsored Projects CRUD (Database)
+
 ```
 GET    /api/v1/arkiv/sponsored         - List from database
 GET    /api/v1/arkiv/sponsored/{id}    - Get by ID
@@ -45,6 +51,7 @@ DELETE /api/v1/arkiv/sponsored/{id}    - Delete
 ```
 
 #### Arkiv Blockchain Integration
+
 ```
 POST   /api/v1/arkiv/sponsor           - Save project to Arkiv blockchain
 GET    /api/v1/arkiv/arkiv-sponsored   - Arkiv integration info
@@ -55,24 +62,29 @@ GET    /api/v1/arkiv/arkiv-sponsored   - Arkiv integration info
 ### Services
 
 #### `ProjectService` (`src/services/project.py`)
+
 - Async CRUD operations for projects
 - Pattern: `session.execute()` → `.scalar_one_or_none()` / `.scalars().all()`
 
 #### `MilestoneService` (`src/services/milestone.py`)
+
 - Async CRUD with project filtering
 - `list_by_project()` method for querying by project_id
 
 #### `SponsoredProjectService` (`src/services/sponsor.py`)
+
 - Async CRUD for database-stored sponsored projects
 - `list_by_status()` for status-based queries
 
 #### `ArkivService` (`src/services/arkiv.py`)
+
 - `save_sponsored_project()` - Writes to Arkiv blockchain
 - `list_sponsored_projects()` - Reads from blockchain (info endpoint only)
 
 ### Models
 
 #### Database Tables (`src/models/`)
+
 - **Project**: `id, created_at, updated_at, project_id (unique), name, repo, description, budget`
 - **Milestone**: `id, created_at, updated_at, project_id (FK), name, description, amount`
 - **SponsoredProject**: `id, created_at, updated_at, project_id, name, repo, ai_score, status, contract_address, chain, budget, description, _entity_key`
@@ -80,6 +92,7 @@ GET    /api/v1/arkiv/arkiv-sponsored   - Arkiv integration info
 ### Configuration
 
 #### Settings (`src/settings/arkiv.py`)
+
 ```python
 PRIVATE_KEY: SecretStr       # Blockchain private key
 HTTP_PROVIDER: str           # RPC endpoint
@@ -89,6 +102,7 @@ PRIVATE_NAME: str            # Account name
 ## Workflow Example
 
 ### 1. Create Project
+
 ```bash
 POST /api/v1/arkiv/projects
 {
@@ -101,6 +115,7 @@ POST /api/v1/arkiv/projects
 ```
 
 ### 2. Add Milestones
+
 ```bash
 POST /api/v1/arkiv/milestones
 {
@@ -112,6 +127,7 @@ POST /api/v1/arkiv/milestones
 ```
 
 ### 3. Save to Arkiv Blockchain
+
 ```bash
 POST /api/v1/arkiv/sponsor
 {
@@ -128,6 +144,7 @@ POST /api/v1/arkiv/sponsor
 ```
 
 Response:
+
 ```json
 {
   "entity_key": "0x...",
