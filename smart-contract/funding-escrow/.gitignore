@@ -1,0 +1,23 @@
+# Cargo
+target/
+Cargo.lock
+**/*.rs.bk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.wasm
+*.wasm.debug
+*.wasm.opt
+
+# Polkadot/Substrate
+.substrate/

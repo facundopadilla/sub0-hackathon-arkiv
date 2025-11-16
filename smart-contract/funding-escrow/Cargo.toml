@@ -1,0 +1,28 @@
+[package]
+name = "funding-escrow"
+version = "0.1.0"
+authors = ["Sub0 Team"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ink = { version = "5.0", default-features = false, features = ["std"] }
+ink_primitives = { version = "5.0", default-features = false, features = ["std"] }
+ink_prelude = { version = "5.0", default-features = false }
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.6", default-features = false, features = ["derive"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+]
