@@ -11,6 +11,7 @@ from src.models import (
 )
 from src.routes.base_router import base_router
 from src.routes.v1.escrow import router as escrow_router
+from src.routes.v1.ai import router as ai_router
 
 app = FastAPI(title="Sub0 Funding Oracle API")
 
@@ -25,3 +26,5 @@ app.add_middleware(
 
 app.include_router(base_router)
 app.include_router(escrow_router, prefix="/api/v1/arkiv")
+app.include_router(ai_router, prefix="/api/v1")
+
