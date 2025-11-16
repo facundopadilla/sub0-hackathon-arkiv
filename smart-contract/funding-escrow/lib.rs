@@ -97,7 +97,7 @@ pub mod funding_escrow {
             self.milestone_counts.insert(project_owner, &milestone_count);
 
             self.active_projects.push(project_owner);
-            self.project_count += 1;
+            self.project_count = self.project_count.saturating_add(1);
 
             self.env().emit_event(EscrowCreated {
                 project_owner,
@@ -132,7 +132,7 @@ pub mod funding_escrow {
                 return Err(EscrowError::MilestoneAlreadyExists);
             }
 
-            let amount = (total_amount / 100) * (release_percentage as u128);
+            let amount = total_amount.saturating_div(100).saturating_mul(release_percentage as u128);
 
             self.milestone_percentages.insert((project_owner, milestone_index), &release_percentage);
             self.milestone_amounts.insert((project_owner, milestone_index), &amount);
@@ -187,8 +187,8 @@ pub mod funding_escrow {
             let released_amount = self.escrow_released.get(project_owner).unwrap_or(0);
             let remaining_amount = self.escrow_remaining.get(project_owner).unwrap_or(0);
 
-            self.escrow_released.insert(project_owner, &(released_amount + amount));
-            self.escrow_remaining.insert(project_owner, &(remaining_amount.saturating_sub(amount)));
+            self.escrow_released.insert(project_owner, &released_amount.saturating_add(amount));
+            self.escrow_remaining.insert(project_owner, &remaining_amount.saturating_sub(amount));
 
             self.env().emit_event(FundsReleased {
                 project_owner,

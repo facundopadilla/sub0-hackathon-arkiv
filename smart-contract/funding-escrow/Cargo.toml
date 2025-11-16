@@ -5,13 +5,14 @@ authors = ["Sub0 Team"]
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib", "rlib"]
+name = "funding_escrow"
+path = "lib.rs"
 
 [dependencies]
-ink = { version = "5.0", default-features = false, features = ["std"] }
-ink_primitives = { version = "5.0", default-features = false, features = ["std"] }
-ink_prelude = { version = "5.0", default-features = false }
-ink_env = { version = "5.0", default-features = false, features = ["std"] }
+ink = { version = "4.3", default-features = false }
+ink_primitives = { version = "4.3", default-features = false }
+ink_prelude = { version = "4.3", default-features = false }
+ink_env = { version = "4.3", default-features = false }
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
 scale-info = { version = "2.6", default-features = false, features = ["derive"] }
 
@@ -19,6 +20,7 @@ scale-info = { version = "2.6", default-features = false, features = ["derive"] 
 opt-level = "z"
 lto = true
 codegen-units = 1
+panic = "abort"
 
 [features]
 default = ["std"]
